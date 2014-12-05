@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+
+  	<script src="js/jquery-2.1.1.min.js"></script>
+    <script src="js/jquery.svg.js"></script>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1" />                      
+    <meta name="format-detection" content="telephone=no"/>
+    <link rel="apple-touch-icon-precomposed" href="./apple-touch-icon.png"/>
+    <link rel="shortcut icon" href="./favicon.ico"/>
+
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+    <title>テスト</title>
+  </head>
+  <body>
+<!--
+  <body onload="EXP.init();">
+  <noscript>
+  <p>このページはJavaScriptを使用しています。JavaScriptの使えるブラウザを使用し、有効に設定してください。</p>
+  </noscript>
+-->
+
+  
+
+  /*$(function() {
+    $('#open').click(function() {$.ipop();});
+  });*/
+  function(){$('#ipop')$.ipop();};*/
+
+  <script>$('#open').ipop();</script>
+
+  <a href="javascript:void(0)" id="open">開く</a>
+
+  <div id="ipop">
+    <div id="ipop_title">
+    <h3>
+      I map : Interest map of oneself
+      <div id="ipop_close">×</div>
+    </h3>
+    </div>
+    これは、人の「興味の対象」を可視化するためのシステムです。<br>
+    興味の対象を可視化することで、人が周囲から受けている様々な「影響」を探る手がかりを得るために、本システムは構築する。今回は、私たちが創造的行為に従事する際に受けている影響に焦点をあてて分析を行う。自分自身の興味の対象を自覚することに加え、他者が作り出したものに対峙した際に生じる、「なぜその作品を良いと感じるのか、なぜその作品を作ろうと思ったのか」という疑問を解決する手がかりとしたい。<br>
+    私たちは創造的行為に伴う、感性やそれに基づく価値判断などについて議論する際、「人それぞれ」で解決してしまうことが多くある。しかしながら、曖昧で主観的なものであっても、大量のデータを比較、検討することができれば、何らかの傾向を見出すことは可能であると考える。生育環境や遺伝、人や時代背景など、それらはとても明示しがたい様々な要素によって複雑に関わり合って、当然それは、創造的行為にも強い影響を与えている。例えば、「学習」への意欲とつながる内発的動機づけは(「~したいからする」、「肯定的な自己概念の獲得」など)は、「興味」から生じるという研究がある。同様に、創造的行為の場合にもそれがあてはまると考え、個人の、「興味」の対象についての調査を行うこととした。<br>
+    まず、IAMAS生の論文などの資料に対してテキストマイニングを行い、特徴語と頻出語を収集し、「興味の対象」を表す単語とした。それを、被験者に順に提示し、「興味があるか・ないか」回答してもらい、d3.jsのフレームワークを用いて、結果の可視化を行えるシステムを構築した。今後は、複数回のテストを通して得られた意見をもとに、システムの改善をしていくとともに、可視化の精度を高め、独自のクラスタリングをオントロジーの構築によって達成する。そうしたビジュアライゼーションから直接得られる情報に加え、それぞれが作成した作品との紐付けを行い、興味の対象と並行して見ることができるように開発を加え、分析する。
+  </div>
+
+
+<div id="box1">
+  <script type="text/javascript" src="js/ipop.js"></script>
+
+  <!--被験者情報-->
+  <div class="contents">
+
+    <div id="top">
+      <h3>最大5分ほどの簡単な調査にご協力ください。</h3>
+      <p id="intro">
+      氏名と、性別、職種、属性、HPなどのURLを入力後、開始ボタンを押してください。（<span class="pointup"> *</span>の項目は入力必須です。）</br>
+
+      <span style="font-size:20px">
+      <span class="pointup">50個の単語</span>がランダムに、<span class="pointup">5秒ずつ</span>提示されます。<br>
+      表示された言葉に対して、
+      <span class="pointup">「興味がある」</span>か、
+      <span class="pointup">「興味がない」</span>かを判断し、ボタンをクリックしてください。<br/>(キーボードの「Y」「N」に対応しています。) </span><br/>
+      クリックすると次の単語に変わります。なるべく直感で判断してください。<br>
+      5秒以内に選択されない場合は、自動的に次の単語に切り替わります。
+      </p>
+      <form name="data">
+        <label><span class="pointup"> *</span>氏名 : 
+          <input type="text" class="name" size="30">　(web上で検索に使用されたり、他者に公開されます)</label>
+        <br />
+        <span class="pointup"> *</span>性別 : 
+        <label>男性<input type="radio" name="sex" value="man"   class="sex"></label> / 
+        <label>女性<input type="radio" name="sex" value="woman" class="sex"></label>
+        <br />
+        <span class="pointup"> *</span>年齢 :
+        <select name="age" class="age">
+          <option value="">選択してください</option>
+          <option value="0">10歳未満</opetion>          
+          <option value="10">10代</opetion>
+          <option value="20">20代</opetion>       
+          <option value="30">30代</opetion>
+          <option value="40">40代</opetion>
+          <option value="50">50代</opetion>
+          <option value="60">60代</opetion>
+          <option value="70">70代</opetion>
+          <option value="70">80代</opetion>
+          <option value="70">90代</opetion>
+          <option value="-1">それ以外</opetion>
+        </select>
+        <p></p>
+        <br />
+        <span class="pointup"> *</span>iamas関係者 : 
+        <label>はい  <input type="radio" name="iamas" value="yes" class="iamas"></label> / 
+        <label>いいえ<input type="radio" name="iamas" value="no"  class="iamas"></label>
+        <br />
+        <span class="pointup"> *</span>職種 : 
+        <!--要検討-->
+        <select name="job" class="job">
+          <option value="">選択してください</option>
+          <option value="営業">営業</opetion>
+          <option value="事務職">事務職</opetion>       
+          <option value="技術職">技術職</opetion>
+          <option value="コンサルタント・広告・不動産">コンサルタント・広告・不動産</opetion>
+          <option value="医療">医療</opetion>
+          <option value="金融">金融</opetion>    
+          <option value="クリエイティブ">クリエイティブ</opetion>
+          <option value="販売・飲食・サービス">販売・飲食・サービス</opetion>    
+          <option value="公務員・官職">公務員・官職</opetion>
+          <option value="教育">教育</opetion>
+          <option value="農林・水産">農林・水産</opetion>              
+          <option value="芸能">芸能</opetion>
+          <option value="学生">学生</opetion>
+          <option value="無職">無職</opetion>  
+          <option value="その他">その他</opetion> 
+        </select>
+        <br />
+        <span class="pointup"> *</span>属性 : 
+        <select name="type" class="type">
+          <option value="">選択してください</option>
+          <!--<option value = "クリエイター">クリエイター</opetion>-->
+          <option value="エンジニア">エンジニア</opetion>          
+          <option value="アーティスト">アーティスト</opetion>
+          <option value="デザイナー">デザイナー</opetion>       
+          <option value="どれでもない">どれでもない</opetion>
+        </select>
+        <br />
+        <label style = "margin-left:8px;">URL（HPやポートフォリオサイトなど）:
+          <input type="text" class="URL" size="50"></label>
+        <br />
+
+      </form>
+    </div>
+    <div id="txt">
+    </div>
+  </div>
+  <div id="button">
+    <!--ボタンセット-->
+    <div id="start" class="button">
+      開始！
+    </div>
+    <div id="answer">
+      <div id="yes" class="button">
+        ○ 興味・関心がある
+      </div>
+      <div id="no" class="button">
+        × 興味・関心がない
+      </div>
+      <div class="clear">
+      </div>
+    </div>
+  </div>
+  <div id="pagenum">
+  </div>
+
+  <div id="result">
+    <canvas id="timebar"></canvas>
+  </div>
+</div>
+
+  <script src ="js/ipop.js">  </script>
+
+  <script src ="dataset.js"></script>
+
+
+
+  </body>
+</html>
+

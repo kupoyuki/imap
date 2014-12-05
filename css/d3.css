@@ -1,0 +1,48 @@
+@charset "UTF-8";
+
+
+body{
+
+    /*人と回答をつなぐ線*/
+    line .link { 
+        fill: none;
+        stroke: #ccc;
+        stroke-width: 1px;
+    }
+
+    /*回答と回答をつなぐ線*/
+    line .ans_link {
+        fill: none;
+        stroke: #ccc;
+        opacity: 0.5;
+        /*破線*/
+        stroke-dasharray:10,10;
+        stroke-width: 0.5px;
+    }
+
+    svg .node{
+    }
+
+    /*人を表すcircle*/
+    circle .human {
+        cursor: pointer;
+        stroke: #fff;
+        stroke-width: 0.5px;
+    }
+
+    /*回答を表すcircle*/
+    circle .answer {
+        stroke: #fff;
+        stroke-width: 0.5px;
+    }
+
+    text .name { 
+        font-size: 10;
+        fill: #fff;
+    }
+
+    text .word { 
+        font-size: 5;
+        fill: #000;
+    }
+}

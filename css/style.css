@@ -1,0 +1,181 @@
+@charset "UTF-8";
+
+*{
+  margin  : 0;
+  padding : 0;
+}
+
+body{
+  font-family:serif;
+  font-size: 13px;
+}
+
+
+/*ポップアップ*/
+
+#ipop {
+  padding: 0;
+  background-color: #fed;
+  border: 1px solid #aaa;
+
+  /* この５行は必須 */
+  width: 70%;
+  height: 70%;
+  position: absolute;
+  display: none;
+  z-index: 9999;
+
+  margin-left : auto;
+  margin-right: auto;
+}
+
+#ipop_title {
+  background-color: #fdc;
+  cursor: move;
+  height : 40px;
+  padding-top: 10px;
+  padding-left: 20px;
+}
+
+#ipop_title h3{
+    font-size: 14pt;
+    margin-bottom: 0;
+}
+
+
+
+#ipop_close {
+  font-size: 25px; 
+  cursor: pointer;
+  float: right;
+}
+
+/*入力画面*/
+
+.clear{
+  clear : both;
+}
+
+.button{
+  cursor:pointer;
+  background-color: #fff;
+  border:solid;
+  border-width:1px;
+  border-color:#000;
+}
+
+.button:hover{
+  background-color: #0489B1;
+  border:solid;
+  border-width:1px;
+  border-color:#000;
+
+}
+
+div.contents{
+  width        :1100px;
+  height       :70%;
+  padding-left :100px;
+  padding-right:100px;
+}
+
+
+#box1{
+  background-color : #A9E2F3;
+  position         : absolute;
+  top              :  50%;
+  left             :  50%;
+  width            :  1300px;
+  height           :  700px;
+  margin-left      : -650px;
+  margin-top       : -350px;
+  padding-top      : 50px;
+  border-radius    : 10px;
+}
+
+h3{
+  font-size   : 30px;
+  font-weight : bold;
+  margin-bottom : 20pt;
+}
+
+p{
+  margin-bottom : 10pt;
+}
+
+
+form{
+  margin-top : 30pt;
+  font-size: 16px;
+}
+
+
+span.pointup{
+ color       : #FF0000;
+}
+
+#start{
+  width         : 1000px;
+  height        : 90px;
+  text-align    : center;
+  font-size     : 50px;
+  padding-top   : 10px;
+  margin        : 0 auto 0 auto;
+  border-radius : 10px;
+}
+
+#txt{
+  font-size  : 100px;
+  text-align : center;
+  display    : none;
+}
+
+#top{
+  width: 1100px;
+  margin-left: 50px;
+}
+
+#answer{
+  width         : 1000px;
+  height        : 102px;
+  font-size     : 50px;
+  text-align    : center;
+  margin        : 0 auto 0 auto;
+
+  display : none;
+}
+
+#yes{
+  width         : 498px;
+  height        : 90px;
+  text-align    : center;
+  font-size     : 50px;
+  border-radius : 10px 0px 0px 10px; 
+  float         : left;
+  padding-top   : 10px;
+}
+
+#no{
+  width         : 498px;
+  height        : 90px;
+  text-align    : center;
+  font-size     : 50px;
+  border-radius : 0px 10px 10px 0px; 
+  float         : left;
+  padding-top   : 10px;
+}
+
+#pagenum{
+  text-align : center;
+  margin-top : 30px; 
+}
+
+#result{
+  
+}
+
+#timebar{
+  width:1000;
+  margin-left: 150px;
+  height: 30px;
+}
