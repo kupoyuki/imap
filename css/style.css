@@ -109,7 +109,6 @@ body{
 }
 
 #button{
-    font-family:'Hiragino Mincho ProN', serif;
 }
 
 .button{
@@ -133,6 +132,7 @@ div.contents{
   height       :75%;
   padding-left :100px;
   padding-right:100px;
+  padding-bottom:20px;
 }
 
 div#top {
@@ -237,7 +237,7 @@ span.pointup{
 
 #pagenum{
   text-align : center;
-  margin-top : 30px; 
+  margin-top : 10px; 
 }
 
 #result{

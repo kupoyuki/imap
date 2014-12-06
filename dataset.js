@@ -134,7 +134,6 @@ $(function(){
 
 
 function Start(data, q_num, q_word){
-
   ((function(){
     for(var i = 0 ; i < q_num.length ; ++ i){
 
