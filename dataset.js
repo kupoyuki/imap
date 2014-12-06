@@ -368,6 +368,9 @@ function Start(data, q_num, q_word){
 
 }
 
+/* ----------------------------------------- *
+ * 問題生成（リロード時）　                      *
+ * ------------------------------------------*/
 
 //問題生成
 function createQuestion(num_question, num_all_word){

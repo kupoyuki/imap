@@ -108,7 +108,7 @@ for($i = 0 ; $i < count($nodes) - 1 ; ++ $i){
 }
 
 echo json_encode($answerdata);
-
-
-
 //print_r($humandata);
+
+?>
+
