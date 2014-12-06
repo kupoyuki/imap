@@ -26,7 +26,7 @@
   
 
 
-
+<!--
   <div id="ipop">
     <div id="ipop_title">
     <svg width="40" height="40" id="peke" class="ipop_close">
@@ -36,7 +36,7 @@
     <h3  class ="effect">
     興味のある「私」のための地図
     </h3>
-    <p class="effect"><b>I map</b> : Interest map of oneself<p/>
+    <p class="effect"><b>I map</b> : Interest map of oneself</p>
     </div>
     <p class="abstract" id="abst1">
     これは、人の「興味の対象」を可視化するためのシステムです。<br>
@@ -45,20 +45,22 @@
     私たちは創造的行為に伴う、感性やそれに基づく価値判断などについて議論する際、「人それぞれ」で解決してしまうことが多くある。しかしながら、曖昧で主観的なものであっても、大量のデータを比較、検討することができれば、何らかの傾向を見出すことは可能であると考える。生育環境や遺伝、人や時代背景など、それらはとても明示しがたい様々な要素によって複雑に関わり合って、当然それは、創造的行為にも強い影響を与えている。例えば、「学習」への意欲とつながる内発的動機づけは(「~したいからする」、「肯定的な自己概念の獲得」など)は、「興味」から生じるという研究がある。同様に、創造的行為の場合にもそれがあてはまると考え、個人の、「興味」の対象についての調査を行うこととした。<br>
     まず、IAMAS生の論文などの資料に対してテキストマイニングを行い、特徴語と頻出語を収集し、「興味の対象」を表す単語とした。それを、被験者に順に提示し、「興味があるか・ないか」回答してもらい、d3.jsのフレームワークを用いて、結果の可視化を行えるシステムを構築した。今後は、複数回のテストを通して得られた意見をもとに、システムの改善をしていくとともに、可視化の精度を高め、独自のクラスタリングをオントロジーの構築によって達成する。そうしたビジュアライゼーションから直接得られる情報に加え、それぞれが作成した作品との紐付けを行い、興味の対象と並行して見ることができるように開発を加え、分析する。
 
-    <p>操作の説明<p/>
+    <p>操作の説明</p>
 
-    <p/>
+    </p>
     <div id="under">
     <div id="ipop_close_button" class="button ipop_close">閉じる</div>
     </div>
   </div>
 
+-->
 
 <div id="box1">
 
-  <!--被験者情報-->
-  <div class="contents">
 
+  <div id="contents">
+
+<!--被験者情報-->
     <div id="top">
 
       <h3>最大5分ほどの簡単な調査にご協力ください。</h3>
@@ -181,7 +183,7 @@
           <option value="10">どれでもない</opetion>
         </select>
         -->
-        <tr><p class="p1"><p/><tr/>
+        <tr><p class="p1"></p><tr/>
         <tr>
           <td><label style = "margin-left:8px;">URL : </td>
           <td><input type="text" class="URL" size="70"></label><br/>
@@ -190,30 +192,40 @@
         </tr>
         </table>
       </form>
-
     </div>
+<!--問題表示部分-->
+
+
     <div id="txt">
     </div>
-  </div>
-  <div id="button">
-    <!--ボタンセット-->
-    <div id="start" class="button">
-      開始！
-    </div>
-    <div id="answer">
-      <div id="yes" class="button">
-        ○ 興味・関心がある
+
+<!--ボタンセット-->
+    <div id="button">
+      <div id="start" class="button">
+        開始！
       </div>
-      <div id="no" class="button">
-        × 興味・関心がない
+      <div id="answer">
+        <div id="yes" class="button">
+          <p style="font-size:100px; margin-top:15px;"><b>◯</b></p>
+          <p>興味・関心がある</p>
+        </div>
+        <div id="no" class="button">
+          <p style="font-size:110px">✕</p>
+          <p>興味・関心がない</p>
+        </div>
+        <div id="pass" class="button">
+          <p style="margin-top:2px;">パス</p></div>
       </div>
       <div class="clear">
       </div>
+      </div>
     </div>
-  </div>
-  <div id="pagenum">
-  </div>
+    <div id="pagenum">
+    </div>
+</div>
 
+<!--フッター-->
+<div id="footer">
   <div id="result">
     <canvas id="timebar"></canvas>
   </div>
