@@ -9,8 +9,8 @@
 //
 // 上記のようなHTMLを作り、$.ipop() で呼び出す。
 
-(function($) {
-  $.ipop = function() {
+$(function() {
+
     var wx, wy;    // ウインドウの左上座標
 
     // ウインドウの座標を画面中央にする。
@@ -24,7 +24,7 @@
     $('#ipop').css({top: wy, left: wx}).fadeIn(100);
     $('#ipop').fadeIn(100);
     // 閉じるボタンを押したとき
-    $('#ipop_close').click(function() {$('#ipop').fadeOut(100);});
+    $('.ipop_close').click(function() {$('#ipop').fadeOut(300);});
 
     // タイトルバーをドラッグしたとき
     $('#ipop_title').mousedown(function(e) {
@@ -42,6 +42,6 @@
       });
       return false;
     });
-  }
-})(jQuery);
+
+});
 

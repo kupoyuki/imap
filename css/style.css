@@ -6,8 +6,9 @@
 }
 
 body{
-  font-family:serif;
-  font-size: 13px;
+  background-color: #424242;
+  font-family:'Hiragino Mincho ProN', serif;
+  font-size: 16px;
 }
 
 
@@ -19,41 +20,96 @@ body{
   border: 1px solid #aaa;
 
   /* この５行は必須 */
+
   width: 70%;
-  height: 70%;
+  height: 80%;
   position: absolute;
   display: none;
   z-index: 9999;
 
   margin-left : auto;
   margin-right: auto;
+
+  border-radius: 20px;
+
+  box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.4);
 }
 
 #ipop_title {
   background-color: #fdc;
   cursor: move;
-  height : 40px;
-  padding-top: 10px;
-  padding-left: 20px;
+  height : 100px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  font-family: 'Lora', serif;
+
+  border-radius: 20px 20px 0px 0px;
 }
+
+
+.effect{
+  color: #333;
+  text-shadow: -5px 5px 5px rgba(0,0,0, 0.3);
+  letter-spacing: 0
+}
+
 
 #ipop_title h3{
-    font-size: 14pt;
-    margin-bottom: 0;
+  font-size: 2em;
+  margin-bottom: 0;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+#ipop_title p{
+  margin-bottom: 0;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
-
-
-#ipop_close {
-  font-size: 25px; 
+/*閉じる*/
+.ipop_close {
   cursor: pointer;
-  float: right;
 }
+
+#ipop_close_button {
+  font-size: 1em;
+  width :120px;
+  border-radius : 10px 10px 10px 10px; 
+  text-align: center;
+  margin: 0 auto;
+
+}
+
+#peke {
+  float:right;
+  margin-right: 30px;
+}
+
+#under {
+  position: absolute;
+  bottom:0;
+
+  margin-bottom: 30px;
+  width: 100%;
+
+}
+.abstract {
+  height: 60%;
+  margin: 30px 20px 30px 20px;
+  font-size:0.5em;
+
+}
+
 
 /*入力画面*/
 
 .clear{
   clear : both;
+}
+
+#button{
+    font-family:'Hiragino Mincho ProN', serif;
 }
 
 .button{
@@ -74,9 +130,18 @@ body{
 
 div.contents{
   width        :1100px;
-  height       :70%;
+  height       :75%;
   padding-left :100px;
   padding-right:100px;
+}
+
+div#top {
+  width: 1000px;
+  margin: 0 auto 0 auto;
+}
+
+div.ninja_onebutton{
+  margin-bottom: 10px
 }
 
 
@@ -88,9 +153,13 @@ div.contents{
   width            :  1300px;
   height           :  700px;
   margin-left      : -650px;
-  margin-top       : -350px;
+  margin-top       : -380px;
   padding-top      : 50px;
-  border-radius    : 10px;
+  border-radius    : 20px;
+}
+
+p.p1{
+  margin-top:10px;
 }
 
 h3{
@@ -99,16 +168,17 @@ h3{
   margin-bottom : 20pt;
 }
 
-p{
-  margin-bottom : 10pt;
-}
-
 
 form{
-  margin-top : 30pt;
-  font-size: 16px;
+  margin-top : 10pt;
+  font-size: 0.9em;
+  font-family:'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
 }
 
+td{
+  vertical-align: top;
+  padding: 0;
+}
 
 span.pointup{
  color       : #FF0000;
