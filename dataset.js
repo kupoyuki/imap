@@ -33,10 +33,6 @@ $(function(){
 
   //-------------編集用----------------//
 
-  $('#top').hide();
-  $('#start').hide();
-  $('#txt').show();
-  $('#answer').show();
 
   //-------------ここまで--------------//
 
@@ -193,7 +189,7 @@ function Start(data, q_num, q_word){
     data.question.push({
         time    : time
       , word    : q_word[ q_num[count] ]
-      , answer  : true
+      , answer  : 1
       , q_num   : q_num[count]
       , timeout : false
     });
@@ -222,7 +218,7 @@ function Start(data, q_num, q_word){
     data.question.push({
         time    : time
       , word    : q_word[ q_num[count] ]
-      , answer  : false
+      , answer  : -1
       , q_num   : q_num[count]
       , timeout : false
     });
@@ -238,15 +234,51 @@ function Start(data, q_num, q_word){
 
 
 /* ----------------------------------------- *
+ * パスをクリックした時の処理　　                 *
+ * ------------------------------------------*/
+
+  $('#pass').click(function(e){
+
+    clearTimeout(timer);
+    var time = $.now() - start;
+   
+
+    data.question.push({
+        time    : time
+      , word    : q_word[ q_num[count] ]
+      , answer  : 0
+      , q_num   : q_num[count]
+      , timeout : false
+    });
+
+    changeQuestion();
+    if( isFinish(count) ) return;
+    
+    timer = setTimeout(timeout, timeouttime);
+    start = $.now();
+
+    
+  });
+
+
+
+/* ----------------------------------------- *
  * キーボードを使用した回答　　　　　　           *
  * ------------------------------------------*/
   $("body").keydown(function(e){
     console.log (e.keyCode);
-      if(e.keyCode == 78){
+      if(e.keyCode == 39){
+        //→
         $('#no').click();
-      }if(e.keyCode == 89 ){
+      }if(e.keyCode == 37 ){
+        //←
         $('#yes').click();
+      }if(e.keyCode == 40 ){
+        //↓
+        $('#pass').click();
       }
+
+
   });
 
 
@@ -260,7 +292,7 @@ function Start(data, q_num, q_word){
     data.question.push({
         time    : time
       , word    : q_word[ q_num[count] ]
-      , answer  : false
+      , answer  : 0
       , q_num   : q_num[count]
       , timeout : true
     });
