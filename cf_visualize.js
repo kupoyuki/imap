@@ -140,9 +140,97 @@ function click(d){
 	var dataset = {nodes:[{"name":"A","sex":"woman","x":9.291,"y":0.828},
 						  {"name":"B","sex":"woman","x":9.291,"y":0.828}],
 				   edges:[{source:0,target:1}]};
+	*/
+
+	var dataset = {
+	            nodes: [
+	                  { name: "you"},
+	                  { name: "uchida seira" , sex: "f"},
+	                  { name: "oishi yoshitaka" , sex: "m"},
+	                  { name: "obata yoichi" , sex: "m"},
+	                  { name: "sakai ryo" , sex:"m"},
+	                  { name: "nuermaimaiti adilijiang" , sex: "m"},
+	                  { name: "yamada so" , sex: "m"},
+	                  { name: "asaba shoji" , sex: "m"},
+	                  { name: "ishikawa takuya" , sex: "m"},
+	                  { name: "ishizuka chiaki" , sex: "f"},
+	                  { name: "campana jose maria" , sex: "m"},
+	                  { name: "nadezda kozulina" , sex: "f"},
+	                  { name: "koyama tomoe" , sex: "f"},
+	                  { name: "takahata satoshi" , sex: "m"},
+	                  { name: "tomita hiroki" , sex: "m"},
+	                  { name: "nakamura shinya" , sex: "m"},
+	                  { name: "nabetani mika" , sex: "f"},
+	                  { name: "han joung min" , sex: "m"},
+	                  { name: "furugori yuki" , sex: "f"},
+	                  { name: "maruyama toru" , sex: "m"},
+	                  { name: "mizuno yuta" , sex: "m"},
+	                  { name: "miyake yuriko" , sex: "f"},
+	                  { name: "miyasaka kotaro" , sex: "m"},
+	                  { name: "miyatake takayuki" , sex: "m"},
+	                  { name: "murakami hiroshi" , sex: "m"},
+	                  { name: "yamaguchi aina" , sex: "f"},
+	            ],
+	            edges: [
+	                  { source: 0, target: 1},
+	                  { source: 0, target: 2},
+	                  { source: 0, target: 3},
+	                  { source: 0, target: 4},
+	                  { source: 0, target: 5},
+	                  { source: 0, target: 6},
+	                  { source: 0, target: 7},
+	                  { source: 0, target: 8},
+	                  { source: 0, target: 9},
+	                  { source: 0, target: 10},
+	                  { source: 0, target: 11},
+	                  { source: 0, target: 12},
+	            ]
+	          };
 
 
 	var force = d3.layout.force()
+	              .nodes(dataset.nodes)
+	              .links(dataset.edges)
+	              .size([w,h])
+	              .linkDistance([200])
+	              .charge([-100])
+	              .start();
+
+	var edges = svg.selectAll("line")
+	          .data(dataset.edges)
+	          .enter()
+	          .append("line")
+	          .style("stroke","#000")
+	          .style("stroke-width",1);
+
+	var nodes = svg.selectAll(".node")
+	             .data(dataset.nodes)
+	             .enter()
+	             .append("g")
+	             .attr("class","node")
+	             .call(force.drag);
+
+	            //点の追加
+	       nodes.append("circle")
+	            .attr("class","circle")
+	            .attr("r",10)
+	            //最初の点だけ赤 
+	            .style("stroke","black")
+	            .style("stroke-width",0.5)
+
+	force.on("tick", function() {
+	edges.attr("x1", function(d) { return d.source.x; })
+	  .attr("y1", function(d) { return d.source.y; })
+	  .attr("x2", function(d) { return d.target.x; })
+	  .attr("y2", function(d) { return d.target.y; });
+
+	nodes.attr("cx", function(d) { return d.x; })
+	  .attr("cy", function(d) { return d.y; });
+
+
+	nodes.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+	});
 
 
   	svg.selectAll("circle")
@@ -153,7 +241,6 @@ function click(d){
 		.ease("elastic")
   		.attr("cx",function(d) { return w/2 })
   		.attr("cy",function(d) { return h/2 });
-  	*/
 
 	//datasetを順番にまわす
 	humans.each(function(data, index){
