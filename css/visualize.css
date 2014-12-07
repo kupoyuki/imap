@@ -40,3 +40,10 @@ body{
 	font-size: 10px;
 	color: black;
 }
+
+.women{
+	width: 20px;
+	height: 35px;
+	fill: white;
+	stroke: #ffffff;
+}
