@@ -52,33 +52,33 @@ var humans = svg.selectAll(".human")
 				.append("g")
 				.attr("class","human")
 
+          humans.append("image")
+                .attr("class",sex_class)
+          		.attr("xlink:href", icon)
+				.attr("x", function(d) { return (xScale(d.x) -30)*0.97})
+				.attr("y", function(d) { return yScale(d.y) -11})
+				.attr("width", 60)
+				.attr("height", 100);
+
+
 		  humans.append("circle")
 		  		.attr("class","circle")
 		  		.attr("r",10)
-		  		.attr("cx",function(d) { return xScale(d.x) })
+		  		.attr("cx",function(d) { return xScale(d.x)*0.97 })
 		  		.attr("cy",function(d) { return yScale(d.y) })	
 		  		//最後の点だけ赤
-		  		.style("fill",latest_data)
+                .attr("id",latest_data)
 		  		.on("click",click)
                 //.style("fill", sex_color)
                 .on("mouseover",mouseover)
                 .on("mouseout",mouseout);
 
 
-          humans.append("image")
-                .attr("class",sex_class)
-          		.attr("xlink:href", icon)
-				.attr("x", function(d) { return xScale(d.x) -29})
-				.attr("y", function(d) { return yScale(d.y) -11})
-				.style("fill","black")
-				.attr("width", 60)
-				.attr("height", 100);
-
-
           humans.append("text")
           		.attr("class","name")
-				.attr("dx", function(d) { return xScale(d.x) + 20})
-				.attr("dy", function(d) { return yScale(d.y) + 0.2})
+                .attr("id",latest_data)
+				.attr("dx", function(d) { return (xScale(d.x) + 15)*0.97})
+				.attr("dy", function(d) { return yScale(d.y) + 5})
 				.text(function(d) { return d.name });     
 
 for(var i=0; i < dataset.length; i++){
@@ -88,12 +88,12 @@ for(var i=0; i < dataset.length; i++){
 //最新の人：データの色を変える
 function latest_data(d){
 	if(d.index == human_num-1){
-		return "red";
+		return "latest";
 	}
 }
 
 function sex_class(d){
-	return d.sex == "woman" ? "woman" : "man";
+	return d.sex == "woman" ? "image woman" : "image man";
 }
 
 function icon(d){
@@ -113,9 +113,47 @@ function click(d){
 
 	console.log(d);
 
-	d3.select(this)
-	  .select("text")
-	  .remove();
+	/*  	
+	//indexの追加
+	for(var i = 0 ; i < now_data.length ; ++ i){
+		if(d.index == human_num-1){
+
+			now_data[d.index].x = w/2;
+			now_data[d.index].y = h/2;
+
+		}else{
+			now_data[i].x = 0;
+			now_data[i].y = 0;
+		}
+	}*/
+
+  	svg.selectAll("circle")
+		.attr("r",10)
+		.transition()
+		.duration(2000)
+		.ease("elastic")
+  		.attr("cx",function(d) { return w/2 })
+  		.attr("cy",function(d) { return h/2 });
+
+
+  	/*
+	var dataset = {nodes:[{"name":"A","sex":"woman","x":9.291,"y":0.828},
+						  {"name":"B","sex":"woman","x":9.291,"y":0.828}],
+				   edges:[{source:0,target:1}]};
+
+
+	var force = d3.layout.force()
+
+
+  	svg.selectAll("circle")
+  		.data(dataset)
+		.attr("r",10)
+		.transition()
+		.duration(2000)
+		.ease("elastic")
+  		.attr("cx",function(d) { return w/2 })
+  		.attr("cy",function(d) { return h/2 });
+  	*/
 
 	//datasetを順番にまわす
 	humans.each(function(data, index){
@@ -124,9 +162,8 @@ function click(d){
 
       if( d3.select(this).select("text").size() > 0 ){
 
-            d3.select(this)
-              .select("text")
-              .remove();
+
+
 
       }else{
 
