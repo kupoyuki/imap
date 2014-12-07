@@ -6,8 +6,8 @@
 }
 
 body{
-  background-color: #ffffff;
-  font-family:'Hiragino Mincho ProN', serif;
+  background-color: #F0F8FF;
+  font-family:'Hiragino Kaku Gothic ProN', serif;
   font-size: 16px;
 }
 
@@ -15,4 +15,28 @@ body{
 	fill: white;
 	stroke: black;
 	stroke-width: 0.5px;
+}
+
+.tip{
+
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 9999;
+	border: 1px solid black;
+	background-color: yellow;
+	width: 80px;
+	height: 16px;
+	text-align: center;
+	font-size: 9px;
+	font-family: Tahoma, Optima, Helvetica;
+	color: black;
+	visibility: hidden;
+	overflow: hidden;
+
+}
+
+.name{
+	font-size: 10px;
+	color: black;
 }

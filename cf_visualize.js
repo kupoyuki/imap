@@ -38,6 +38,12 @@ var yScale = d3.scale.linear()
 			   .domain([0,d3.max(dataset, function(d){ return d.y; })])
 			   .range([h-padding,padding]);
 
+//ツールチップ
+var tooltip = d3.select("body")
+				.append("div")
+				.attr("class","tip")
+
+
 var humans = svg.selectAll(".human")
 				.data(dataset)
 				.enter()
@@ -49,10 +55,18 @@ var humans = svg.selectAll(".human")
 		  		.attr("r",10)
 		  		.attr("cx",function(d) { return xScale(d.x) })
 		  		.attr("cy",function(d) { return yScale(d.y) })	
+		  		//最後の点だけ赤
 		  		.style("fill",latest_data)
-		  		.on("click",click);
-                //最後の点だけ赤 
+		  		.on("click",click)
                 //.style("fill", sex_color)
+                .on("mouseover",mouseover)
+                .on("mouseout",mouseout);
+
+          humans.append("text")
+          		.attr("class","name")
+				.attr("dx", function(d) { return xScale(d.x) + 20})
+				.attr("dy", function(d) { return yScale(d.y) + 0.2})
+				.text(function(d) { return d.name });     
 
 for(var i=0; i < dataset.length; i++){
 	console.log(dataset[i].index);
@@ -99,3 +113,22 @@ function click(d){
     }
   });
 }
+
+function mouseover(d){
+	var data = d3.select(this).datum();
+	var x = data.cx;
+	var y = data.cy;
+	console.log(x);
+
+	tooltip
+	.style("left", "100px")
+	.style("visibillity","visible")
+	.text("aaa")
+}
+
+function mouseout(d){
+	tooltip.style("visibillity","hidden")
+}
+
+
+
