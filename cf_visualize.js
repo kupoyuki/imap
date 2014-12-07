@@ -21,6 +21,15 @@ var dataset = [{"name":"A","x":9.291,"y":0.828},
 {"name":"I","x":2.629,"y":1.828},
 {"name":"J","x":1.239,"y":0.926}];
 
+//indexの追加
+for(var i = 0 ; i < dataset.length ; ++ i){
+	dataset[i].index = i;
+}
+
+//人数
+var human_num = dataset.length;
+console.log (human_num);
+
 //ちょうどいい感じの大きさで描画するようにする
 var xScale = d3.scale.linear()
 			   .domain([0,d3.max(dataset, function(d){ return d.x; })])
@@ -39,15 +48,24 @@ var humans = svg.selectAll(".human")
 		  		.attr("class","circle")
 		  		.attr("r",10)
 		  		.attr("cx",function(d) { return xScale(d.x) })
-		  		.attr("cy",function(d) { return yScale(d.y) })		  		
-		  		.on("click",click)
+		  		.attr("cy",function(d) { return yScale(d.y) })	
+		  		.style("fill",latest_data)
+		  		.on("click",click);
                 //最後の点だけ赤 
-                .style("fill",function(d){ return d.index == d.length ? "black" : "none"})
                 //.style("fill", sex_color)
-                .style("stroke","black")
-                .style("stroke-width",0.5)
 
+for(var i=0; i < dataset.length; i++){
+	console.log(dataset[i].index);
+}
 
+//最新の人：データの色を変える
+function latest_data(d){
+	if(d.index == human_num-1){
+		return "red";
+	}
+}
+
+//クリックイベント
 function click(d){
 
 	console.log(d);
