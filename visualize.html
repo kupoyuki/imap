@@ -7,13 +7,33 @@
     <script src="./js/d3-master/d3.min.js"></script>
     <link rel="stylesheet" href="css/visualize.css" type="text/css" />
 
-    <title>興味のある私のための地図: I map</title>
+    <title>興味のある「私」のための地図: I map</title>
     </style>
 
 </head>
 
 <body>
+<div id="menu">≡</div>
 
+
+<div id="top">
+	<div id = "title">
+		<b>I map :</b>
+		<div id = "sub">
+			興味のある「私」のための地図<br/>
+			Interest map of oneself
+		</div>
+	</div>
+
+	<div align ="right">
+		<select class="select"></select>
+	</div>
+	<div align ="right">
+		<button id="chgbtn" class="button">項目変更</button>
+	</div>
+
+</div>
+<script type="text/javascript" src="change_data.js"> </script>
 <script type="text/javascript" src="cf_visualize.js"> </script>
 </body>
 </html>

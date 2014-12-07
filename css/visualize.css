@@ -11,10 +11,80 @@ body{
   font-size: 16px;
 }
 
+#top{	
+ 	background-color : #A9E2F3;
+ 	position: absolute;
+ 	height: 70px;
+ 	width: 100%;
+ 	padding: 10px 20px 20px 60px;
+ 	z-index: 1;
+}
+
+#menu{
+	color: #00BFFF;
+	cursor: pointer;
+	height: 40px;
+	font-size: 40px;
+ 	position: absolute;
+ 	top: 0;
+	margin-left: 20px;
+ 	z-index: 2;
+}
+
+#result{
+	position: relative;
+}
+
+#title{
+	height: 50px;
+	font-size: 30px;
+  	font-family:'Hiragino Mincho ProN', serif;
+	float: left;
+}
+
+#sub{
+	font-size: 20px;
+	padding-left: 120px; 
+	position :absolute;
+  	top:0;
+	margin-top: 20px;
+	margin-bottom: 20px;
+
+}
+
+.select{
+	margin-top: 10px;
+	margin-right: 5%;
+	width:80px;
+}
+
+.button{
+  cursor:pointer;
+  background-color: #fff;
+  border:solid;
+  border-width:1px;
+  border-color:#000;
+  margin-right: 5%;
+}
+
+.button:hover{
+  background-color: #0489B1;
+  border:solid;
+  border-width:1px;
+
+}
+
+#chgbtn{
+	width: 80px;
+	height: 30px;
+	border-radius : 5px; 
+
+}
+
+
 .circle{
-	fill: white;
-	stroke: black;
-	stroke-width: 0.5px;
+	fill: #424242;
+	stroke-width: 0px;
 	cursor: pointer;
 }
 
