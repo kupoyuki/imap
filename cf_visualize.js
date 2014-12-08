@@ -5,9 +5,16 @@ var w = $(window).width(), //横
 
 var padding = 50;
 
-var svg = d3.select("body").append("svg")
-    .attr("width", w)
-    .attr("height", h);
+	d3.select("body")
+	  .append("div")
+	  .attr("id","result")
+	  .style("width",w)
+	  .style("height",h);
+
+var svg = d3.select("#result")
+			.append("svg")
+		    .attr("width", w)
+		    .attr("height", h);
 
 
 //ダミーデータ
@@ -45,45 +52,51 @@ var tooltip = d3.select("body")
 				.append("div")
 				.attr("class","tip")
 
+first();
 
-var humans = svg.selectAll(".human")
-				.data(dataset)
-				.enter()
-				.append("g")
-				.attr("class","human")
+function first(){
 
-          humans.append("image")
-                .attr("class",sex_class)
-          		.attr("xlink:href", icon)
-				.attr("x", function(d) { return (xScale(d.x) -30)*0.97})
-				.attr("y", function(d) { return yScale(d.y) -11})
-				.attr("width", 60)
-				.attr("height", 100);
+	var humans = svg.selectAll(".human")
+					.data(dataset)
+					.enter()
+					.append("g")
+					.attr("class","human")
 
-
-		  humans.append("circle")
-		  		.attr("class","circle")
-		  		.attr("r",10)
-		  		.attr("cx",function(d) { return xScale(d.x)*0.97 })
-		  		.attr("cy",function(d) { return yScale(d.y) })	
-		  		//最後の点だけ赤
-                .attr("id",latest_data)
-		  		.on("click",click)
-                //.style("fill", sex_color)
-                .on("mouseover",mouseover)
-                .on("mouseout",mouseout);
+	          humans.append("image")
+	                .attr("class",sex_class)
+	          		.attr("xlink:href", icon)
+					.attr("x", function(d) { return (xScale(d.x) -30)*0.97})
+					.attr("y", function(d) { return (yScale(d.y) -11)*0.95})
+					.attr("width", 60)
+					.attr("height", 100);
 
 
-          humans.append("text")
-          		.attr("class","name")
-                .attr("id",latest_data)
-				.attr("dx", function(d) { return (xScale(d.x) + 15)*0.97})
-				.attr("dy", function(d) { return yScale(d.y) + 5})
-				.text(function(d) { return d.name });     
+			  humans.append("circle")
+			  		.attr("class","circle")
+			  		.attr("r",10)
+			  		.attr("cx",function(d) { return xScale(d.x)*0.97 })
+			  		.attr("cy",function(d) { return yScale(d.y)*0.95 })	
+			  		//最後の点だけ赤
+	                .attr("id",latest_data)
+			  		.on("click",click)
+	                //.style("fill", sex_color)
+	                .on("mouseover",mouseover)
+	                .on("mouseout",mouseout);
 
-for(var i=0; i < dataset.length; i++){
-	console.log(dataset[i].index);
+
+	          humans.append("text")
+	          		.attr("class","name")
+	                .attr("id",latest_data)
+					.attr("dx", function(d) { return (xScale(d.x) + 15)*0.97})
+					.attr("dy", function(d) { return (yScale(d.y) + 5)*0.95})
+					.text(function(d) { return d.name });     
+
+	for(var i=0; i < dataset.length; i++){
+		console.log(dataset[i].index);
+	}
 }
+
+
 
 //最新の人：データの色を変える
 function latest_data(d){
@@ -133,16 +146,124 @@ function click(d){
 		.duration(2000)
 		.ease("elastic")
   		.attr("cx",function(d) { return w/2 })
-  		.attr("cy",function(d) { return h/2 });
-
+  		.attr("cy",function(d) { return h/2 })
+  		.remove();
+  		
+  	data_length = d.length;
+  		
+  	for(var i = 0; i<data_length; i++){
+  		dataset.shift();
+  	}
 
   	/*
 	var dataset = {nodes:[{"name":"A","sex":"woman","x":9.291,"y":0.828},
 						  {"name":"B","sex":"woman","x":9.291,"y":0.828}],
 				   edges:[{source:0,target:1}]};
+	*/
+
+	var dataset = {
+	            nodes: [
+	                  { name: "you" },
+	                  { name: "uchida seira" , sex: "f"},
+	                  { name: "oishi yoshitaka" , sex: "m"},
+	                  { name: "obata yoichi" , sex: "m"},
+	                  { name: "sakai ryo" , sex:"m"},
+	                  { name: "nuermaimaiti adilijiang" , sex: "m"},
+	                  { name: "yamada so" , sex: "m"},
+	                  { name: "asaba shoji" , sex: "m"},
+	                  { name: "ishikawa takuya" , sex: "m"},
+	                  { name: "ishizuka chiaki" , sex: "f"},
+	                  { name: "campana jose maria" , sex: "m"},
+	                  { name: "nadezda kozulina" , sex: "f"},
+	                  { name: "koyama tomoe" , sex: "f"},
+	                  { name: "takahata satoshi" , sex: "m"},
+	                  { name: "tomita hiroki" , sex: "m"},
+	                  { name: "nakamura shinya" , sex: "m"},
+	                  { name: "nabetani mika" , sex: "f"},
+	                  { name: "han joung min" , sex: "m"},
+	                  { name: "furugori yuki" , sex: "f"},
+	                  { name: "maruyama toru" , sex: "m"},
+	                  { name: "mizuno yuta" , sex: "m"},
+	                  { name: "miyake yuriko" , sex: "f"},
+	                  { name: "miyasaka kotaro" , sex: "m"},
+	                  { name: "miyatake takayuki" , sex: "m"},
+	                  { name: "murakami hiroshi" , sex: "m"},
+	                  { name: "yamaguchi aina" , sex: "f"}
+	            ],
+	            edges: [
+	                  { source: 0, target: 1},
+	                  { source: 0, target: 2},
+	                  { source: 0, target: 3},
+	                  { source: 0, target: 4},
+	                  { source: 0, target: 5},
+	                  { source: 0, target: 6},
+	                  { source: 0, target: 7},
+	                  { source: 0, target: 8},
+	                  { source: 0, target: 9},
+	                  { source: 0, target: 10},
+	                  { source: 0, target: 11},
+	                  { source: 0, target: 12},
+	                  { source: 0, target: 13},
+	                  { source: 0, target: 14},
+	                  { source: 0, target: 15},
+	                  { source: 0, target: 16},
+	                  { source: 0, target: 17},
+	                  { source: 0, target: 18},
+	                  { source: 0, target: 19},
+	                  { source: 0, target: 20},
+	                  { source: 0, target: 21},
+	                  { source: 0, target: 22},	 
+	                  { source: 0, target: 23},
+	                  { source: 0, target: 24},
+	                  { source: 0, target: 25}	  	                                   
+	            ]
+	          };
 
 
 	var force = d3.layout.force()
+	              .nodes(dataset.nodes)
+	              .links(dataset.edges)
+	              .size([w,h])
+	              .linkDistance([100])
+	              .charge([-100])
+	              .start();
+
+	var edges = svg.selectAll("line")
+		          .data(dataset.edges)
+		          .enter()
+		          .append("line")
+		          .style("stroke","#000")
+		          .style("stroke-width",1);
+
+	var nodes = svg.selectAll(".node")
+	             .data(dataset.nodes)
+	             .enter()
+	             .append("g")
+	             .attr("class","node")
+	             .call(force.drag);
+
+	            //点の追加
+	       nodes.append("circle")
+	            .attr("class","circle")
+	            .attr("r",10)
+	            .transition()
+	            .style("fill","red")
+	            .style("stroke","black")
+	            .style("stroke-width",0.5);
+
+	force.on("tick", function() {
+	edges.attr("x1", function(d) { return d.source.x; })
+	  .attr("y1", function(d) { return d.source.y; })
+	  .attr("x2", function(d) { return d.target.x; })
+	  .attr("y2", function(d) { return d.target.y; });
+
+	nodes.attr("cx", function(d,i) { return i == 0 ? w : d.x; })
+	  .attr("cy", function(d) { return d.y; });
+
+
+	nodes.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+	});
 
 
   	svg.selectAll("circle")
@@ -153,31 +274,7 @@ function click(d){
 		.ease("elastic")
   		.attr("cx",function(d) { return w/2 })
   		.attr("cy",function(d) { return h/2 });
-  	*/
 
-	//datasetを順番にまわす
-	humans.each(function(data, index){
-
-    if(index == d.index){
-
-      if( d3.select(this).select("text").size() > 0 ){
-
-
-
-
-      }else{
-
-      d3.select(this)
-	    .append("text")
-	    .attr("class", "text")
-	    .attr("dx", function(d){ return d.x >= w/2 ? 15 : - (Math.sqrt(d.name.length)*35)-(d.name.length*1.2)})
-	    .attr("dy",".35em")
-	    .text(function(d){ return d.name })
-	    .style("fill","black");
-
-      }
-    }
-  });
 }
 
 function mouseover(d){
