@@ -5,7 +5,7 @@ require_once "userdata.php";
 class CF
 {
 	private $_user_data = null;
-	private $_data_dir = 'data/';
+	private $_data_dir = '../data/';
 
 	public function __construct($username)
 	{
@@ -59,8 +59,7 @@ class CF
 		$words = array_intersect($src->getWords(), $dest->getWords());
 
 		// 共通する単語が少ない場合は計算しない！
-		// if (count($words) == 0)
-		if (count($words) <= 4)
+		if (count($words) == 0)
 		{
 			return 0.0;
 		}

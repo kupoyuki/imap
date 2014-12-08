@@ -25,7 +25,7 @@ class UserData
 		$words = array();
 
 		// 最初の項目は名前が入っているので除外する
-		for ($i = 1; $i < count($this->_data['question'])-1; $i++)
+		for ($i = 0; $i < count($this->_data['question']); $i++)
 		{
 			$words[] = $this->_data['question'][$i]['word'];
 		}
@@ -41,7 +41,7 @@ class UserData
 		$words = $this->getWords();
 		$words_index = array_search($search_word, $words);
 
-		$answer = $this->_data['question'][$words_index]['answer'] ? 1 : 0;
+		$answer = $this->_data['question'][$words_index]['answer'];
 
 		return $answer;
 	}
