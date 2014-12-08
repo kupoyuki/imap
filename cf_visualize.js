@@ -20,6 +20,8 @@ function loadJsonFromPHP(phpname)
 // ユーザデータ読み込み
 var user_data = loadJsonFromPHP('get_data.php');
 
+// var username = "hoge";
+// var user_dist = loadJsonFromPHP('cf/calc_cf.php'+username);
 
 
       //画面サイズ

@@ -265,6 +265,16 @@ span.pointup{
   margin-top : 10px; 
 }
 
+#countdown
+{
+  font-size: 70px;
+  color: #000;
+  position: absolute;
+  top: 630px;
+  left: 1300px;
+  display: none;
+}
+
 #result{
   
 }

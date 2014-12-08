@@ -58,12 +58,18 @@ function QuestionManager(data, q_data)
 		alert('error!');
 	}
 
-	this._timeout_msec = q_data['timeout_msec'];					// タイムアウト時間（ミリ秒）
+	this._timeout_sec = q_data['timeout_sec'];						// タイムアウト時間（秒）
+
+	if (this._timeout_sec < 1)
+	{
+		alert('error!');
+	}
 
 	this._cur_question_count = 1;									// 現在の回答数
 	this._cur_word = '';
 	this._timer = null;												// タイムアウトタイマ
 	this._start_time = 0;
+	this._question_count = 0;
 }
 
 QuestionManager.prototype.startQuestion = function()
@@ -93,6 +99,7 @@ QuestionManager.prototype.startQuestion = function()
 		});
 
 		SELF._cur_question_count++;
+
 		if (SELF._cur_question_count > SELF._all_question_num)
 		{
 			SELF.finishQuestion();
@@ -105,7 +112,7 @@ QuestionManager.prototype.startQuestion = function()
 		// 共通問題の間はタイムアウトさせない
 		if (SELF._common_question_num < SELF._cur_question_count)
 		{
-			SELF._timer = delayCall(SELF.passQuestion, SELF, SELF._timeout_msec);
+			SELF._timer = delayCall(SELF.countDown, SELF, 1000);
 		}
 		SELF._start_time = $.now();
 	});
@@ -125,17 +132,18 @@ QuestionManager.prototype.startQuestion = function()
 
 		SELF._cur_question_count++;
 
-		SELF.changeQuestion(SELF.nextWord());
 		if (SELF._cur_question_count > SELF._all_question_num)
 		{
 			SELF.finishQuestion();
 			return;
 		}
 
+		SELF.changeQuestion(SELF.nextWord());
+
 		// 共通問題の間はタイムアウトさせない
 		if (SELF._common_question_num < SELF._cur_question_count)
 		{
-			SELF._timer = delayCall(SELF.passQuestion, SELF, SELF._timeout_msec);
+			SELF._timer = delayCall(SELF.countDown, SELF, 1000);
 		}
 		SELF._start_time = $.now();
 	});
@@ -173,6 +181,21 @@ QuestionManager.prototype.startQuestion = function()
 			}
 		}
   });
+}
+
+QuestionManager.prototype.countDown = function()
+{
+	var count = this._timeout_sec - this._question_count;
+
+	if (count < 0)
+	{
+		this.passQuestion();
+		return;
+	}
+	$('#countdown').html(count);
+
+	this._question_count++;
+	this._timer = delayCall(this.countDown, this, 1000);
 }
 
 QuestionManager.prototype.nextWord = function()
@@ -234,11 +257,16 @@ QuestionManager.prototype.changeQuestion = function(q_word)
 	if (this._common_question_num >= this._cur_question_count)
 	{
 		$('#pass').hide();
+		$('#countdown').hide();
 	}
 	else
 	{
 		$('#pass').show();
+		$('#countdown').show();
 	}
+
+	this._question_count = 0;
+	$('#countdown').html(this._timeout_sec - this._question_count);
 
 	this._cur_word = q_word;
 
@@ -253,9 +281,12 @@ QuestionManager.prototype.changeQuestion = function(q_word)
 
 	$('#pagenum').html(this._cur_question_count + '/' + this._all_question_num);
 
-	$('.contents').fadeIn(60);
-	$('#answer').fadeIn(60);
-	$('#pagenum').fadeIn(60);
+	setTimeout(function()
+	{
+		$('.contents').fadeIn(100);
+		$('#answer').fadeIn(100);
+		$('#pagenum').fadeIn(100);
+	}, 500);
 }
 
 QuestionManager.prototype.passQuestion = function()
@@ -267,9 +298,10 @@ QuestionManager.prototype.passQuestion = function()
 
 	if (this._common_question_num < this._cur_question_count)
 	{
-		this._timer = delayCall(this.passQuestion, this, this._timeout_msec);
+		this._timer = delayCall(this.countDown, this, 1000);
 	}
 	this._start_time = $.now();
+	this._question_count = 0;
 }
 
 QuestionManager.prototype.finishQuestion = function()
@@ -277,6 +309,7 @@ QuestionManager.prototype.finishQuestion = function()
 	$('div.contents').hide();
 	$('#button')     .hide();
 	$('#pagenum')    .hide();
+	$('#countdown')  .hide();
 	$('#result')     .show();
 
 	$('#result').html('送信中……');
