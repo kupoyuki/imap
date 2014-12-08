@@ -1,5 +1,6 @@
 
 
+
 $('#menu').click(function(){
     if ($('#top').css('display') == 'none') {
         $('#top').slideDown('fast');
@@ -10,7 +11,6 @@ $('#menu').click(function(){
 
 /*
 var cursor;
-
 
 function MouseMoveFunc(e){
 
@@ -41,17 +41,18 @@ if(document.addEventListener){
 */
 
 var dataSet1 = [
-  {label:"hoge", value:10},
-  {label:"hello", value:20, selected:true},
-  {label:"world", value:30},
-  {label:"shimizu", value:40}
+  {label:"性別",value:1, selected:true},
+  {label:"男性", value:2},
+  {label:"女性", value:3},
 ]
 
 var dataSet2 = [
-  {label:"aaaa", value:10},
-  {label:"bbbb", value:20},
-  {label:"cccc", value:30, selected:true}
+  {label:"属性", value:4, selected:true},
+  {label:"bbbb", value:5},
+  {label:"cccc", value:6}
 ]
+
+var count = 1;
 
 //option要素の生成
 var optionElm = d3.select(".select")
@@ -65,10 +66,25 @@ var optionElm = d3.select(".select")
 
 //option要素を上書き
 d3.select("#chgbtn").on("click", function(){
-  optionElm.data(dataSet2)
+
+  //countでどちらのデータセットか判断
+  count == 1 ? count += 1 : count -= 1; 
+  
+  optionElm.data(change(count))
   .attr("value", function(d){ return d.value})
   .attr("selected", function(d){ if(d.selected) return "selected"})
   .text(function(d){ return d.label })
   .exit()
-  .remove();    
+  .remove(); 
+
+  console.log(count);
+
 })
+
+function change(count){
+
+  if( count == 1 ) {
+    return "dataSet1";
+  }else{ return "dataSet2";}
+
+}

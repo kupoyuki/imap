@@ -16,6 +16,7 @@
 <div id="menu">≡</div>
 
 
+<!--タイトルとメニュー-->
 <div id="top">
 	<div id = "title">
 		<b>I map :</b>
@@ -25,14 +26,27 @@
 		</div>
 	</div>
 
-	<div align ="right">
+
+	<div cless="selector" align ="right">
 		<select class="select"></select>
 	</div>
-	<div align ="right">
-		<button id="chgbtn" class="button">項目変更</button>
+	<div cless="selector" align ="right">
+		<button id="chgbtn" class="button">選択肢切り替え</button>
 	</div>
-
+	<div>
+		<button id = "enter" class="button">実行</button>
+	</div>
 </div>
+
+<!--D3-->
+
+<!--ツールチップだよ-->
+<div id = "tip">
+	<p class="name">aaaaaaaaa</p>
+	<p><span id="value">100</span>%</p>
+</div>
+
+
 <script type="text/javascript" src="change_data.js"> </script>
 <script type="text/javascript" src="cf_visualize.js"> </script>
 </body>

@@ -73,7 +73,7 @@ function first(){
 
 			  humans.append("circle")
 			  		.attr("class","circle")
-			  		.attr("r",10)
+			  		.attr("r",9)
 			  		.attr("cx",function(d) { return xScale(d.x)*0.97 })
 			  		.attr("cy",function(d) { return yScale(d.y)*0.95 })	
 			  		//最後の点だけ赤
@@ -93,6 +93,8 @@ function first(){
 
 	for(var i=0; i < dataset.length; i++){
 		console.log(dataset[i].index);
+
+
 	}
 }
 
@@ -118,6 +120,32 @@ function icon(d){
 }
 
 
+function mouseover(d){
+	var x = d3.select(this).attr("cx");
+	var y = d3.select(this).attr("cy");
+
+	d3.select("#tip");
+
+	tooltip
+	.style("left", x + "px")
+	.style("top",  y + "px")
+	.select("#name")
+	.text(d);
+
+	d3.select("#tip").classed("hidden","false");
+
+}
+
+function mouseout(d){
+
+	d3.select("#tip".classed("hidden",true));
+}
+
+//ダブルクリック
+function dbclick(d){
+
+}
+
 /* ----------------------------------------- *
  * human クリック時                            *
  * ------------------------------------------*/
@@ -125,20 +153,6 @@ function icon(d){
 function click(d){
 
 	console.log(d);
-
-	/*  	
-	//indexの追加
-	for(var i = 0 ; i < now_data.length ; ++ i){
-		if(d.index == human_num-1){
-
-			now_data[d.index].x = w/2;
-			now_data[d.index].y = h/2;
-
-		}else{
-			now_data[i].x = 0;
-			now_data[i].y = 0;
-		}
-	}*/
 
   	svg.selectAll("circle")
 		.attr("r",10)
@@ -277,21 +291,6 @@ function click(d){
 
 }
 
-function mouseover(d){
-	var data = d3.select(this).datum();
-	var x = data.cx;
-	var y = data.cy;
-	console.log(x);
-
-	tooltip
-	.style("left", "100px")
-	.style("visibillity","visible")
-	.text("aaa")
-}
-
-function mouseout(d){
-	tooltip.style("visibillity","hidden")
-}
 
 
 
