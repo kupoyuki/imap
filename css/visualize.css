@@ -114,7 +114,7 @@ body{
 	font-weight: bold;
 }
 
-.tip{
+#tip{
 
 	position: absolute;
 	top: 0px;
@@ -128,10 +128,14 @@ body{
 	font-size: 9px;
 	font-family: Tahoma, Optima, Helvetica;
 	color: black;
-	visibility: hidden;
 	overflow: hidden;
 
 }
+
+#tip.hidden{
+	display: none;
+}
+
 
 .image{
 	opacity: 0.3;
@@ -141,4 +145,6 @@ body{
 	font-size: 10px;
 	color: black;
 }
+
+
 

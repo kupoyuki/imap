@@ -13,6 +13,13 @@ $(function()
 {
     var wx, wy;    // ウインドウの左上座標
 
+    $('#ipop_close_button').hide();
+    $('#1').show();
+    $('#2').hide();
+    $('#3').hide();
+    $('#4').hide();
+    $('#5').hide();
+
     // ウインドウの座標を画面中央にする。
 
     wx = $(document).scrollLeft() + ($(window).width() - $('#ipop').outerWidth()) / 2;
@@ -23,6 +30,20 @@ $(function()
     // ポップアップウインドウを表示する。
     $('#ipop').css({top: wy, left: wx}).fadeIn(100);
     $('#ipop').fadeIn(100);
+
+    var i = 1;
+    $('#next').click(function(){
+
+          $("#"+i).fadeOut(500);
+          if(i==4){
+            $('#next').hide();
+            $('#ipop_close_button').show();
+          }
+          console.log(i);
+          i++;
+          $("#"+i).fadeIn(1200);
+    });
+
     // 閉じるボタンを押したとき
     $('.ipop_close').click(function()
       {
