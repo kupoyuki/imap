@@ -1,4 +1,27 @@
 
+function loadJsonFromPHP($phpname)
+{
+	var json = null;
+	$.ajax(
+	{
+		url       : phpname
+		,type     : 'GET'
+		,async    : false
+		,dataType : 'json'
+		,cache    : false
+		,success  : function(data)
+		{
+			json = data;
+		}
+	});
+	return json;
+}
+
+// ユーザデータ読み込み
+var user_data = loadJsonFromPHP('get_data.php');
+
+
+
       //画面サイズ
 var w = $(window).width(), //横
     h = $(window).height(); //縦
@@ -203,22 +226,6 @@ function click(d){
 				   edges:[{source:0,target:1}]};
 	*/
 
-/*
-	// ↓回答データを読み込んできます
-	var dataset = null;
-  $.ajax(
-  {
-        url      : 'get_data.php'
-      , type     : 'GET'
-      , async    : false
-      , dataType : 'json'
-      , cache    : false
-      , success  : function(data)
-      {
-        dataset = data;
-      }
-  });
-*/
 	var dataset = {
 	            nodes: [
 	                  { name: "you" },
