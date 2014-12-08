@@ -46,7 +46,7 @@ $(function()
           }
           console.log(i);
           i++;
-          $("#"+i).fadeIn(1200);
+          $("#"+i).fadeIn(500);
     });
 
     // 閉じるボタンを押したとき
