@@ -18,7 +18,7 @@ function loadJsonFromPHP(phpname)
 }
 
 // ユーザデータ読み込み
-var user_data = loadJsonFromPHP('get_data.php');
+//var user_data = loadJsonFromPHP('get_data.php');
 
 // var username = "hoge";
 // var user_dist = loadJsonFromPHP('cf/calc_cf.php'+username);
@@ -228,6 +228,7 @@ function click(d){
 				   edges:[{source:0,target:1}]};
 	*/
 
+	/*
 	var dataset = {
 	            nodes: [
 	                  { name: "you" },
@@ -285,25 +286,27 @@ function click(d){
 	                  { source: 0, target: 25}	  	                                   
 	            ]
 	          };
+	*/
 
+	data_change();
 
 	var force = d3.layout.force()
-	              .nodes(dataset.nodes)
-	              .links(dataset.edges)
+	              .nodes(user_data.nodes)
+	              .links(user_data.edges)
 	              .size([w,h])
 	              .linkDistance([100])
 	              .charge([-100])
 	              .start();
 
 	var edges = svg.selectAll("line")
-		          .data(dataset.edges)
+		          .data(user_data.edges)
 		          .enter()
 		          .append("line")
 		          .style("stroke","#000")
 		          .style("stroke-width",1);
 
 	var nodes = svg.selectAll(".node")
-	             .data(dataset.nodes)
+	             .data(user_data.nodes)
 	             .enter()
 	             .append("g")
 	             .attr("class","node")
@@ -327,7 +330,7 @@ function click(d){
 
           nodes.append("text")
                 .attr("class","word")//人のデータだけ,それ以外はword
-     			.attr("dx", function(d){ return d.x >= w/2 ? 15 : - (Math.sqrt(d.name.length)*5)-(d.name.length)})
+     			//.attr("dx", function(d){ return d.x >= w/2 ? 15 : - (Math.sqrt(d.name.length)*5)-(d.name.length)})
 				.attr("dy", ".35em")
 				.text(function(d) { return d.name });  
 
@@ -353,6 +356,50 @@ function first_data(d){
 	if(d.index == 0){
 		return "first";
 	}else{return "w_circle"}
+}
+
+//force用にデータを書き換える
+function data_change(){
+
+	var user_data = {nodes:[],edges:[]};
+
+	//questionだけとりだして、nodeにする
+	var all_data = loadJsonFromPHP('get_data.php');
+	var one_data = all_data.['time']
+
+	//いったんおいとくね
+	var human = [];
+	var question = [];
+
+	for(var j = 0 ; j < moto_data.length ; ++ j){
+	  name.push( moto_data[j] );
+
+	  for(var i = 0 ; i < moto_data[j].question.length ; ++ i){
+	     question.push( moto_data[j].question[i] );
+	  	 human.push(question[i]);
+
+	  }
+
+	}
+
+	user_data.nodes = human;
+
+	console.log(name);
+
+
+	//edgesデータ
+	var edge;
+	var
+	for(var i = 0; i<user_data.nodes.length-1; i++){
+
+		edge += "{source:"+ 0 +",target:"+ i +"}";
+		if(i != user_data.nodes.length-2 ){
+			edge += ",";
+		}
+
+	}
+
+
 }
 
 
