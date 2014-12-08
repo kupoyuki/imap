@@ -145,7 +145,21 @@ body{
 .name{
 	font-size: 10px;
 	color: black;
+	cursor: pointer;
 }
 
+.word{
+	font-size: 10px;
+	cursor: pointer;
+	font-color:black;
+}
+.w_circle{
+	fill: #00BFFF;	
+	cursor: pointer;
+}
 
+.first_data{
+	fill: red;
+	cursor: pointer;
+}
 

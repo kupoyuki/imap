@@ -54,9 +54,13 @@ var tooltip = d3.select("body")
 				.attr("class","tip")
 */
 
+var status = 0;
 first();
 
+
 function first(){
+
+	status = 1;
 
 	var humans = svg.selectAll(".human")
 					.data(dataset)
@@ -109,13 +113,6 @@ function latest_data(d){
 	}
 }
 
-//最初のデータを取得
-function first_data(d){
-	if(d.index == 1){
-		return "first";
-	}
-}
-
 function sex_class(d){
 	return d.sex == "woman" ? "image woman" : "image man";
 }
@@ -159,18 +156,25 @@ function dbclick(d){
  * human クリック時                            *
  * ------------------------------------------*/
 
+function click2(d){
+	console.log(d);
+}
 
 function click(d){
 
+	status = 2;
+
 	console.log(d);
+
 
   	svg.selectAll("circle")
 		.attr("r",10)
 		.transition()
-		.duration(1000)
+		.duration(3000)
 		.ease("elastic")
   		.attr("cx",function(d) { return w/2 })
   		.attr("cy",function(d) { return h/2 })
+  		.style("opacity",0)
   		.remove();
   		
   	svg.selectAll("image")
@@ -280,16 +284,17 @@ function click(d){
 
 	            //点の追加
 	       nodes.append("circle")
-	            .attr("class","circle")
-	            .attr("r",10)
+	            .attr("class","w_circle")
+	            .attr("r",9)
 	            .transition()
-	            .style("fill","red")
+	         	.duration(2000)
+                .attr("class",first_data)//人のデータだけ
 	            .style("stroke","black")
-	            .style("stroke-width",0.5);
+	            .style("stroke-width",0.5)
+	            //.on("click",click2);
 
           nodes.append("text")
-          		.attr("class","name")
-                .attr("id",first_data)//人のデータだけ
+                .attr("class","word")//人のデータだけ,それ以外はword
      			.attr("dx", function(d){ return d.x >= w/2 ? 15 : - (Math.sqrt(d.name.length)*5)-(d.name.length)})
 				.attr("dy", ".35em")
 				.text(function(d) { return d.name });  
@@ -309,21 +314,13 @@ function click(d){
 	});
 
 
-  	svg.selectAll("circle")
-  		.data(dataset)
-		.attr("r",10)
-		.transition()
-		.duration(2000)
-		.ease("elastic")
-  		.attr("cx",function(d) { return w/2 })
-  		.attr("cy",function(d) { return h/2 })
-		.on("click",click_2);
-
 }
 
-
-function click_2(d){
-	first();
+//最初のデータを取得
+function first_data(d){
+	if(d.index == 0){
+		return "first";
+	}else{return "w_circle"}
 }
 
 
