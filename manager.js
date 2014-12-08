@@ -99,8 +99,6 @@ QuestionManager.prototype.startQuestion = function()
 		});
 
 		SELF._cur_question_count++;
-		SELF._question_count = 0;
-		$('#countdown').html(SELF._timeout_sec - SELF._question_count);
 
 		if (SELF._cur_question_count > SELF._all_question_num)
 		{
@@ -114,7 +112,6 @@ QuestionManager.prototype.startQuestion = function()
 		// 共通問題の間はタイムアウトさせない
 		if (SELF._common_question_num < SELF._cur_question_count)
 		{
-			// SELF._timer = delayCall(SELF.passQuestion, SELF, SELF._timeout_msec);
 			SELF._timer = delayCall(SELF.countDown, SELF, 1000);
 		}
 		SELF._start_time = $.now();
@@ -134,20 +131,18 @@ QuestionManager.prototype.startQuestion = function()
 		});
 
 		SELF._cur_question_count++;
-		SELF._question_count = 0;
-		$('#countdown').html(SELF._timeout_sec - SELF._question_count);
 
-		SELF.changeQuestion(SELF.nextWord());
 		if (SELF._cur_question_count > SELF._all_question_num)
 		{
 			SELF.finishQuestion();
 			return;
 		}
 
+		SELF.changeQuestion(SELF.nextWord());
+
 		// 共通問題の間はタイムアウトさせない
 		if (SELF._common_question_num < SELF._cur_question_count)
 		{
-			// SELF._timer = delayCall(SELF.passQuestion, SELF, SELF._timeout_msec);
 			SELF._timer = delayCall(SELF.countDown, SELF, 1000);
 		}
 		SELF._start_time = $.now();
@@ -270,6 +265,8 @@ QuestionManager.prototype.changeQuestion = function(q_word)
 		$('#countdown').show();
 	}
 
+	this._question_count = 0;
+	$('#countdown').html(this._timeout_sec - this._question_count);
 
 	this._cur_word = q_word;
 
@@ -284,9 +281,12 @@ QuestionManager.prototype.changeQuestion = function(q_word)
 
 	$('#pagenum').html(this._cur_question_count + '/' + this._all_question_num);
 
-	$('.contents').fadeIn(60);
-	$('#answer').fadeIn(60);
-	$('#pagenum').fadeIn(60);
+	setTimeout(function()
+	{
+		$('.contents').fadeIn(100);
+		$('#answer').fadeIn(100);
+		$('#pagenum').fadeIn(100);
+	}, 500);
 }
 
 QuestionManager.prototype.passQuestion = function()
@@ -296,12 +296,8 @@ QuestionManager.prototype.passQuestion = function()
     // パスは何も記録しないで次の質問へ
 	this.changeQuestion(this.nextWord());
 
-	this._question_count = 0;
-	$('#countdown').html(this._timeout_sec - this._question_count);
-
 	if (this._common_question_num < this._cur_question_count)
 	{
-		// this._timer = delayCall(this.passQuestion, this, this._timeout_msec);
 		this._timer = delayCall(this.countDown, this, 1000);
 	}
 	this._start_time = $.now();
