@@ -113,7 +113,7 @@ $(function()
       ,common_question_num : 25               // 共通質問
       ,common_words        : common_words     // 共通の単語
       ,category_words      : category_words   // 分類単語
-      ,timeout_msec        : 5000             // タイムアウト時間（ミリ秒）
+      ,timeout_sec         : 5             // タイムアウト時間（秒）
     };
 
     var manager = new QuestionManager(data, q_data);
