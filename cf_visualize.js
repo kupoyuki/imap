@@ -288,7 +288,7 @@ function click(d){
 	          };
 	*/
 
-	data_change();
+	var user_data = data_change();
 
 	var force = d3.layout.force()
 	              .nodes(user_data.nodes)
@@ -365,17 +365,16 @@ function data_change(){
 
 	//questionだけとりだして、nodeにする
 	var all_data = loadJsonFromPHP('get_data.php');
-	var one_data = all_data.['time']
 
 	//いったんおいとくね
 	var human = [];
 	var question = [];
 
-	for(var j = 0 ; j < moto_data.length ; ++ j){
-	  name.push( moto_data[j] );
+	for(var j = 0 ; j < all_data.length ; ++ j){
+	  human.push( all_data[j] );
 
-	  for(var i = 0 ; i < moto_data[j].question.length ; ++ i){
-	     question.push( moto_data[j].question[i] );
+	  for(var i = 0 ; i < all_data[j].question.length ; ++ i){
+	     question.push( all_data[j].question[i] );
 	  	 human.push(question[i]);
 
 	  }
@@ -384,24 +383,22 @@ function data_change(){
 
 	user_data.nodes = human;
 
-	console.log(name);
+	console.log(human);
 
 
 	//edgesデータ
 	var edge;
-	var
-	for(var i = 0; i<user_data.nodes.length-1; i++){
-
-		edge += "{source:"+ 0 +",target:"+ i +"}";
-		if(i != user_data.nodes.length-2 ){
-			edge += ",";
-		}
-
+	for(var i = 1; i<user_data.nodes.length-1; i++){
+		edge.push(
+			['source'] = 0,['target'] = i
+		)
 	}
+	console.log(edge);
+	user_data.edges = edge;
 
+	console.log(user_data);
+
+	return user_data;
 
 }
-
-
-
 
