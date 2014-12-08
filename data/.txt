@@ -1,1 +1,0 @@
-{"name":"a","sex":"woman","age":"10","iamas":"yes","type":[],"time":1417839042630,"url":"a","question":[{"name":"a","sex":"woman","age":"10","iamas":"yes","type":[],"time":1417839042630,"url":"a"},{"time":5002,"word":undefined,"answer":false,"q_num":undefined,"timeout":true}]}

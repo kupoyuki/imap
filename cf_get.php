@@ -8,7 +8,8 @@ error_reporting(E_ALL);
  * ファイル名一覧を取得                         *
  * ------------------------------------------*/
 
-function getFileList($dir) {
+function getFileList($dir)
+{
     $files = glob(rtrim($dir, '/') . '/*.txt');
     $list = array();
     //files を file配列に代入
@@ -16,10 +17,6 @@ function getFileList($dir) {
         if (is_file($file)) {
             $list[] = basename($file);
         }
-        /*ディレクトリを掘り進む
-        if (is_dir($file)) {
-            $list = array_merge($list, getFileList($file));
-        }*/
     }
     return $list;
 }

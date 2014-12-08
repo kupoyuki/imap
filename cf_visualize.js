@@ -30,6 +30,8 @@ var dataset =
 {"name":"I","sex":"woman","x":2.629,"y":1.828},
 {"name":"J","sex":"woman","x":1.239,"y":0.926}];
 
+
+
 //indexの追加
 for(var i = 0 ; i < dataset.length ; ++ i){
 	dataset[i].index = i;
@@ -201,6 +203,22 @@ function click(d){
 				   edges:[{source:0,target:1}]};
 	*/
 
+/*
+	// ↓回答データを読み込んできます
+	var dataset = null;
+  $.ajax(
+  {
+        url      : 'get_data.php'
+      , type     : 'GET'
+      , async    : false
+      , dataType : 'json'
+      , cache    : false
+      , success  : function(data)
+      {
+        dataset = data;
+      }
+  });
+*/
 	var dataset = {
 	            nodes: [
 	                  { name: "you" },
