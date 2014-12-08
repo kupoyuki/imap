@@ -19,6 +19,9 @@ $(function()
     $('#3').hide();
     $('#4').hide();
     $('#5').hide();
+    $('#6').hide();
+    $('#7').hide();
+
 
     // ウインドウの座標を画面中央にする。
 
@@ -40,7 +43,7 @@ $(function()
     $('#next').click(function(){
 
           $("#"+i).fadeOut(500);
-          if(i==4){
+          if(i==6){
             $('#next').hide();
             $('#ipop_close_button').show();
           }

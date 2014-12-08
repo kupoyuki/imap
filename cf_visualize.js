@@ -1,5 +1,5 @@
 
-function loadJsonFromPHP($phpname)
+function loadJsonFromPHP(phpname)
 {
 	var json = null;
 	$.ajax(
