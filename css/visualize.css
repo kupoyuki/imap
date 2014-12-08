@@ -34,27 +34,28 @@ body{
  	z-index: 2;
 }
 
+	#title{
+		height: 50px;
+		font-size: 30px;
+	  	font-family:'Hiragino Mincho ProN', serif;
+		float: left;
+	}
+
+	#sub{
+		font-size: 20px;
+		padding-left: 120px; 
+		position :absolute;
+	  	top:0;
+	  	margin-right: 50px;
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+
+
 #result{
 	position: relative;
 }
 
-#title{
-	height: 50px;
-	font-size: 30px;
-  	font-family:'Hiragino Mincho ProN', serif;
-	float: left;
-}
-
-#sub{
-	font-size: 20px;
-	padding-left: 120px; 
-	position :absolute;
-  	top:0;
-  	margin-right: 50px;
-	margin-top: 20px;
-	margin-bottom: 20px;
-
-}
 
 .select{
 	margin-right: 13%;
@@ -71,36 +72,36 @@ body{
   margin-right: 13%;
 }
 
-.button:hover{
-  background-color: #0489B1;
-  border:solid;
-  border-width:1px;
+	.button:hover{
+	  background-color: #0489B1;
+	  border:solid;
+	  border-width:1px;
 
-}
+	}
 
-#enter{
-	height: 60px;
-	width: 100px;
-	margin-top: 10px;
-	font-size: 20px;
-	position :absolute;
-	right: 0;
-  	top:0;
-	margin-top: 20px;
-	margin-bottom: 10px;
-	margin-right: 9%;
-	border-radius : 5px; 
-}
+	#enter{
+		height: 60px;
+		width: 100px;
+		margin-top: 10px;
+		font-size: 20px;
+		position :absolute;
+		right: 0;
+	  	top:0;
+		margin-top: 20px;
+		margin-bottom: 10px;
+		margin-right: 9%;
+		border-radius : 5px; 
+	}
 
-.selector{
-	width :100px;
-}
+	.selector{
+		width :100px;
+	}
 
-#chgbtn{
-	width: 100px;
-	height: 30px;
-	border-radius : 5px; 
-}
+	#chgbtn{
+		width: 100px;
+		height: 30px;
+		border-radius : 5px; 
+	}
 
 
 .circle{
@@ -109,10 +110,10 @@ body{
 	cursor: pointer;
 }
 
-#latest{
-	fill: red;
-	font-weight: bold;
-}
+	#latest{
+		fill: red;
+		font-weight: bold;
+	}
 
 #tip{
 
@@ -133,9 +134,9 @@ body{
 
 }
 
-#tip.hidden{
-	display: none;
-}
+	#tip.hidden{
+		display: none;
+	}
 
 
 .image{
@@ -153,13 +154,25 @@ body{
 	cursor: pointer;
 	font-color:black;
 }
+
 .w_circle{
 	fill: #00BFFF;	
 	cursor: pointer;
 }
 
-.first_data{
-	fill: red;
-	cursor: pointer;
-}
+	.yes{
+		opacity:1;
+	}
+	.no{
+		opacity: 0.3;
+	}
+	.none{
+		display: none;
+	}
+
+
+	.first_data{
+		fill: red;
+		cursor: pointer;
+	}
 

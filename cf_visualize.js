@@ -322,10 +322,14 @@ function click(d){
 	            .style("stroke","black")
 	            .style("stroke-width",0.5);
 
+	       nodes.selectAll(".w_circle")
+	       		.append("class",answer_result);
+
 	            svg.selectAll("circle")
 	            .on("click", function(e)
 	            {
 	            	/* ここに処理を書く */
+	            	first();
 	            });
 
           nodes.append("text")
@@ -356,6 +360,16 @@ function first_data(d){
 	if(d.index == 0){
 		return "first";
 	}else{return "w_circle"}
+}
+
+function answer_result(d){
+	if(d.answer == 1){
+		return "w_circle yes";
+	}else if(d.answer == -1){
+		return "w_circle no";
+	}else{
+		return "w_circle none";
+	}
 }
 
 //force用にデータを書き換える
