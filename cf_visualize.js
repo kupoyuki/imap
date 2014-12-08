@@ -47,10 +47,12 @@ var yScale = d3.scale.linear()
 			   .domain([0,d3.max(dataset, function(d){ return d.y; })])
 			   .range([h-padding,padding]);
 
+/*
 //ツールチップ
 var tooltip = d3.select("body")
 				.append("div")
 				.attr("class","tip")
+*/
 
 first();
 
@@ -80,8 +82,8 @@ function first(){
 	                .attr("id",latest_data)
 			  		.on("click",click)
 	                //.style("fill", sex_color)
-	                .on("mouseover",mouseover)
-	                .on("mouseout",mouseout);
+	                //.on("mouseover",mouseover)
+	                //.on("mouseout",mouseout);
 
 
 	          humans.append("text")
@@ -104,6 +106,13 @@ function first(){
 function latest_data(d){
 	if(d.index == human_num-1){
 		return "latest";
+	}
+}
+
+//最初のデータを取得
+function first_data(d){
+	if(d.index == 1){
+		return "first";
 	}
 }
 
@@ -150,6 +159,7 @@ function dbclick(d){
  * human クリック時                            *
  * ------------------------------------------*/
 
+
 function click(d){
 
 	console.log(d);
@@ -157,12 +167,24 @@ function click(d){
   	svg.selectAll("circle")
 		.attr("r",10)
 		.transition()
-		.duration(2000)
+		.duration(1000)
 		.ease("elastic")
   		.attr("cx",function(d) { return w/2 })
   		.attr("cy",function(d) { return h/2 })
   		.remove();
   		
+  	svg.selectAll("image")
+  		.transition()
+  		.duration(2000)
+  		.style("opacity",0)
+  		.remove();
+
+  	svg.selectAll("text")
+  		.transition()
+  		.duration(2000)
+  		.style("opacity",0)
+  		.remove();
+
   	data_length = d.length;
   		
   	for(var i = 0; i<data_length; i++){
@@ -265,6 +287,13 @@ function click(d){
 	            .style("stroke","black")
 	            .style("stroke-width",0.5);
 
+          nodes.append("text")
+          		.attr("class","name")
+                .attr("id",first_data)//人のデータだけ
+     			.attr("dx", function(d){ return d.x >= w/2 ? 15 : - (Math.sqrt(d.name.length)*5)-(d.name.length)})
+				.attr("dy", ".35em")
+				.text(function(d) { return d.name });  
+
 	force.on("tick", function() {
 	edges.attr("x1", function(d) { return d.source.x; })
 	  .attr("y1", function(d) { return d.source.y; })
@@ -287,8 +316,14 @@ function click(d){
 		.duration(2000)
 		.ease("elastic")
   		.attr("cx",function(d) { return w/2 })
-  		.attr("cy",function(d) { return h/2 });
+  		.attr("cy",function(d) { return h/2 })
+		.on("click",click_2);
 
+}
+
+
+function click_2(d){
+	first();
 }
 
 
