@@ -31,6 +31,11 @@ $(function()
     $('#ipop').css({top: wy, left: wx}).fadeIn(100);
     $('#ipop').fadeIn(100);
 
+    $('#call').click(function(){
+      $('#ipop').css({top: wy, left: wx}).fadeIn(100);
+      $('#ipop').fadeIn(100);
+    });
+
     var i = 1;
     $('#next').click(function(){
 
