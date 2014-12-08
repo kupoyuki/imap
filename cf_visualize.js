@@ -84,7 +84,7 @@ function first(){
 			  		.attr("cy",function(d) { return yScale(d.y)*0.95 })	
 			  		//最後の点だけ赤
 	                .attr("id",latest_data)
-			  		.on("click",click)
+			  		.on("click",click);
 	                //.style("fill", sex_color)
 	                //.on("mouseover",mouseover)
 	                //.on("mouseout",mouseout);
@@ -290,8 +290,13 @@ function click(d){
 	         	.duration(2000)
                 .attr("class",first_data)//人のデータだけ
 	            .style("stroke","black")
-	            .style("stroke-width",0.5)
-	            //.on("click",click2);
+	            .style("stroke-width",0.5);
+
+	            svg.selectAll("circle")
+	            .on("click", function(e)
+	            {
+	            	/* ここに処理を書く */
+	            });
 
           nodes.append("text")
                 .attr("class","word")//人のデータだけ,それ以外はword
