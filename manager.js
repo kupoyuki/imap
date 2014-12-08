@@ -105,7 +105,7 @@ QuestionManager.prototype.startQuestion = function()
 		// 共通問題の間はタイムアウトさせない
 		if (SELF._common_question_num < SELF._cur_question_count)
 		{
-			this._timer = delayCall(SELF.passQuestion, SELF, SELF._timeout_msec);
+			SELF._timer = delayCall(SELF.passQuestion, SELF, SELF._timeout_msec);
 		}
 		SELF._start_time = $.now();
 	});
@@ -135,7 +135,7 @@ QuestionManager.prototype.startQuestion = function()
 		// 共通問題の間はタイムアウトさせない
 		if (SELF._common_question_num < SELF._cur_question_count)
 		{
-			this._timer = delayCall(SELF.passQuestion, SELF, SELF._timeout_msec);
+			SELF._timer = delayCall(SELF.passQuestion, SELF, SELF._timeout_msec);
 		}
 		SELF._start_time = $.now();
 	});
@@ -253,12 +253,9 @@ QuestionManager.prototype.changeQuestion = function(q_word)
 
 	$('#pagenum').html(this._cur_question_count + '/' + this._all_question_num);
 
-	setTimeout(function()
-	{
-		$('.contents').fadeIn(60);
-		$('#answer').fadeIn(60);
-		$('#pagenum').fadeIn(60);
-	}, 500);
+	$('.contents').fadeIn(60);
+	$('#answer').fadeIn(60);
+	$('#pagenum').fadeIn(60);
 }
 
 QuestionManager.prototype.passQuestion = function()
