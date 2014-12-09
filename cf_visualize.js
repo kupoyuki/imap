@@ -54,7 +54,6 @@ function first(){
 	var data = loadJsonFromPHP('get_data.php');
 
 	dataset = [];
-
 	$.each(data, function()
 	{
 		user = {};
