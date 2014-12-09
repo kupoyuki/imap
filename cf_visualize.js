@@ -259,6 +259,8 @@ function click(d){
   		dataset.shift();
   	}
 	
+  	user_data = encoded_data;
+
 	// var user_data = {
 	//             nodes: [
 	//                   { name: "you" },
@@ -316,7 +318,6 @@ function click(d){
 	//                   { source: 0, target: 25}	  	                                   
 	//             ]
 	//           };
-
 
 	var force = d3.layout.force()
 	              .nodes(user_data.nodes)
@@ -435,7 +436,7 @@ function encodeData(data)
 
 	var edges = [];
 
-	for (var i = 1; i < nodes.length+1; i++)
+	for (var i = 1; i < nodes.length; i++)
 	{
 		var q = {};
 		q.source = 0;
