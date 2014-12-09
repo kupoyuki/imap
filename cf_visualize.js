@@ -92,8 +92,9 @@ start();
 
 function revurse(){
 	d3.select("svg")
-		.transition()
-		.duration(3000)
+	.transition()
+	.duration(500)
+	.style("opacity",0)
 	.remove();
 
 	first();
@@ -344,14 +345,14 @@ function click(d){
 
           nodes.append("text")
                 .attr("class","word")//人のデータだけ,それ以外はword
-     			//.attr("dx", function(d){ return d.x >= w/2 ? 15 : - (Math.sqrt(d.name.length)*5)-(d.name.length)})
+     			.attr("dx", 18)
 				.attr("dy", ".35em")
-				.text(function(d) { return d.name });  
+				.text(c_text);  
 
 	            //点の追加
 	       nodes.append("circle")
 	            .attr("class",select_class)
-	            .attr("r",c_size)
+	            .attr("r",10)
 	            .transition()
 	         	.duration(2000)
 	            .style("stroke","black")
@@ -389,7 +390,6 @@ function click(d){
 }
 
 
-
 //最初のデータを取得
 function select_class(d){
 	if(d.index == 0){
@@ -404,9 +404,13 @@ function select_class(d){
 }
 
 
+function c_text(d,i){
+  return (i == 0 ? d.name : d.word);
+}
+
 //円の大きさ
-function c_size(d){
-    return (i % (question_num + 1 )) == 0 ? 10 : d.timeout == true ? 0 : (Math.sqrt(30000 - d.time*10)/15);
+function c_size(d,i){
+    //return (i % (question_num + 1 )) == 0 ? 10 : d.timeout == true ? 0 : (Math.sqrt(30000 - d.time*10)/15);
 }
 
 //force用にデータを書き換える
