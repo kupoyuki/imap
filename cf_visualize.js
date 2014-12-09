@@ -23,6 +23,9 @@ var w = $(window).width(), //横
 
 var padding = 50;
 
+var x_zure = 0.66;
+var y_zure = 0.94;
+
 var xScale;
 var yScale;
 
@@ -97,10 +100,11 @@ function first(){
 }
 
 var status = 0;
+var humans;
 first();
 start();
 
-function revurse(){
+function rebirth(){
 	d3.select("svg")
 	.transition()
 	.duration(500)
@@ -114,9 +118,8 @@ function revurse(){
 
 function start(){
 
-	status = 1;
 
-	var humans = svg.selectAll(".human")
+		humans = svg.selectAll(".human")
 					.data(dataset)
 					.enter()
 					.append("g")
@@ -125,35 +128,39 @@ function start(){
 	          humans.append("image")
 	                .attr("class",sex_class)
 	          		.attr("xlink:href", icon)
-					.attr("x", function(d) { return (xScale(d.x) -30)*0.97})
-					.attr("y", function(d) { return (yScale(d.y) -11)*0.95})
-					.attr("width", 60)
-					.attr("height", 100);
+					.attr("x", function(d) { return (xScale(d.x) -30)*x_zure})
+					.attr("y", function(d) { return (yScale(d.y) -11)*y_zure})
+					.attr("width", 40)
+					.attr("height", 80);
 
 
 			  humans.append("circle")
 			  		.attr("class","circle")
-			  		.attr("r",9)
-			  		.attr("cx",function(d) { return xScale(d.x)*0.97 })
-			  		.attr("cy",function(d) { return yScale(d.y)*0.95 })	
+			  		.attr("r",7)
+			  		.attr("cx",function(d) { return xScale(d.x)*x_zure })
+			  		.attr("cy",function(d) { return yScale(d.y)*y_zure })	
 			  		//最後の点だけ赤
 	                .attr("id",latest_data)
-			  		.on("click",click);
+			  		.on("click",select );
 	                //.style("fill", sex_color)
 	                //.on("mouseover",mouseover)
 	                //.on("mouseout",mouseout);
 
-
 	          humans.append("text")
 	          		.attr("class","name")
 	                .attr("id",latest_data)
-					.attr("dx", function(d) { return (xScale(d.x) + 15)*0.97})
-					.attr("dy", function(d) { return (yScale(d.y) + 5)*0.95})
+					.attr("dx", function(d) { return (xScale(d.x) + 15)*x_zure})
+					.attr("dy", function(d) { return (yScale(d.y) + 5)*y_zure})
 					.text(function(d) { return d.name });     
 
 		for(var i=0; i < dataset.length; i++){
 		console.log(dataset[i].index);
 
+    $('#answer_result').click(function(){
+
+
+
+    });
 
 	}
 }
@@ -196,6 +203,54 @@ function mouseover(d){
 
 }
 
+
+/* ----------------------------------------- *
+ * human クリック時 選択： .choice             *
+ * ------------------------------------------*/
+
+
+
+function select(d){
+
+  d3.select(this)
+    .select("text")
+    .remove();
+
+
+	//datasetを順番にまわす
+	humans.each(function(data, index){
+
+    if(index == d.index){
+
+      if( d3.select(this).select(".choice").size() > 0 ){
+
+            d3.select(this)
+              .select(".choice")
+              .remove();
+
+            console.log(this);
+
+      }else{
+
+      d3.select(this)
+      .append("circle")
+      .attr("class", "choice")
+      .attr("r",9)
+      .attr("cx", function(d){ return xScale(d.x)* x_zure })
+      .attr("cy", function(d){ return yScale(d.y)* y_zure })
+
+	   console.log(this);
+      
+      }
+    }
+  });
+
+
+
+
+}
+
+
 function mouseout(d){
 
 	d3.select("#tip".classed("hidden",true));
@@ -206,15 +261,14 @@ function dbclick(d){
 
 }
 
+
+
 /* ----------------------------------------- *
  * human クリック時                            *
  * ------------------------------------------*/
 
-function click2(d){
-	console.log(d);
-}
-
-function click(d){
+/*
+function zoom(d){
 
 	status = 2;
 
@@ -309,14 +363,13 @@ function click(d){
 	         svg.selectAll("circle")
 	            .on("click", function(e)
 	            {
-	            	/* ここに処理を書く */
 	            	revurse();
 	            });
 
 	         svg.selectAll("text")
 	            .on("click", function(e)
 	            {
-	            	revurse();
+	            	rebirth();
 	            });
 
 
@@ -335,13 +388,13 @@ function click(d){
 	});
 
 
-}
+}*/
 
 
 //最初のデータを取得
 function select_class(d){
 	if(d.index == 0){
-		return "first";
+		return "first_data";
 	}else if(d.answer == 1){
 		return "w_circle yes";
 	}else if(d.answer == -1){
