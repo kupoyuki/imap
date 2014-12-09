@@ -170,7 +170,7 @@ body{
 		display: none;
 	}
 
-
+	/*最初の人*/
 	.first_data{
 		fill: red;
 		cursor: pointer;

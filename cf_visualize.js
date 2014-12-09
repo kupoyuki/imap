@@ -30,62 +30,85 @@ var w = $(window).width(), //横
 
 var padding = 50;
 
+var xScale;
+var yScale;
+
+var svg;
+var dataset;
+
+var humannum;
+
+
+function first(){
+
 	d3.select("body")
 	  .append("div")
 	  .attr("id","result")
 	  .style("width",w)
 	  .style("height",h);
 
-var svg = d3.select("#result")
+	svg = d3.select("#result")
 			.append("svg")
 		    .attr("width", w)
 		    .attr("height", h);
 
 
-//ダミーデータ
-var dataset = 
-[{"name":"A","sex":"woman","x":9.291,"y":0.828},
-{"name":"B","sex":"man","x":2.646,"y":9.642},
-{"name":"C","sex":"woman","x":0.265,"y":2.085},
-{"name":"D","sex":"woman","x":9.735,"y":6.575},
-{"name":"E","sex":"man","x":4.213,"y":4.293},
-{"name":"F","sex":"man","x":8.799,"y":0.793},
-{"name":"G","sex":"woman","x":7.941,"y":6.323},
-{"name":"H","sex":"man","x":7.291,"y":5.748},
-{"name":"I","sex":"woman","x":2.629,"y":1.828},
-{"name":"J","sex":"woman","x":1.239,"y":0.926}];
+
+	//ダミーデータ
+	dataset = 
+	[{"name":"A","sex":"woman","x":9.291,"y":0.828},
+	{"name":"B","sex":"man","x":2.646,"y":9.642},
+	{"name":"C","sex":"woman","x":0.265,"y":2.085},
+	{"name":"D","sex":"woman","x":9.735,"y":6.575},
+	{"name":"E","sex":"man","x":4.213,"y":4.293},
+	{"name":"F","sex":"man","x":8.799,"y":0.793},
+	{"name":"G","sex":"woman","x":7.941,"y":6.323},
+	{"name":"H","sex":"man","x":7.291,"y":5.748},
+	{"name":"I","sex":"woman","x":2.629,"y":1.828},
+	{"name":"J","sex":"woman","x":1.239,"y":0.926}];
 
 
 
-//indexの追加
-for(var i = 0 ; i < dataset.length ; ++ i){
-	dataset[i].index = i;
+	//indexの追加
+	for(var i = 0 ; i < dataset.length ; ++ i){
+		dataset[i].index = i;
+	}
+
+	//人数
+	human_num = dataset.length;
+	console.log (human_num);
+
+	//ちょうどいい感じの大きさで描画するようにする
+	xScale = d3.scale.linear()
+				   .domain([0,d3.max(dataset, function(d){ return d.x; })])
+				   .range([padding,w-padding]);
+	yScale = d3.scale.linear()
+				   .domain([0,d3.max(dataset, function(d){ return d.y; })])
+				   .range([h-padding,padding]);
+
+	/*
+	//ツールチップ
+	var tooltip = d3.select("body")
+					.append("div")
+					.attr("class","tip")
+	*/
+
 }
-
-//人数
-var human_num = dataset.length;
-console.log (human_num);
-
-//ちょうどいい感じの大きさで描画するようにする
-var xScale = d3.scale.linear()
-			   .domain([0,d3.max(dataset, function(d){ return d.x; })])
-			   .range([padding,w-padding]);
-var yScale = d3.scale.linear()
-			   .domain([0,d3.max(dataset, function(d){ return d.y; })])
-			   .range([h-padding,padding]);
-
-/*
-//ツールチップ
-var tooltip = d3.select("body")
-				.append("div")
-				.attr("class","tip")
-*/
 
 var status = 0;
 first();
+start();
 
+function revurse(){
+	d3.select("svg")
+	.remove();
 
-function first(){
+	first();
+	start();
+
+}
+
+function start(){
 
 	status = 1;
 
@@ -124,7 +147,7 @@ function first(){
 					.attr("dy", function(d) { return (yScale(d.y) + 5)*0.95})
 					.text(function(d) { return d.name });     
 
-	for(var i=0; i < dataset.length; i++){
+		for(var i=0; i < dataset.length; i++){
 		console.log(dataset[i].index);
 
 
@@ -228,35 +251,35 @@ function click(d){
 				   edges:[{source:0,target:1}]};
 	*/
 
-	/*
-	var dataset = {
+	
+	var user_data = {
 	            nodes: [
 	                  { name: "you" },
-	                  { name: "uchida seira" , sex: "f"},
-	                  { name: "oishi yoshitaka" , sex: "m"},
-	                  { name: "obata yoichi" , sex: "m"},
-	                  { name: "sakai ryo" , sex:"m"},
-	                  { name: "nuermaimaiti adilijiang" , sex: "m"},
-	                  { name: "yamada so" , sex: "m"},
-	                  { name: "asaba shoji" , sex: "m"},
-	                  { name: "ishikawa takuya" , sex: "m"},
-	                  { name: "ishizuka chiaki" , sex: "f"},
-	                  { name: "campana jose maria" , sex: "m"},
-	                  { name: "nadezda kozulina" , sex: "f"},
-	                  { name: "koyama tomoe" , sex: "f"},
-	                  { name: "takahata satoshi" , sex: "m"},
-	                  { name: "tomita hiroki" , sex: "m"},
-	                  { name: "nakamura shinya" , sex: "m"},
-	                  { name: "nabetani mika" , sex: "f"},
-	                  { name: "han joung min" , sex: "m"},
-	                  { name: "furugori yuki" , sex: "f"},
-	                  { name: "maruyama toru" , sex: "m"},
-	                  { name: "mizuno yuta" , sex: "m"},
-	                  { name: "miyake yuriko" , sex: "f"},
-	                  { name: "miyasaka kotaro" , sex: "m"},
-	                  { name: "miyatake takayuki" , sex: "m"},
-	                  { name: "murakami hiroshi" , sex: "m"},
-	                  { name: "yamaguchi aina" , sex: "f"}
+	                  { name: "uchida seira" , sex: "f",answer:1},
+	                  { name: "oishi yoshitaka" , sex: "m",answer:1},
+	                  { name: "obata yoichi" , sex: "m",answer:1},
+	                  { name: "sakai ryo" , sex:"m",answer:1},
+	                  { name: "nuermaimaiti adilijiang" , sex: "m",answer:1},
+	                  { name: "yamada so" , sex: "m",answer:0},
+	                  { name: "asaba shoji" , sex: "m",answer:0},
+	                  { name: "ishikawa takuya" , sex: "m",answer:0},
+	                  { name: "ishizuka chiaki" , sex: "f",answer:0},
+	                  { name: "campana jose maria" , sex: "m",answer:0},
+	                  { name: "nadezda kozulina" , sex: "f",answer:0},
+	                  { name: "koyama tomoe" , sex: "f",answer:0},
+	                  { name: "takahata satoshi" , sex: "m",answer:0},
+	                  { name: "tomita hiroki" , sex: "m",answer:0},
+	                  { name: "nakamura shinya" , sex: "m",answer:0},
+	                  { name: "nabetani mika" , sex: "f",answer:0},
+	                  { name: "han joung min" , sex: "m",answer:0},
+	                  { name: "furugori yuki" , sex: "f",answer:0},
+	                  { name: "maruyama toru" , sex: "m",answer:0},
+	                  { name: "mizuno yuta" , sex: "m",answer:0},
+	                  { name: "miyake yuriko" , sex: "f",answer:0},
+	                  { name: "miyasaka kotaro" , sex: "m",answer:0},
+	                  { name: "miyatake takayuki" , sex: "m",answer:0},
+	                  { name: "murakami hiroshi" , sex: "m",answer:1},
+	                  { name: "yamaguchi aina" , sex: "f",answer:0}
 	            ],
 	            edges: [
 	                  { source: 0, target: 1},
@@ -286,9 +309,9 @@ function click(d){
 	                  { source: 0, target: 25}	  	                                   
 	            ]
 	          };
-	*/
+	
 
-	var user_data = data_change();
+	//var user_data = data_change();
 
 	var force = d3.layout.force()
 	              .nodes(user_data.nodes)
@@ -312,31 +335,29 @@ function click(d){
 	             .attr("class","node")
 	             .call(force.drag);
 
-	            //点の追加
-	       nodes.append("circle")
-	            .attr("class","w_circle")
-	            .attr("r",9)
-	            .transition()
-	         	.duration(2000)
-                .attr("class",first_data)//人のデータだけ
-	            .style("stroke","black")
-	            .style("stroke-width",0.5);
-
-	       nodes.selectAll(".w_circle")
-	       		.append("class",answer_result);
-
-	            svg.selectAll("circle")
-	            .on("click", function(e)
-	            {
-	            	/* ここに処理を書く */
-	            	first();
-	            });
-
           nodes.append("text")
                 .attr("class","word")//人のデータだけ,それ以外はword
      			//.attr("dx", function(d){ return d.x >= w/2 ? 15 : - (Math.sqrt(d.name.length)*5)-(d.name.length)})
 				.attr("dy", ".35em")
 				.text(function(d) { return d.name });  
+
+	            //点の追加
+	       nodes.append("circle")
+	            .attr("class",select_class)
+	            .attr("r",9)
+	            .transition()
+	         	.duration(2000)
+	            .style("stroke","black")
+	            .style("stroke-width",0.5);
+
+	         svg.selectAll("circle")
+	            .on("click", function(e)
+	            {
+	            	/* ここに処理を書く */
+	            	revurse();
+	            });
+
+
 
 	force.on("tick", function() {
 	edges.attr("x1", function(d) { return d.source.x; })
@@ -355,15 +376,13 @@ function click(d){
 
 }
 
+
+
 //最初のデータを取得
-function first_data(d){
+function select_class(d){
 	if(d.index == 0){
 		return "first";
-	}else{return "w_circle"}
-}
-
-function answer_result(d){
-	if(d.answer == 1){
+	}else if(d.answer == 1){
 		return "w_circle yes";
 	}else if(d.answer == -1){
 		return "w_circle no";
@@ -372,6 +391,9 @@ function answer_result(d){
 	}
 }
 
+
+
+/*
 //force用にデータを書き換える
 function data_change(){
 
@@ -415,4 +437,4 @@ function data_change(){
 	return user_data;
 
 }
-
+*/
