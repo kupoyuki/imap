@@ -17,6 +17,7 @@ function loadJsonFromPHP(phpname)
 	return json;
 }
 
+<<<<<<< Updated upstream
 // ユーザデータ読み込み
 var data = loadJsonFromPHP('get_data.php');
 //var encoded_data = encodeData(data);
@@ -26,6 +27,8 @@ var user_dist = loadJsonFromPHP('cf/calc_cf.php?username='+username);
 
 console.log(user_dist);
 
+=======
+>>>>>>> Stashed changes
 
       //画面サイズ
 var w = $(window).width(), //横
@@ -70,7 +73,7 @@ function first(){
 	{"name":"G","sex":"woman","x":7.941,"y":6.323},
 	{"name":"H","sex":"man","x":7.291,"y":5.748},
 	{"name":"I","sex":"woman","x":2.629,"y":1.828},
-	{"name":"J","sex":"woman","x":1.239,"y":0.926}];
+	{"name":"john","sex":"woman","x":1.239,"y":0.926}];
 
 */
 
@@ -225,7 +228,33 @@ function click(d){
 
 	console.log(d);
 
+<<<<<<< Updated upstream
 	console.log(encoded_data);
+=======
+	// ユーザデータ読み込み
+	var data = loadJsonFromPHP('get_data.php');
+
+	var user_data = undefined;
+	$.each(data, function()
+	{
+		if (this.name === d.name)
+		{
+			user_data = this;
+		}
+	});
+
+	var encoded_data = encodeData(user_data);
+
+	console.log(encoded_data);
+
+
+	var username = "hoge";
+	var user_dist = loadJsonFromPHP('cf/calc_cf.php?username='+username);
+
+	console.log(user_dist);
+
+
+>>>>>>> Stashed changes
 
   	svg.selectAll("circle")
 		.attr("r",10)
@@ -256,6 +285,7 @@ function click(d){
   	}
 
 
+<<<<<<< Updated upstream
 	var user_data = {
 	            nodes: [
 	                  { name: "you" },
@@ -315,6 +345,67 @@ function click(d){
 	          };
 	
 	
+=======
+	
+	// var user_data = {
+	//             nodes: [
+	//                   { name: "you" },
+	//                   { name: "uchida seira" , sex: "f",answer:1},
+	//                   { name: "oishi yoshitaka" , sex: "m",answer:1},
+	//                   { name: "obata yoichi" , sex: "m",answer:1},
+	//                   { name: "sakai ryo" , sex:"m",answer:1},
+	//                   { name: "nuermaimaiti adilijiang" , sex: "m",answer:1},
+	//                   { name: "yamada so" , sex: "m",answer:0},
+	//                   { name: "asaba shoji" , sex: "m",answer:0},
+	//                   { name: "ishikawa takuya" , sex: "m",answer:0},
+	//                   { name: "ishizuka chiaki" , sex: "f",answer:0},
+	//                   { name: "campana jose maria" , sex: "m",answer:0},
+	//                   { name: "nadezda kozulina" , sex: "f",answer:0},
+	//                   { name: "koyama tomoe" , sex: "f",answer:0},
+	//                   { name: "takahata satoshi" , sex: "m",answer:0},
+	//                   { name: "tomita hiroki" , sex: "m",answer:0},
+	//                   { name: "nakamura shinya" , sex: "m",answer:0},
+	//                   { name: "nabetani mika" , sex: "f",answer:0},
+	//                   { name: "han joung min" , sex: "m",answer:0},
+	//                   { name: "furugori yuki" , sex: "f",answer:0},
+	//                   { name: "maruyama toru" , sex: "m",answer:0},
+	//                   { name: "mizuno yuta" , sex: "m",answer:0},
+	//                   { name: "miyake yuriko" , sex: "f",answer:0},
+	//                   { name: "miyasaka kotaro" , sex: "m",answer:0},
+	//                   { name: "miyatake takayuki" , sex: "m",answer:0},
+	//                   { name: "murakami hiroshi" , sex: "m",answer:1},
+	//                   { name: "yamaguchi aina" , sex: "f",answer:0}
+	//             ],
+	//             edges: [
+	//                   { source: 0, target: 1},
+	//                   { source: 0, target: 2},
+	//                   { source: 0, target: 3},
+	//                   { source: 0, target: 4},
+	//                   { source: 0, target: 5},
+	//                   { source: 0, target: 6},
+	//                   { source: 0, target: 7},
+	//                   { source: 0, target: 8},
+	//                   { source: 0, target: 9},
+	//                   { source: 0, target: 10},
+	//                   { source: 0, target: 11},
+	//                   { source: 0, target: 12},
+	//                   { source: 0, target: 13},
+	//                   { source: 0, target: 14},
+	//                   { source: 0, target: 15},
+	//                   { source: 0, target: 16},
+	//                   { source: 0, target: 17},
+	//                   { source: 0, target: 18},
+	//                   { source: 0, target: 19},
+	//                   { source: 0, target: 20},
+	//                   { source: 0, target: 21},
+	//                   { source: 0, target: 22},	 
+	//                   { source: 0, target: 23},
+	//                   { source: 0, target: 24},
+	//                   { source: 0, target: 25}	  	                                   
+	//             ]
+	//           };
+
+>>>>>>> Stashed changes
 	var force = d3.layout.force()
 	              .nodes(user_data.nodes)
 	              .links(user_data.edges)
@@ -426,12 +517,25 @@ function create_edge(human) {
 function encodeData(data)
 {
 	var nodes = [];
+<<<<<<< Updated upstream
 	var edges = [];
+=======
+>>>>>>> Stashed changes
 
-	var idx = 0;
+	var n = {};
+	n.name = data.name;
+	n.sex = data.sex;
+	n.age = data.age;
+	n.iamas = data.iamas;
+	n.type = data.type;
+	n.time = data.time;
+	n.url = data.url;
 
-	$.each(data, function()
+	nodes.push(n);
+
+	$.each(data["question"], function()
 	{
+<<<<<<< Updated upstream
 		var u = {};
 		u.name = this.name;
 		u.sex = this.sex;
@@ -451,10 +555,24 @@ function encodeData(data)
 
 			nodes.push(q);
 		}
-
-		idx++;
+=======
+		n = {};
+		n.time = this["time"];
+		n.word = this["word"];
+		n.answer = this["answer"];
+		nodes.push(n);
 	});
 
+	var edges = [];
+>>>>>>> Stashed changes
+
+	for (var i = 1; i < nodes.length+1; i++)
+	{
+		e = {};
+		e.source = 0;
+		e.target = i;
+
+<<<<<<< Updated upstream
 	for (var i = 1; i < nodes.length+1; i++)
 	{
 		var q = {};
@@ -469,3 +587,10 @@ function encodeData(data)
 
 	return {node: nodes, edge: edges};
 }*/
+=======
+		edges.push(e);
+	}
+
+	return {nodes: nodes, edges: edges};
+}
+>>>>>>> Stashed changes
