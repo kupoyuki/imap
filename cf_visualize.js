@@ -19,10 +19,7 @@ function loadJsonFromPHP(phpname)
 
 // ユーザデータ読み込み
 var data = loadJsonFromPHP('get_data.php');
-var encoded_data = encodeData(data);
-
-console.log(encoded_data);
-
+//var encoded_data = encodeData(data);
 
 var username = "hoge";
 var user_dist = loadJsonFromPHP('cf/calc_cf.php?username='+username);
@@ -45,6 +42,8 @@ var dataset;
 var humannum;
 
 
+dateset = data;
+
 function first(){
 
 	d3.select("body")
@@ -59,7 +58,7 @@ function first(){
 		    .attr("height", h);
 
 
-
+/*
 	//ダミーデータ
 	dataset = 
 	[{"name":"A","sex":"woman","x":9.291,"y":0.828},
@@ -73,7 +72,7 @@ function first(){
 	{"name":"I","sex":"woman","x":2.629,"y":1.828},
 	{"name":"J","sex":"woman","x":1.239,"y":0.926}];
 
-
+*/
 
 	//indexの追加
 	for(var i = 0 ; i < dataset.length ; ++ i){
@@ -107,6 +106,8 @@ start();
 
 function revurse(){
 	d3.select("svg")
+		.transition()
+		.duration(3000)
 	.remove();
 
 	first();
@@ -222,6 +223,7 @@ function click(d){
 
 	console.log(d);
 
+	console.log(encoded_data);
 
   	svg.selectAll("circle")
 		.attr("r",10)
@@ -251,18 +253,17 @@ function click(d){
   		dataset.shift();
   	}
 
-
-	/*
+/*
 	var user_data = {
 	            nodes: [
-	                  { name: "you" },
-	                  { name: "uchida seira" , sex: "f",answer:1},
+	                  { name: "you" , sex: .. },
+	                  { word: "uaa" , ans: "f",time:1},
 	                  { name: "oishi yoshitaka" , sex: "m",answer:1},
 	                  { name: "obata yoichi" , sex: "m",answer:1},
 	                  { name: "sakai ryo" , sex:"m",answer:1},
-	                  { name: "nuermaimaiti adilijiang" , sex: "m",answer:1},
-	                  { name: "yamada so" , sex: "m",answer:0},
-	                  { name: "asaba shoji" , sex: "m",answer:0},
+	                  { name: "nuermaimaiti adilijiang" , sex: "m",answer:-1},
+	                  { name: "yamada so" , sex: "m",answer:-1},
+	                  { name: "asaba shoji" , sex: "m",answer:-1},
 	                  { name: "ishikawa takuya" , sex: "m",answer:0},
 	                  { name: "ishizuka chiaki" , sex: "f",answer:0},
 	                  { name: "campana jose maria" , sex: "m",answer:0},
@@ -310,11 +311,8 @@ function click(d){
 	                  { source: 0, target: 25}	  	                                   
 	            ]
 	          };
-
 	*/
-
-	user_data = encoded_data;
-
+	
 	var force = d3.layout.force()
 	              .nodes(user_data.nodes)
 	              .links(user_data.edges)
@@ -401,11 +399,12 @@ function select_class(d){
 
 
 
+
 //force用にデータを書き換える
 function encodeData(data)
 {
 	var nodes = [];
-	var questions = [];
+	var edges = [];
 
 	var idx = 0;
 
@@ -422,20 +421,29 @@ function encodeData(data)
 
 		nodes.push(u);
 
-		for (var i = 0; i < this["question"].length; i++)
+		for (var i = 0; i < data["question"].length; i++)
 		{
 			var q = {};
 			q.source = idx;
 			q.target = this["question"][i]["word"];
 
-			questions.push(q);
+			nodes.push(q);
 		}
 
 		idx++;
 	});
 
+	for (var i = 1; i < nodes.length+1; i++)
+	{
+		var q = {};
+		q.source = 0;
+		q.target = i;
+
+		edges.push(q);
+	}
+
 	// console.log(nodes);
 	// console.log(question);
 
-	return {node: nodes, edges: questions};
+	return {node: nodes, edge: edges};
 }
