@@ -24,9 +24,10 @@ var encoded_data = encodeData(data);
 console.log(encoded_data);
 
 
-
 var username = "hoge";
-var user_dist = loadJsonFromPHP('cf/calc_cf.php?'+username);
+var user_dist = loadJsonFromPHP('cf/calc_cf.php?username='+username);
+
+console.log(user_dist);
 
 
       //画面サイズ
