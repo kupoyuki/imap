@@ -251,7 +251,7 @@ function click(d){
   	}
 
 
-	
+	/*
 	var user_data = {
 	            nodes: [
 	                  { name: "you" },
@@ -309,6 +309,10 @@ function click(d){
 	                  { source: 0, target: 25}	  	                                   
 	            ]
 	          };
+
+	*/
+
+	user_data = encoded_data;
 
 	var force = d3.layout.force()
 	              .nodes(user_data.nodes)
@@ -393,7 +397,6 @@ function select_class(d){
 		return "w_circle none";
 	}
 }
-
 
 
 
