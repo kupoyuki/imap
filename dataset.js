@@ -44,7 +44,7 @@ $(function()
   $('select.age') .change(function(e){ age   = $(this).val(); });
   $('input.type') .change(function(e)
   { 
-    var genre = [];
+    var array = [];
 
     for(var i = 0; i < 10; i++)
     {
@@ -53,8 +53,8 @@ $(function()
         console.log( $("#" + i).find('input').val() );
         genre.push( $("#" + i).find('input').val() );
       }
-      type = genre;
     }
+    type = array;
   });
   //$('select.type').change(function(e){ type  = $(this).val(); });
   $('input.url')  .change(function(e){ url   = $(this).val(); });
