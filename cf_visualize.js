@@ -18,10 +18,11 @@ function loadJsonFromPHP(phpname)
 }
 
 // ユーザデータ読み込み
-//var user_data = loadJsonFromPHP('get_data.php');
+var data = loadJsonFromPHP('get_data.php');
+encodeData(data);
 
-// var username = "hoge";
-// var user_dist = loadJsonFromPHP('cf/calc_cf.php'+username);
+var username = "hoge";
+var user_dist = loadJsonFromPHP('cf/calc_cf.php?'+username);
 
 
       //画面サイズ
@@ -245,11 +246,6 @@ function click(d){
   		dataset.shift();
   	}
 
-  	/*
-	var dataset = {nodes:[{"name":"A","sex":"woman","x":9.291,"y":0.828},
-						  {"name":"B","sex":"woman","x":9.291,"y":0.828}],
-				   edges:[{source:0,target:1}]};
-	*/
 
 	
 	var user_data = {
@@ -309,9 +305,6 @@ function click(d){
 	                  { source: 0, target: 25}	  	                                   
 	            ]
 	          };
-	
-
-	//var user_data = data_change();
 
 	var force = d3.layout.force()
 	              .nodes(user_data.nodes)
@@ -393,48 +386,41 @@ function select_class(d){
 
 
 
-/*
+
 //force用にデータを書き換える
-function data_change(){
-
-	var user_data = {nodes:[],edges:[]};
-
-	//questionだけとりだして、nodeにする
-	var all_data = loadJsonFromPHP('get_data.php');
-
-	//いったんおいとくね
+function encodeData(data)
+{
 	var human = [];
 	var question = [];
 
-	for(var j = 0 ; j < all_data.length ; ++ j){
-	  human.push( all_data[j] );
+	
 
-	  for(var i = 0 ; i < all_data[j].question.length ; ++ i){
-	     question.push( all_data[j].question[i] );
-	  	 human.push(question[i]);
+	// for(var j = 0 ; j < all_data.length ; ++ j)
+	// {
+	//   human.push( all_data[j] );
 
-	  }
+	//   for(var i = 0 ; i < all_data[j].question.length ; ++ i){
+	//      question.push( all_data[j].question[i] );
+	//   	 human.push(question[i]);
 
-	}
+	//   }
 
-	user_data.nodes = human;
+	// }
 
-	console.log(human);
+	// user_data.nodes = human;
+
+	// console.log(human);
 
 
-	//edgesデータ
-	var edge;
-	for(var i = 1; i<user_data.nodes.length-1; i++){
-		edge.push(
-			['source'] = 0,['target'] = i
-		)
-	}
-	console.log(edge);
-	user_data.edges = edge;
+	// //edgesデータ
+	// var edge;
+	// for(var i = 1; i<user_data.nodes.length-1; i++){
+	// 	edge.push(
+	// 		['source'] = 0,['target'] = i
+	// 	)
+	// }
+	// console.log(edge);
+	// user_data.edges = edge;
 
-	console.log(user_data);
-
-	return user_data;
-
+	// console.log(user_data);
 }
-*/
