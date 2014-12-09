@@ -46,19 +46,30 @@ function first(){
 		    .attr("height", h);
 
 
-	//ダミーデータ
-	dataset = 
-	[{"name":"A","sex":"woman","x":9.291,"y":0.828},
-	{"name":"B","sex":"man","x":2.646,"y":9.642},
-	{"name":"C","sex":"woman","x":0.265,"y":2.085},
-	{"name":"D","sex":"woman","x":9.735,"y":6.575},
-	{"name":"E","sex":"man","x":4.213,"y":4.293},
-	{"name":"F","sex":"man","x":8.799,"y":0.793},
-	{"name":"G","sex":"woman","x":7.941,"y":6.323},
-	{"name":"H","sex":"man","x":7.291,"y":5.748},
-	{"name":"I","sex":"woman","x":2.629,"y":1.828},
-	{"name":"john","sex":"woman","x":1.239,"y":0.926}];
+	// var username = "hoge";
+	// var user_dist = loadJsonFromPHP('cf/calc_cf.php?username='+username);
 
+	// console.log(user_dist);
+
+	var data = loadJsonFromPHP('get_data.php');
+
+	dataset = [];
+
+	$.each(data, function()
+	{
+		user = {};
+		user.name = this.name;
+		user.sex = this.sex;
+		user.age = this.age;
+		user.iamas = this.iamas;
+		user.type = this.type;
+		user.time = this.time;
+		user.url = this.url;
+		user.x = Math.random();		// とりあえず乱数で表示する
+		user.y = Math.random();		// とりあえず乱数で表示する
+
+		dataset.push(user);
+	});
 
 	//indexの追加
 	for(var i = 0 ; i < dataset.length ; ++ i){
@@ -226,11 +237,6 @@ function click(d){
 
 	console.log(encoded_data);
 
-	var username = "hoge";
-	var user_dist = loadJsonFromPHP('cf/calc_cf.php?username='+username);
-
-	console.log(user_dist);
-
 
   	svg.selectAll("circle")
 		.attr("r",10)
@@ -262,63 +268,6 @@ function click(d){
 	
   	user_data = encoded_data;
 
-	// var user_data = {
-	//             nodes: [
-	//                   { name: "you" },
-	//                   { name: "uchida seira" , sex: "f",answer:1},
-	//                   { name: "oishi yoshitaka" , sex: "m",answer:1},
-	//                   { name: "obata yoichi" , sex: "m",answer:1},
-	//                   { name: "sakai ryo" , sex:"m",answer:1},
-	//                   { name: "nuermaimaiti adilijiang" , sex: "m",answer:1},
-	//                   { name: "yamada so" , sex: "m",answer:0},
-	//                   { name: "asaba shoji" , sex: "m",answer:0},
-	//                   { name: "ishikawa takuya" , sex: "m",answer:0},
-	//                   { name: "ishizuka chiaki" , sex: "f",answer:0},
-	//                   { name: "campana jose maria" , sex: "m",answer:0},
-	//                   { name: "nadezda kozulina" , sex: "f",answer:0},
-	//                   { name: "koyama tomoe" , sex: "f",answer:0},
-	//                   { name: "takahata satoshi" , sex: "m",answer:0},
-	//                   { name: "tomita hiroki" , sex: "m",answer:0},
-	//                   { name: "nakamura shinya" , sex: "m",answer:0},
-	//                   { name: "nabetani mika" , sex: "f",answer:0},
-	//                   { name: "han joung min" , sex: "m",answer:0},
-	//                   { name: "furugori yuki" , sex: "f",answer:0},
-	//                   { name: "maruyama toru" , sex: "m",answer:0},
-	//                   { name: "mizuno yuta" , sex: "m",answer:0},
-	//                   { name: "miyake yuriko" , sex: "f",answer:0},
-	//                   { name: "miyasaka kotaro" , sex: "m",answer:0},
-	//                   { name: "miyatake takayuki" , sex: "m",answer:0},
-	//                   { name: "murakami hiroshi" , sex: "m",answer:1},
-	//                   { name: "yamaguchi aina" , sex: "f",answer:0}
-	//             ],
-	//             edges: [
-	//                   { source: 0, target: 1},
-	//                   { source: 0, target: 2},
-	//                   { source: 0, target: 3},
-	//                   { source: 0, target: 4},
-	//                   { source: 0, target: 5},
-	//                   { source: 0, target: 6},
-	//                   { source: 0, target: 7},
-	//                   { source: 0, target: 8},
-	//                   { source: 0, target: 9},
-	//                   { source: 0, target: 10},
-	//                   { source: 0, target: 11},
-	//                   { source: 0, target: 12},
-	//                   { source: 0, target: 13},
-	//                   { source: 0, target: 14},
-	//                   { source: 0, target: 15},
-	//                   { source: 0, target: 16},
-	//                   { source: 0, target: 17},
-	//                   { source: 0, target: 18},
-	//                   { source: 0, target: 19},
-	//                   { source: 0, target: 20},
-	//                   { source: 0, target: 21},
-	//                   { source: 0, target: 22},	 
-	//                   { source: 0, target: 23},
-	//                   { source: 0, target: 24},
-	//                   { source: 0, target: 25}	  	                                   
-	//             ]
-	//           };
 
 	var force = d3.layout.force()
 	              .nodes(user_data.nodes)
