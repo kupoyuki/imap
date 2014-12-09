@@ -19,7 +19,11 @@ function loadJsonFromPHP(phpname)
 
 // ユーザデータ読み込み
 var data = loadJsonFromPHP('get_data.php');
-encodeData(data);
+var encoded_data = encodeData(data);
+
+console.log(encoded_data);
+
+
 
 var username = "hoge";
 var user_dist = loadJsonFromPHP('cf/calc_cf.php?'+username);
@@ -396,37 +400,38 @@ function select_class(d){
 //force用にデータを書き換える
 function encodeData(data)
 {
-	var human = [];
-	var question = [];
+	var nodes = [];
+	var questions = [];
 
-	
+	var idx = 0;
 
-	// for(var j = 0 ; j < all_data.length ; ++ j)
-	// {
-	//   human.push( all_data[j] );
+	$.each(data, function()
+	{
+		var u = {};
+		u.name = this.name;
+		u.sex = this.sex;
+		u.age = this.age;
+		u.iamas = this.iamas;
+		u.type = this.type;
+		u.time = this.time;
+		u.url = this.url;
 
-	//   for(var i = 0 ; i < all_data[j].question.length ; ++ i){
-	//      question.push( all_data[j].question[i] );
-	//   	 human.push(question[i]);
+		nodes.push(u);
 
-	//   }
+		for (var i = 0; i < this["question"].length; i++)
+		{
+			var q = {};
+			q.source = idx;
+			q.target = this["question"][i]["word"];
 
-	// }
+			questions.push(q);
+		}
 
-	// user_data.nodes = human;
+		idx++;
+	});
 
-	// console.log(human);
+	// console.log(nodes);
+	// console.log(question);
 
-
-	// //edgesデータ
-	// var edge;
-	// for(var i = 1; i<user_data.nodes.length-1; i++){
-	// 	edge.push(
-	// 		['source'] = 0,['target'] = i
-	// 	)
-	// }
-	// console.log(edge);
-	// user_data.edges = edge;
-
-	// console.log(user_data);
+	return {node: nodes, edges: questions};
 }
