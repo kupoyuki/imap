@@ -17,19 +17,6 @@ function loadJsonFromPHP(phpname)
 	return json;
 }
 
-<<<<<<< Updated upstream
-// ユーザデータ読み込み
-var data = loadJsonFromPHP('get_data.php');
-//var encoded_data = encodeData(data);
-
-var username = "hoge";
-var user_dist = loadJsonFromPHP('cf/calc_cf.php?username='+username);
-
-console.log(user_dist);
-
-=======
->>>>>>> Stashed changes
-
       //画面サイズ
 var w = $(window).width(), //横
     h = $(window).height(); //縦
@@ -45,8 +32,6 @@ var dataset;
 var humannum;
 
 
-dateset = data;
-
 function first(){
 
 	d3.select("body")
@@ -61,7 +46,6 @@ function first(){
 		    .attr("height", h);
 
 
-/*
 	//ダミーデータ
 	dataset = 
 	[{"name":"A","sex":"woman","x":9.291,"y":0.828},
@@ -75,9 +59,6 @@ function first(){
 	{"name":"I","sex":"woman","x":2.629,"y":1.828},
 	{"name":"john","sex":"woman","x":1.239,"y":0.926}];
 
-*/
-
-	dataset = data;
 
 	//indexの追加
 	for(var i = 0 ; i < dataset.length ; ++ i){
@@ -228,9 +209,6 @@ function click(d){
 
 	console.log(d);
 
-<<<<<<< Updated upstream
-	console.log(encoded_data);
-=======
 	// ユーザデータ読み込み
 	var data = loadJsonFromPHP('get_data.php');
 
@@ -247,14 +225,11 @@ function click(d){
 
 	console.log(encoded_data);
 
-
 	var username = "hoge";
 	var user_dist = loadJsonFromPHP('cf/calc_cf.php?username='+username);
 
 	console.log(user_dist);
 
-
->>>>>>> Stashed changes
 
   	svg.selectAll("circle")
 		.attr("r",10)
@@ -283,69 +258,6 @@ function click(d){
   	for(var i = 0; i<data_length; i++){
   		dataset.shift();
   	}
-
-
-<<<<<<< Updated upstream
-	var user_data = {
-	            nodes: [
-	                  { name: "you" },
-	                  { word: "uaa" , ans: "f",time:1},
-	                  { name: "oishi yoshitaka" , sex: "m",answer:1},
-	                  { name: "obata yoichi" , sex: "m",answer:1},
-	                  { name: "sakai ryo" , sex:"m",answer:1},
-	                  { name: "nuermaimaiti adilijiang" , sex: "m",answer:-1},
-	                  { name: "yamada so" , sex: "m",answer:-1},
-	                  { name: "asaba shoji" , sex: "m",answer:-1},
-	                  { name: "ishikawa takuya" , sex: "m",answer:0},
-	                  { name: "ishizuka chiaki" , sex: "f",answer:0},
-	                  { name: "campana jose maria" , sex: "m",answer:0},
-	                  { name: "nadezda kozulina" , sex: "f",answer:0},
-	                  { name: "koyama tomoe" , sex: "f",answer:0},
-	                  { name: "takahata satoshi" , sex: "m",answer:0},
-	                  { name: "tomita hiroki" , sex: "m",answer:0},
-	                  { name: "nakamura shinya" , sex: "m",answer:0},
-	                  { name: "nabetani mika" , sex: "f",answer:0},
-	                  { name: "han joung min" , sex: "m",answer:0},
-	                  { name: "furugori yuki" , sex: "f",answer:0},
-	                  { name: "maruyama toru" , sex: "m",answer:0},
-	                  { name: "mizuno yuta" , sex: "m",answer:0},
-	                  { name: "miyake yuriko" , sex: "f",answer:0},
-	                  { name: "miyasaka kotaro" , sex: "m",answer:0},
-	                  { name: "miyatake takayuki" , sex: "m",answer:0},
-	                  { name: "murakami hiroshi" , sex: "m",answer:1},
-	                  { name: "yamaguchi aina" , sex: "f",answer:0}
-	            ],
-	            edges: [
-	                  { source: 0, target: 1},
-	                  { source: 0, target: 2},
-	                  { source: 0, target: 3},
-	                  { source: 0, target: 4},
-	                  { source: 0, target: 5},
-	                  { source: 0, target: 6},
-	                  { source: 0, target: 7},
-	                  { source: 0, target: 8},
-	                  { source: 0, target: 9},
-	                  { source: 0, target: 10},
-	                  { source: 0, target: 11},
-	                  { source: 0, target: 12},
-	                  { source: 0, target: 13},
-	                  { source: 0, target: 14},
-	                  { source: 0, target: 15},
-	                  { source: 0, target: 16},
-	                  { source: 0, target: 17},
-	                  { source: 0, target: 18},
-	                  { source: 0, target: 19},
-	                  { source: 0, target: 20},
-	                  { source: 0, target: 21},
-	                  { source: 0, target: 22},	 
-	                  { source: 0, target: 23},
-	                  { source: 0, target: 24},
-	                  { source: 0, target: 25}	  	                                   
-	            ]
-	          };
-	
-	
-=======
 	
 	// var user_data = {
 	//             nodes: [
@@ -405,7 +317,7 @@ function click(d){
 	//             ]
 	//           };
 
->>>>>>> Stashed changes
+
 	var force = d3.layout.force()
 	              .nodes(user_data.nodes)
 	              .links(user_data.edges)
@@ -496,31 +408,10 @@ function c_size(d){
     return (i % (question_num + 1 )) == 0 ? 10 : d.timeout == true ? 0 : (Math.sqrt(30000 - d.time*10)/15);
 }
 
-/*
-
-//エッジを作るためのファンクション
-function create_edge(human) {
-
-
-        console.log("creating edges for: "+ human.name);
-        var edges = [];
-        var i = 1;
-        for(i; i<human.question.length; i++){
-            var edge = { "source" : 0, "target" : i};
-            edges.push(edge);
-        };
-        return edges;
-}
-
-
 //force用にデータを書き換える
 function encodeData(data)
 {
 	var nodes = [];
-<<<<<<< Updated upstream
-	var edges = [];
-=======
->>>>>>> Stashed changes
 
 	var n = {};
 	n.name = data.name;
@@ -535,27 +426,6 @@ function encodeData(data)
 
 	$.each(data["question"], function()
 	{
-<<<<<<< Updated upstream
-		var u = {};
-		u.name = this.name;
-		u.sex = this.sex;
-		u.age = this.age;
-		u.iamas = this.iamas;
-		u.type = this.type;
-		u.time = this.time;
-		u.url = this.url;
-
-		nodes.push(u);
-
-		for (var i = 0; i < data["question"].length; i++)
-		{
-			var q = {};
-			q.source = idx;
-			q.target = this["question"][i]["word"];
-
-			nodes.push(q);
-		}
-=======
 		n = {};
 		n.time = this["time"];
 		n.word = this["word"];
@@ -564,15 +434,7 @@ function encodeData(data)
 	});
 
 	var edges = [];
->>>>>>> Stashed changes
 
-	for (var i = 1; i < nodes.length+1; i++)
-	{
-		e = {};
-		e.source = 0;
-		e.target = i;
-
-<<<<<<< Updated upstream
 	for (var i = 1; i < nodes.length+1; i++)
 	{
 		var q = {};
@@ -582,15 +444,5 @@ function encodeData(data)
 		edges.push(q);
 	}
 
-	// console.log(nodes);
-	// console.log(question);
-
-	return {node: nodes, edge: edges};
-}*/
-=======
-		edges.push(e);
-	}
-
 	return {nodes: nodes, edges: edges};
 }
->>>>>>> Stashed changes
