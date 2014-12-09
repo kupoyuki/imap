@@ -74,6 +74,8 @@ function first(){
 
 */
 
+	dataset = data;
+
 	//indexの追加
 	for(var i = 0 ; i < dataset.length ; ++ i){
 		dataset[i].index = i;
@@ -253,10 +255,10 @@ function click(d){
   		dataset.shift();
   	}
 
-/*
+
 	var user_data = {
 	            nodes: [
-	                  { name: "you" , sex: .. },
+	                  { name: "you" },
 	                  { word: "uaa" , ans: "f",time:1},
 	                  { name: "oishi yoshitaka" , sex: "m",answer:1},
 	                  { name: "obata yoichi" , sex: "m",answer:1},
@@ -311,7 +313,7 @@ function click(d){
 	                  { source: 0, target: 25}	  	                                   
 	            ]
 	          };
-	*/
+	
 	
 	var force = d3.layout.force()
 	              .nodes(user_data.nodes)
@@ -345,7 +347,7 @@ function click(d){
 	            //点の追加
 	       nodes.append("circle")
 	            .attr("class",select_class)
-	            .attr("r",9)
+	            .attr("r",c_size)
 	            .transition()
 	         	.duration(2000)
 	            .style("stroke","black")
@@ -398,6 +400,26 @@ function select_class(d){
 }
 
 
+//円の大きさ
+function c_size(d){
+    return (i % (question_num + 1 )) == 0 ? 10 : d.timeout == true ? 0 : (Math.sqrt(30000 - d.time*10)/15);
+}
+
+/*
+
+//エッジを作るためのファンクション
+function create_edge(human) {
+
+
+        console.log("creating edges for: "+ human.name);
+        var edges = [];
+        var i = 1;
+        for(i; i<human.question.length; i++){
+            var edge = { "source" : 0, "target" : i};
+            edges.push(edge);
+        };
+        return edges;
+}
 
 
 //force用にデータを書き換える
@@ -446,4 +468,4 @@ function encodeData(data)
 	// console.log(question);
 
 	return {node: nodes, edge: edges};
-}
+}*/
