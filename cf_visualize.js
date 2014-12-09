@@ -319,6 +319,7 @@ function click(d){
 		          .enter()
 		          .append("line")
 		          .style("stroke","#000")
+		          .style("opacity",0.5)
 		          .style("stroke-width",1);
 
 	var nodes = svg.selectAll(".node")
@@ -350,6 +351,11 @@ function click(d){
 	            	revurse();
 	            });
 
+	         svg.selectAll("text")
+	            .on("click", function(e)
+	            {
+	            	revurse();
+	            });
 
 
 	force.on("tick", function() {
