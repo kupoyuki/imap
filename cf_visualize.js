@@ -288,36 +288,44 @@ function mouseout(d){
 
 
 /* ----------------------------------------- *
- * human クリック時                            *
+ * 回答結果を見るボタン                         *
  * ------------------------------------------*/
+
+var nodes = [];
+var edges = [];
 
 
 function answer_result(d){
-
-	console.log(selectors);
-	console.log(selectors.length);
 	
 	// ユーザデータ読み込み
 	var all_data = loadJsonFromPHP('get_data.php');
 	var encoded_data;
 	var user_data = [];
 
+	console.log("selectors:");
+	console.log(selectors);
+
   	//var data_length = d.size;
+  	var count = 0;
 
 	$.each(selectors, function(){
 
 		$.each(all_data, function(){
 
 			if (this.id==selectors.id){
-				encoded_data = encodeData(this);
+				encoded_data = encodeData(this,count);
 				user_data.push(encoded_data);
+				count += Object.keys(encoded_data).length;
 			}
 
 		});
 
 	});
 
+	console.log("encoded_data:");
+	console.log(encoded_data);
 
+	console.log("user_data:");
 	console.log(user_data);
 
   	svg.selectAll("circle")
@@ -346,19 +354,20 @@ function answer_result(d){
   	// for(var i = 0; i<selectors.length; i++){
   	// 	.shift();
   	// }
-	
-  	user_data = encoded_data;
 
+  	//console.log(encoded_data);
+
+  	//user_data = encoded_data;
 
 	var force = d3.layout.force()
 	              .nodes(user_data.nodes)
 	              .links(user_data.edges)
 	              .size([w,h])
-	              .linkDistance([100])
-	              .charge([-100])
+	              .linkDistance([250])
+	              .charge([-300])
 	              .start();
 
-	var edges = svg.selectAll("line")
+		edges = svg.selectAll("line")
 		          .data(user_data.edges)
 		          .enter()
 		          .append("line")
@@ -366,7 +375,7 @@ function answer_result(d){
 		          .style("opacity",0.5)
 		          .style("stroke-width",1);
 
-	var nodes = svg.selectAll(".node")
+		nodes = svg.selectAll(".node")
 	             .data(user_data.nodes)
 	             .enter()
 	             .append("g")
@@ -380,7 +389,7 @@ function answer_result(d){
 				.text(c_text);  
 
 	            //点の追加
-	       nodes.append("circle")
+	      nodes.append("circle")
 	            .attr("class",select_class)
 	            .attr("r",10)
 	            .transition()
@@ -443,36 +452,92 @@ function c_size(d,i){
     return (i % (d.timeout == true ? 0 : (Math.sqrt(30000 - d.time*10)/15)));
 }
 
+/*
 //force用にデータを書き換える
 function encodeData(data){
-	var nodes = [];
+	$.each(data,function(){
 
-	var n = {};
-	n.name = data.name;
-	n.sex = data.sex;
-	n.age = data.age;
-	n.iamas = data.iamas;
-	n.type = data.type;
-	n.time = data.time;
-	n.url = data.url;
+		var n = {};
+		n.name = data.name;
+		n.sex = data.sex;
+		n.age = data.age;
+		n.iamas = data.iamas;
+		n.type = data.type;
+		n.time = data.time;
+		n.url = data.url;
 
-	nodes.push(n);
+		nodes.push(n);
+
+	});
+
 
 	$.each(data["question"], function()
 	{
-		n = {};
+		var n = {};
 		n.time = this["time"];
 		n.word = this["word"];
 		n.answer = this["answer"];
+
 		nodes.push(n);
 	});
 
+	var question_size = 0;
+	for (var i in data["question"]) {
+	  question_size++;
+	}
+
+	//selectors_size;
+
+	for(var j = 0; j < selectors_size; j++ ){
+		for (var i = 1; i < question_size; i++)
+		{
+			var q = {};
+			q.source = j;
+			q.target = nodes.index;
+
+			edges.push(q);
+		}
+	}
+
+	return {nodes: nodes, edges: edges};
+}
+
+*/
+
+function encodeData(data,count){
+
+	var nodes = [];	
+	$.each(data,function(){
+
+		var n = {};
+		n.name = data.name;
+		n.sex = data.sex;
+		n.age = data.age;
+		n.iamas = data.iamas;
+		n.type = data.type;
+		n.time = data.time;
+		n.url = data.url;
+
+		nodes.push(n);
+
+		$.each(data["question"], function()
+		{
+			n = {};
+			n.time = this["time"];
+			n.word = this["word"];
+			n.answer = this["answer"];
+			nodes.push(n);
+		});
+
+	});
+
+	console.log(nodes);
 	var edges = [];
 
 	for (var i = 1; i < nodes.length; i++)
 	{
 		var q = {};
-		q.source = 0;
+		q.source = count;
 		q.target = i;
 
 		edges.push(q);
@@ -480,6 +545,7 @@ function encodeData(data){
 
 	return {nodes: nodes, edges: edges};
 }
+
 
 //最初の画面に戻る
 function rebirth(){
