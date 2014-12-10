@@ -17,7 +17,7 @@ function loadJsonFromPHP(phpname)
 	return json;
 }
 
-      //画面サイズ
+//画面サイズ
 var w = $(window).width(), //横
     h = $(window).height(); //縦
 
@@ -48,12 +48,6 @@ function first(){
 		    .attr("width", w)
 		    .attr("height", h);
 
-
-	// var username = "hoge";
-	// var user_dist = loadJsonFromPHP('cf/calc_cf.php?username='+username);
-
-	// console.log(user_dist);
-
 	var data = loadJsonFromPHP('get_data.php');
 
 	dataset = [];
@@ -80,7 +74,7 @@ function first(){
 
 	//人数
 	human_num = dataset.length;
-	console.log (human_num);
+	console.log ("人数は: " + human_num + " 人");
 
 	//ちょうどいい感じの大きさで描画するようにする
 	xScale = d3.scale.linear()
@@ -93,75 +87,72 @@ function first(){
 }
 
 var status = 0;
+//データセット
 var humans;
+//選択されたデータを格納するところ
+var selectors = [];
+var selectors_size;
+
+//開始
 first();
 start();
-
-function rebirth(){
-
-	d3.select("svg")
-	.transition()
-	.duration(500)
-	.style("opacity",0)
-	.remove();
-
-	first();
-	start();
-
-}
 
 function start(){
 
 
-		humans = svg.selectAll(".human")
-					.data(dataset)
-					.enter()
-					.append("g")
-					.attr("class","human");
+	humans = svg.selectAll(".human")
+				.data(dataset)
+				.enter()
+				.append("g")
+				.attr("class","human");
 
-	          humans.append("image")
-	                .attr("class",sex_class)
-	          		.attr("xlink:href", icon)
-					.attr("x", function(d) { return (xScale(d.x) -20.5)*x_zure})
-					.attr("y", function(d) { return (yScale(d.y) -12)*y_zure})
-					.attr("width", 40)
-					.attr("height", 80)
-					.on("click",select)
-					.on("mouseover",mouseover)
-	                .on("mouseout",mouseout);
-
-
-			  humans.append("circle")
-			  		.attr("class","circle")
-			  		.attr("r",7)
-			  		.attr("cx",function(d) { return xScale(d.x)*x_zure })
-			  		.attr("cy",function(d) { return yScale(d.y)*y_zure })	
-			  		//最後の点だけ赤
-	                .attr("id",latest_data)
-			  		.on("click",select)
-	                //.style("fill", sex_color)
-	                .on("mouseover",mouseover)
-	                .on("mouseout",mouseout);
-
-	          humans.append("text")
-	          		.attr("class","name")
-	                .attr("id",latest_data)
-					.attr("dx", function(d) { return (xScale(d.x) + 15)*x_zure})
-					.attr("dy", function(d) { return (yScale(d.y) + 5)*y_zure})
-					.text(function(d) { return d.name });     
-
-		for(var i=0; i < dataset.length; i++){
-		//console.log(dataset[i].index);
-
-		    $('#answer_result').click(function(){
+          humans.append("image")
+                .attr("class",sex_class)
+          		.attr("xlink:href", icon)
+				.attr("x", function(d) { return (xScale(d.x) -20.5)*x_zure})
+				.attr("y", function(d) { return (yScale(d.y) -12)*y_zure})
+				.attr("width", 40)
+				.attr("height", 80)
+				.on("click",select)
+				.on("mouseover",mouseover)
+                .on("mouseout",mouseout);
 
 
+		  humans.append("circle")
+		  		.attr("class","circle")
+		  		.attr("r",7)
+		  		.attr("cx",function(d) { return xScale(d.x)*x_zure })
+		  		.attr("cy",function(d) { return yScale(d.y)*y_zure })	
+		  		//最後の点だけ赤
+                .attr("id",latest_data)
+		  		.on("click",select)
+                //.style("fill", sex_color)
+                .on("mouseover",mouseover)
+                .on("mouseout",mouseout);
 
-		    });
+          humans.append("text")
+          		.attr("class","name")
+                .attr("id",latest_data)
+				.attr("dx", function(d) { return (xScale(d.x) + 15)*x_zure})
+				.attr("dy", function(d) { return (yScale(d.y) + 5)*y_zure})
+				.text(function(d) { return d.name });     
+				
+				console.log(selectors);
 
-		}
+				d3.select("#answer_result")
+				  .on("click",answer_result);
+
+				
+
+
+		/*
+		//実行ボタンをクリック
+		$('#answer_result').click(function(d){
+
+
+		});*/
+
 }
-
 
 
 //最新の人：データの色を変える
@@ -171,10 +162,12 @@ function latest_data(d){
 	}
 }
 
+//性別
 function sex_class(d){
 	return d.sex == "woman" ? "image woman" : "image man";
 }
 
+//画像データ
 function icon(d){
 	if(d.sex == "woman"){
 		return "./img/f.svg";
@@ -184,56 +177,73 @@ function icon(d){
 }
 
 /* ----------------------------------------- *
- * human クリック時 選択： .choice             *
+ * human クリック時 選択: .choice             *
  * ------------------------------------------*/
-
-
 
 function select(d){
 
-  d3.select(this)
-    .select("text")
-    .remove();
+	//クリックされたデータの、"index"のデータを得る
+	console.log(d);
 
+	var now_d_index = d.index;
+	//console.log(now_d_index);
 
 	//datasetを順番にまわす
 	humans.each(function(data, index){
 
     if(index == d.index){
-
+      //消す
       if( d3.select(this).select(".choice").size() > 0 ){
 
             d3.select(this)
               .select(".choice")
               .remove();
 
-            console.log(this);
+            //console.log(this);
+            //console.log(data);
+
+			$.each(data, function()
+			{
+				if (selectors.index === this.index)
+				{
+					selectors.splice(1)
+				}
+			});
 
       }else{
+      	　//入れる
+	      d3.select(this)
+		      .append("circle")
+		      .attr("class", "choice")
+		      .attr("r",9)
+		      .attr("cx", function(d){ return xScale(d.x)* x_zure })
+		      .attr("cy", function(d){ return yScale(d.y)* y_zure })
 
-      d3.select(this)
-      .append("circle")
-      .attr("class", "choice")
-      .attr("r",9)
-      .attr("cx", function(d){ return xScale(d.x)* x_zure })
-      .attr("cy", function(d){ return yScale(d.y)* y_zure })
-
-	   console.log(this);
+	   	   //console.log(this);
+	   	   selectors.push(d);
       
       }
+
+	console.log(selectors);
+	console.log(Object.keys(selectors).length);
+
+	selectors_size = Object.keys(selectors).length;
+
     }
   });
 }
 
 
+
 /* ----------------------------------------- *
- * ツールチップの設定                         *
+ * human マウスオーバー時: ツールチップの設定     *
  * ------------------------------------------*/
 
 
 function mouseover(d){
 
 	console.log(d.time);
+	console.log(d.name);
 
 	var x = d3.select(this).attr("x");
 	var y = d3.select(this).attr("y");
@@ -243,16 +253,27 @@ function mouseover(d){
 		y = d3.select(this).attr("cy");
 	}
 
-	var timestamp = d.time; 
+	//タイムスタンプの調整：年、月、日、時、分
+	var ts = d.time;
+	var name = d.name;
+
+	var d = new Date( ts );
+	var year  = d.getFullYear();
+	var month = d.getMonth() + 1;
+	var day  = d.getDate();
+	var hour = ( d.getHours()   < 10 ) ? '0' + d.getHours()   : d.getHours();
+	var min  = ( d.getMinutes() < 10 ) ? '0' + d.getMinutes() : d.getMinutes();
+
 
 	d3.select("#tip")
 		.style("left", x + "px")
 		.style("top",  y + "px")
-		.select("#name")
-		.text(d.name);
+		.select("#tip_name")
+		.text(name);
+
 	d3.select("#value")
 		.text(function(d){
-			return Date( timestamp * 1000 );
+			return year + '-' + month + '-' + day + '\n' + hour + ':' + min;
 		});
 
 	d3.select("#tip").classed("hidden",false);
@@ -269,29 +290,32 @@ function mouseout(d){
  * human クリック時                            *
  * ------------------------------------------*/
 
-/*
-function zoom(d){
 
-	status = 2;
+function answer_result(d){
 
-	console.log(d);
+	var answer= svg.selectAll(".answer")
+						.data(selectors)
+						.enter()
+						.append("g")
+						.attr("class","answer");
 
+	console.log(answer);
+	/*
 	// ユーザデータ読み込み
-	var data = loadJsonFromPHP('get_data.php');
+	var all_data = loadJsonFromPHP('get_data.php');
+	var encoded_data;
+	var user_data = [];
 
-	var user_data = undefined;
-	$.each(data, function()
+  	//var data_length = d.size;
+
+	$.each(d, function()
 	{
-		if (this.name === d.name)
-		{
-			user_data = this;
-		}
+		encoded_data = encodeData(d);
+		user_data.push(encoded_data);
 	});
 
-	var encoded_data = encodeData(user_data);
 
-	console.log(encoded_data);
-
+	console.log(user_data);
 
   	svg.selectAll("circle")
 		.attr("r",10)
@@ -315,7 +339,6 @@ function zoom(d){
   		.style("opacity",0)
   		.remove();
 
-  	data_length = d.length;
   		
   	for(var i = 0; i<data_length; i++){
   		dataset.shift();
@@ -389,8 +412,10 @@ function zoom(d){
 
 	});
 
+*/
 
-}*/
+
+}
 
 
 //最初のデータを取得
@@ -413,7 +438,7 @@ function c_text(d,i){
 
 //円の大きさ
 function c_size(d,i){
-    //return (i % (question_num + 1 )) == 0 ? 10 : d.timeout == true ? 0 : (Math.sqrt(30000 - d.time*10)/15);
+    return (i % (d.timeout == true ? 0 : (Math.sqrt(30000 - d.time*10)/15)));
 }
 
 //force用にデータを書き換える
@@ -453,3 +478,18 @@ function encodeData(data){
 
 	return {nodes: nodes, edges: edges};
 }
+
+//最初の画面に戻る
+function rebirth(){
+
+	d3.select("svg")
+	.transition()
+	.duration(500)
+	.style("opacity",0)
+	.remove();
+
+	first();
+	start();
+
+}
+
