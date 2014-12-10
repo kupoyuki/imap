@@ -65,11 +65,12 @@ function first(){
 		user.y = Math.random();		// とりあえず乱数で表示する
 
 		dataset.push(user);
+
 	});
 
 	//indexの追加
 	for(var i = 0 ; i < dataset.length ; ++ i){
-		dataset[i].index = i;
+		dataset[i].id = i;
 	}
 
 	//人数
@@ -182,16 +183,16 @@ function icon(d){
 
 function select(d){
 
-	//クリックされたデータの、"index"のデータを得る
+	//クリックされたデータの、"id"のデータを得る
 	console.log(d);
 
-	var now_d_index = d.index;
+	var now_d_index = d.id;
 	//console.log(now_d_index);
 
 	//datasetを順番にまわす
 	humans.each(function(data, index){
 
-    if(index == d.index){
+    if(index == d.id){
       //消す
       if( d3.select(this).select(".choice").size() > 0 ){
 
@@ -199,14 +200,16 @@ function select(d){
               .select(".choice")
               .remove();
 
-            //console.log(this);
-            //console.log(data);
+            console.log(this);
+            console.log(data);
 
-			$.each(data, function()
+			$.each(data, function(i)
 			{
-				if (selectors.index === this.index)
+				alert("aaa");
+				console.log(i);
+				if (selectors.id === this.id)
 				{
-					selectors.splice(1)
+					selectors.splice(i++,1)
 				}
 			});
 
@@ -242,8 +245,8 @@ function select(d){
 
 function mouseover(d){
 
-	console.log(d.time);
-	console.log(d.name);
+	//console.log(d.time);
+	//console.log(d.name);
 
 	var x = d3.select(this).attr("x");
 	var y = d3.select(this).attr("y");
@@ -293,14 +296,9 @@ function mouseout(d){
 
 function answer_result(d){
 
-	var answer= svg.selectAll(".answer")
-						.data(selectors)
-						.enter()
-						.append("g")
-						.attr("class","answer");
-
-	console.log(answer);
-	/*
+	console.log(selectors);
+	console.log(selectors.length);
+	
 	// ユーザデータ読み込み
 	var all_data = loadJsonFromPHP('get_data.php');
 	var encoded_data;
@@ -308,10 +306,17 @@ function answer_result(d){
 
   	//var data_length = d.size;
 
-	$.each(d, function()
-	{
-		encoded_data = encodeData(d);
-		user_data.push(encoded_data);
+	$.each(selectors, function(){
+
+		$.each(all_data, function(){
+
+			if (this.id==selectors.id){
+				encoded_data = encodeData(this);
+				user_data.push(encoded_data);
+			}
+
+		});
+
 	});
 
 
@@ -340,9 +345,9 @@ function answer_result(d){
   		.remove();
 
   		
-  	for(var i = 0; i<data_length; i++){
-  		dataset.shift();
-  	}
+  	// for(var i = 0; i<selectors.length; i++){
+  	// 	.shift();
+  	// }
 	
   	user_data = encoded_data;
 
@@ -388,7 +393,7 @@ function answer_result(d){
 	         svg.selectAll("circle")
 	            .on("click", function(e)
 	            {
-	            	revurse();
+	            	rebirth();
 	            });
 
 	         svg.selectAll("text")
@@ -412,7 +417,6 @@ function answer_result(d){
 
 	});
 
-*/
 
 
 }
