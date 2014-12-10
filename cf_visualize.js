@@ -44,9 +44,9 @@ function first(){
 	  .style("height",h);
 
 	svg = d3.select("#result")
-			.append("svg")
-		    .attr("width", w)
-		    .attr("height", h);
+          .append("svg")
+          .attr("width", w)
+          .attr("height", h);
 
 	var data = loadJsonFromPHP('get_data.php');
 
@@ -192,7 +192,7 @@ function select(d){
 	//datasetを順番にまわす
 	humans.each(function(data, index){
 
-    if(index == d.id){
+    if(data.id == d.id){
       //消す
       if( d3.select(this).select(".choice").size() > 0 ){
 
@@ -200,21 +200,19 @@ function select(d){
               .select(".choice")
               .remove();
 
-            console.log(this);
-            console.log(data);
+//            console.log(this);
+//            console.log(data);
 
-			$.each(data, function(i)
+			$.each(selectors, function(i, val)
 			{
-				alert("aaa");
-				console.log(i);
-				if (selectors.id === this.id)
+				if (data.id === this.id)
 				{
-					selectors.splice(i++,1)
+					selectors.splice(i,1);
 				}
 			});
 
       }else{
-      	　//入れる
+      	//入れる
 	      d3.select(this)
 		      .append("circle")
 		      .attr("class", "choice")
