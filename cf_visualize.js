@@ -23,8 +23,8 @@ var w = $(window).width(), //横
 
 var padding = 50;
 
-var x_zure = 0.66;
-var y_zure = 0.94;
+var x_zure = 0.95;
+var y_zure = 0.95;
 
 var xScale;
 var yScale;
@@ -90,13 +90,6 @@ function first(){
 				   .domain([0,d3.max(dataset, function(d){ return d.y; })])
 				   .range([h-padding,padding]);
 
-	/*
-	//ツールチップ
-	var tooltip = d3.select("body")
-					.append("div")
-					.attr("class","tip")
-	*/
-
 }
 
 var status = 0;
@@ -105,6 +98,7 @@ first();
 start();
 
 function rebirth(){
+
 	d3.select("svg")
 	.transition()
 	.duration(500)
@@ -123,15 +117,18 @@ function start(){
 					.data(dataset)
 					.enter()
 					.append("g")
-					.attr("class","human")
+					.attr("class","human");
 
 	          humans.append("image")
 	                .attr("class",sex_class)
 	          		.attr("xlink:href", icon)
-					.attr("x", function(d) { return (xScale(d.x) -30)*x_zure})
-					.attr("y", function(d) { return (yScale(d.y) -11)*y_zure})
+					.attr("x", function(d) { return (xScale(d.x) -20.5)*x_zure})
+					.attr("y", function(d) { return (yScale(d.y) -12)*y_zure})
 					.attr("width", 40)
-					.attr("height", 80);
+					.attr("height", 80)
+					.on("click",select)
+					.on("mouseover",mouseover)
+	                .on("mouseout",mouseout);
 
 
 			  humans.append("circle")
@@ -141,10 +138,10 @@ function start(){
 			  		.attr("cy",function(d) { return yScale(d.y)*y_zure })	
 			  		//最後の点だけ赤
 	                .attr("id",latest_data)
-			  		.on("click",select );
+			  		.on("click",select)
 	                //.style("fill", sex_color)
-	                //.on("mouseover",mouseover)
-	                //.on("mouseout",mouseout);
+	                .on("mouseover",mouseover)
+	                .on("mouseout",mouseout);
 
 	          humans.append("text")
 	          		.attr("class","name")
@@ -154,15 +151,15 @@ function start(){
 					.text(function(d) { return d.name });     
 
 		for(var i=0; i < dataset.length; i++){
-		console.log(dataset[i].index);
+		//console.log(dataset[i].index);
 
-    $('#answer_result').click(function(){
+		    $('#answer_result').click(function(){
 
 
 
-    });
+		    });
 
-	}
+		}
 }
 
 
@@ -185,24 +182,6 @@ function icon(d){
 		return "./img/m.svg";
 	}
 }
-
-
-function mouseover(d){
-	var x = d3.select(this).attr("cx");
-	var y = d3.select(this).attr("cy");
-
-	d3.select("#tip");
-
-	tooltip
-	.style("left", x + "px")
-	.style("top",  y + "px")
-	.select("#name")
-	.text(d);
-
-	d3.select("#tip").classed("hidden","false");
-
-}
-
 
 /* ----------------------------------------- *
  * human クリック時 選択： .choice             *
@@ -244,21 +223,44 @@ function select(d){
       }
     }
   });
-
-
-
-
 }
 
+
+/* ----------------------------------------- *
+ * ツールチップの設定                         *
+ * ------------------------------------------*/
+
+
+function mouseover(d){
+
+	console.log(d.time);
+
+	var x = d3.select(this).attr("x");
+	var y = d3.select(this).attr("y");
+
+	if( d3.select(this).select("cx").size() > 0){
+		x = d3.select(this).attr("cx");
+		y = d3.select(this).attr("cy");
+	}
+
+	var timestamp = d.time; 
+
+	d3.select("#tip")
+		.style("left", x + "px")
+		.style("top",  y + "px")
+		.select("#name")
+		.text(d.name);
+	d3.select("#value")
+		.text(function(d){
+			return Date( timestamp * 1000 );
+		});
+
+	d3.select("#tip").classed("hidden",false);
+
+}
 
 function mouseout(d){
-
-	d3.select("#tip".classed("hidden",true));
-}
-
-//ダブルクリック
-function dbclick(d){
-
+	d3.select("#tip").classed("hidden",true);
 }
 
 
@@ -415,8 +417,7 @@ function c_size(d,i){
 }
 
 //force用にデータを書き換える
-function encodeData(data)
-{
+function encodeData(data){
 	var nodes = [];
 
 	var n = {};

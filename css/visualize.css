@@ -114,7 +114,7 @@ body{
 		margin-bottom: 30px;
 		margin-right: 9%;
 		border-radius : 5px; 
-		z-index: 9999;
+		z-index: 8888;
 		opacity: 0.4;
 	}
 
@@ -141,19 +141,18 @@ body{
 #tip{
 
 	position: absolute;
+	width: 120px;
+	height: auto;
 	top: 0px;
 	left: 0px;
+	padding: 10px;
+	margin-left: 40px;
 	z-index: 9999;
 	border: 1px solid black;
 	background-color: yellow;
-	width: 80px;
-	height: 16px;
-	text-align: center;
-	font-size: 9px;
-	font-family: Tahoma, Optima, Helvetica;
+	font-size: 15px;
 	color: black;
-	overflow: hidden;
-	display: none;
+	pointer-events: none;
 
 }
 
@@ -164,6 +163,7 @@ body{
 
 .image{
 	opacity: 0.3;
+	cursor: pointer;
 }
 
 .name{
