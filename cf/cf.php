@@ -26,7 +26,7 @@ class CF
 		}
 	}
 
-	public function getMatchUsers()
+	public function getMatchUsers($is_sort = true)
 	{
 		$files = $this->getFileList($this->_data_dir);
 		$res = array();
@@ -38,22 +38,25 @@ class CF
 			{
 				$container = array();
 				$container['user_data'] = $data;
-				$container['sim'] = $this->calcSimDistance($this->_user_data, $data);
+				$container['sim'] = CF::calcSimDistance($this->_user_data, $data);
 				$res[] = $container;
 			}
 		}
 
-		// 類似度でソートする
-		foreach ($res as $key => $val)
+		if ($is_sort)
 		{
-			$key_id[$key] = $val['sim'];
+			// 類似度でソートする
+			foreach ($res as $key => $val)
+			{
+				$key_id[$key] = $val['sim'];
+			}
+			array_multisort($key_id, SORT_DESC, $res);
 		}
-		array_multisort($key_id, SORT_DESC, $res);
 
 		return $res;
 	}
 
-	private function calcSimDistance($src, $dest)
+	public static function calcSimDistance($src, $dest)
 	{
 		// 共通の単語を抽出する
 		$words = array_intersect($src->getWords(), $dest->getWords());

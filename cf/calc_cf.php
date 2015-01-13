@@ -5,7 +5,7 @@ require_once "cf.php";
 $username = $_GET['username'];
 
 $cf = new CF($username);
-$match_users = $cf->getMatchUsers();
+$match_users = $cf->getMatchUsers(true);
 
 $res = array();
 
