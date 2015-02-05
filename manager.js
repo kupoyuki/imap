@@ -110,7 +110,7 @@ QuestionManager.prototype.startQuestion = function()
 		
 
 		// 共通問題の間はタイムアウトさせない
-		if (SELF._common_question_num < SELF._cur_question_count)
+		if (!SELF.isCommonQuestion())
 		{
 			SELF._timer = delayCall(SELF.countDown, SELF, 1000);
 		}
@@ -141,7 +141,7 @@ QuestionManager.prototype.startQuestion = function()
 		SELF.changeQuestion(SELF.nextWord());
 
 		// 共通問題の間はタイムアウトさせない
-		if (SELF._common_question_num < SELF._cur_question_count)
+		if (!SELF.isCommonQuestion())
 		{
 			SELF._timer = delayCall(SELF.countDown, SELF, 1000);
 		}
@@ -172,7 +172,7 @@ QuestionManager.prototype.startQuestion = function()
 		}
 
 		// 共通問題中はパスさせない
-		if (SELF._common_question_num < SELF._cur_question_count)
+		if (!SELF.isCommonQuestion())
 		{
 			if(e.keyCode == 40 )
 			{
@@ -181,6 +181,16 @@ QuestionManager.prototype.startQuestion = function()
 			}
 		}
   });
+}
+
+QuestionManager.prototype.isCommonQuestion = function()
+{
+	if (this._common_question_num < this._cur_question_count)
+	{
+		return false;
+	}
+
+	return true;
 }
 
 QuestionManager.prototype.countDown = function()
@@ -253,8 +263,8 @@ QuestionManager.prototype.changeQuestion = function(q_word)
 	$('#answer').hide();
 	$('#pagenum').hide();
 
-	// 共通問題はパスさせないぞ！
-	if (this._common_question_num >= this._cur_question_count)
+	// 共通問題はパスさせない！
+	if (this.isCommonQuestion())
 	{
 		$('#pass').hide();
 		$('#countdown').hide();
@@ -296,7 +306,7 @@ QuestionManager.prototype.passQuestion = function()
     // パスは何も記録しないで次の質問へ
 	this.changeQuestion(this.nextWord());
 
-	if (this._common_question_num < this._cur_question_count)
+	if (!this.isCommonQuestion())
 	{
 		this._timer = delayCall(this.countDown, this, 1000);
 	}
