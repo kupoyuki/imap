@@ -69,7 +69,7 @@ function QuestionManager(data, q_data)
 	this._cur_word = '';
 	this._timer = null;												// タイムアウトタイマ
 	this._start_time = 0;
-	this._question_count = 0;
+	this._question_count = 0;										// タイムアウトカウントダウン（秒）
 }
 
 QuestionManager.prototype.startQuestion = function()
@@ -89,65 +89,14 @@ QuestionManager.prototype.startQuestion = function()
 	// 興味あるをクリックした時の処理
 	$('#yes').click(function(e)
 	{
-		clearTimeout(SELF._timer);
-		var time = $.now() - SELF._start_time;
-
-		SELF._data.question.push({
-		    time    : time
-		  , word    : SELF._cur_word
-		  , answer  : 1
-		});
-
-		SELF._cur_question_count++;
-
-		if (SELF._cur_question_count > SELF._all_question_num)
-		{
-			SELF.finishQuestion();
-			return;
-		}
-
-		SELF.changeQuestion(SELF.nextWord());
-		
-
-		// 共通問題の間はタイムアウトさせない
-		if (!SELF.isCommonQuestion())
-		{
-			SELF._timer = delayCall(SELF.countDown, SELF, 1000);
-		}
-		SELF._start_time = $.now();
+		SELF.answerQuestion(1);
 	});
-
 
 	// 興味ないをクリックした時の処理
 	$('#no').click(function(e)
 	{
-		clearTimeout(SELF._timer);
-		var time = $.now() - SELF._start_time;
-
-		SELF._data.question.push({
-		    time    : time
-		  , word    : SELF._cur_word
-		  , answer  : -1
-		});
-
-		SELF._cur_question_count++;
-
-		if (SELF._cur_question_count > SELF._all_question_num)
-		{
-			SELF.finishQuestion();
-			return;
-		}
-
-		SELF.changeQuestion(SELF.nextWord());
-
-		// 共通問題の間はタイムアウトさせない
-		if (!SELF.isCommonQuestion())
-		{
-			SELF._timer = delayCall(SELF.countDown, SELF, 1000);
-		}
-		SELF._start_time = $.now();
+		SELF.answerQuestion(-1);
 	});
-
 
 	// パスをクリックした時の処理
 	$('#pass').click(function(e)
@@ -165,7 +114,7 @@ QuestionManager.prototype.startQuestion = function()
 			$('#no').click();
 		}
 
-		if(e.keyCode == 37 )
+		if(e.keyCode == 37)
 		{
 			//←
 			$('#yes').click();
@@ -174,7 +123,7 @@ QuestionManager.prototype.startQuestion = function()
 		// 共通問題中はパスさせない
 		if (!SELF.isCommonQuestion())
 		{
-			if(e.keyCode == 40 )
+			if(e.keyCode == 40)
 			{
 				//↓
 				$('#pass').click();
@@ -231,7 +180,13 @@ QuestionManager.prototype.nextWord = function()
     	var word_index = Math.floor(Math.random() * word_num);
     	var word = category_words[word_index];
 
-    	// 重複させないぜ！
+    	// パスし続けて質問単語を使い果たしてしまったとき...
+    	if (this._data.question.length - this._common_question_num == word_num)
+    	{
+    		this.finishQuestion();
+    	}
+
+    	// 重複チェック
     	while(true)
     	{
     		var is_duplicate = false;
@@ -299,19 +254,42 @@ QuestionManager.prototype.changeQuestion = function(q_word)
 	}, 500);
 }
 
-QuestionManager.prototype.passQuestion = function()
+QuestionManager.prototype.answerQuestion = function(answer)
 {
-    clearTimeout(this._timer);
+	clearTimeout(this._timer);
+	var time = $.now() - this._start_time;
 
-    // パスは何も記録しないで次の質問へ
+	this._data.question.push({
+	    time    : time
+	  , word    : this._cur_word
+	  , answer  : answer
+	});
+
+	// パスのときはカウントを進ませない
+	if (answer != 0)
+	{
+		this._cur_question_count++;
+	}
+
+	if (this._cur_question_count > this._all_question_num)
+	{
+		this.finishQuestion();
+		return;
+	}
+
 	this.changeQuestion(this.nextWord());
 
+	// 共通問題の間はタイムアウトさせない
 	if (!this.isCommonQuestion())
 	{
 		this._timer = delayCall(this.countDown, this, 1000);
 	}
 	this._start_time = $.now();
-	this._question_count = 0;
+}
+
+QuestionManager.prototype.passQuestion = function()
+{
+	this.answerQuestion(0);
 }
 
 QuestionManager.prototype.finishQuestion = function()
