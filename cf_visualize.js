@@ -62,9 +62,10 @@ function first(){
 		user.type = this.type;
 		user.time = this.time;
 		user.url = this.url;
-		user.x = Math.random();		// とりあえず乱数で表示する
-		user.y = Math.random();		// とりあえず乱数で表示する
-		user.id = index;			// indexの追加
+		user.x = Math.random();			// とりあえず乱数で表示する
+		user.y = Math.random();			// とりあえず乱数で表示する
+		user.id = index;				// indexの追加
+		user.answer = this.question; 	//回答結果
 
 		dataset.push(user);
 
@@ -89,7 +90,7 @@ var status = 0;
 var humans;
 //選択されたデータを格納するところ
 var selectors = [];
-var selectors_size;
+var selectors_size = 0;
 
 //開始
 first();
@@ -185,9 +186,6 @@ function select(d){
               .select(".choice")
               .remove();
 
-//            console.log(this);
-//            console.log(data);
-
 			$.each(selectors, function(i, val)
 			{
 				if (data.id === this.id)
@@ -210,7 +208,7 @@ function select(d){
       
       }
 
-	console.log("選択: "+selectors);							//選択したデータを格納
+	console.log(selectors);							//選択したデータを格納
 	console.log("選択人数は: "+Object.keys(selectors).length+" 人");		//選択人数
 
 	selectors_size = Object.keys(selectors).length;
@@ -221,16 +219,12 @@ function select(d){
 }
 
 
-
 /* ----------------------------------------- *
  * human マウスオーバー時: ツールチップの設定     *
  * ------------------------------------------*/
 
 
 function mouseover(d){
-
-	//console.log(d.time);
-	//console.log(d.name);
 
 	var x = d3.select(this).attr("x");
 	var y = d3.select(this).attr("y");
@@ -272,7 +266,6 @@ function mouseout(d){
 }
 
 
-
 /* ----------------------------------------- *
  * 回答結果を見るボタン                         *
  * ------------------------------------------*/
@@ -280,33 +273,39 @@ function mouseout(d){
 var nodes = [];
 var edges = [];
 
+function answer_result(){
 
-function answer_result(d){
+	d = selectors;	//データの読み込み
+	console.log(d);
+	console.log(selectors_size);
+
+
+	//選択していないとき
+	if(selectors_size　== 0){
+		alert("回答結果を見たい人を選択してください");
+		return;
+	}else{
+
 	
-	// ユーザデータ読み込み
-	var all_data = loadJsonFromPHP('get_data.php');
 	var encoded_data;
 	var user_data = [];
 
-	// console.log("selectors:");
-	// console.log(selectors);
-
-  	//var data_length = d.size;
+  	var data_length = d.size;
   	var count = 0;
 
-	$.each(selectors, function(){
+	// $.each(selectors, function(){
 
-		$.each(all_data, function(){
+	// 	$.each(all_data, function(){
 
-			if (this.id==selectors.id){
-				encoded_data = encodeData(this,count);
-				user_data.push(encoded_data);
-				//count += Object.keys(encoded_data).length;
-			}
+	// 		if (this.id==selectors.id){
+	// 			encoded_data = encodeData(this,count);
+	// 			user_data.push(encoded_data);
+	// 			//count += Object.keys(encoded_data).length;
+	// 		}
 
-		});
+	// 	});
 
-	});
+	// });
 
 	// console.log("encoded_data:");
 	// console.log(encoded_data);
@@ -314,6 +313,9 @@ function answer_result(d){
 	// console.log("user_data:");
 	// console.log(user_data);
 
+
+
+	//削除する（画面を切り替える）
   	svg.selectAll("circle")
 		.attr("r",10)
 		.transition()
@@ -409,6 +411,8 @@ function answer_result(d){
 	nodes.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
 	});
+
+	}
 
 }
 
@@ -515,17 +519,17 @@ function encodeData(data,count){
 
 	});
 
-	console.log(nodes);
+	// console.log(nodes);
 	var edges = [];
 
-	for (var i = 1; i < nodes.length; i++)
-	{
-		var q = {};
-		q.source = count;
-		q.target = i;
+	// for (var i = 1; i < nodes.length; i++)
+	// {
+	// 	var q = {};
+	// 	q.source = count;
+	// 	q.target = i;
 
-		edges.push(q);
-	}
+	// 	edges.push(q);
+	// }
 
 	return {nodes: nodes, edges: edges};
 }
