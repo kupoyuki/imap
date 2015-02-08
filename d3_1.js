@@ -89,14 +89,6 @@ function make () {
        .attr("width", 16)
        .attr("height", 16);
 
-/*
-  node.append("image")
-      .attr("xlink:href", "https://github.com/favicon.ico")
-      .attr("x", -8)
-      .attr("y", -8)
-      .attr("width", 16)
-      .attr("height", 16);
-*/
 
   //---------nodeのファンクション
   function node_class(d,i){

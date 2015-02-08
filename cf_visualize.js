@@ -51,9 +51,10 @@ function first(){
 	var data = loadJsonFromPHP('get_data.php');
 
 	dataset = [];
-	$.each(data, function()
+	$.each(data, function(index, value)
 	{
 		user = {};
+
 		user.name = this.name;
 		user.sex = this.sex;
 		user.age = this.age;
@@ -63,19 +64,15 @@ function first(){
 		user.url = this.url;
 		user.x = Math.random();		// とりあえず乱数で表示する
 		user.y = Math.random();		// とりあえず乱数で表示する
+		user.id = index;			// indexの追加
 
 		dataset.push(user);
 
 	});
 
-	//indexの追加
-	for(var i = 0 ; i < dataset.length ; ++ i){
-		dataset[i].id = i;
-	}
-
 	//人数
 	human_num = dataset.length;
-	console.log ("人数は: " + human_num + " 人");
+	console.log ("合計人数は: " + human_num + " 人");
 
 	//ちょうどいい感じの大きさで描画するようにする
 	xScale = d3.scale.linear()
@@ -137,28 +134,16 @@ function start(){
 				.attr("dx", function(d) { return (xScale(d.x) + 15)*x_zure})
 				.attr("dy", function(d) { return (yScale(d.y) + 5)*y_zure})
 				.text(function(d) { return d.name });     
-				
-				console.log(selectors);
 
+				//回答結果を見るボタン
 				d3.select("#answer_result")
 				  .on("click",answer_result);
 
-				
-
-
-		/*
-		//実行ボタンをクリック
-		$('#answer_result').click(function(d){
-
-
-		});*/
-
 }
-
 
 //最新の人：データの色を変える
 function latest_data(d){
-	if(d.index == human_num-1){
+	if(d.id == human_num-1){
 		return "latest";
 	}
 }
@@ -187,7 +172,7 @@ function select(d){
 	console.log(d);
 
 	var now_d_index = d.id;
-	//console.log(now_d_index);
+	console.log("このデータの id は: "+now_d_index);
 
 	//datasetを順番にまわす
 	humans.each(function(data, index){
@@ -225,12 +210,13 @@ function select(d){
       
       }
 
-	console.log(selectors);
-	console.log(Object.keys(selectors).length);
+	console.log("選択: "+selectors);							//選択したデータを格納
+	console.log("選択人数は: "+Object.keys(selectors).length+" 人");		//選択人数
 
 	selectors_size = Object.keys(selectors).length;
 
     }
+
   });
 }
 
@@ -302,8 +288,8 @@ function answer_result(d){
 	var encoded_data;
 	var user_data = [];
 
-	console.log("selectors:");
-	console.log(selectors);
+	// console.log("selectors:");
+	// console.log(selectors);
 
   	//var data_length = d.size;
   	var count = 0;
@@ -315,18 +301,18 @@ function answer_result(d){
 			if (this.id==selectors.id){
 				encoded_data = encodeData(this,count);
 				user_data.push(encoded_data);
-				count += Object.keys(encoded_data).length;
+				//count += Object.keys(encoded_data).length;
 			}
 
 		});
 
 	});
 
-	console.log("encoded_data:");
-	console.log(encoded_data);
+	// console.log("encoded_data:");
+	// console.log(encoded_data);
 
-	console.log("user_data:");
-	console.log(user_data);
+	// console.log("user_data:");
+	// console.log(user_data);
 
   	svg.selectAll("circle")
 		.attr("r",10)
@@ -423,8 +409,6 @@ function answer_result(d){
 	nodes.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
 	});
-
-
 
 }
 
