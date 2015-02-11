@@ -37,6 +37,10 @@ var humannum;
 
 function first(){
 
+	//結果表示ボタン
+    d3.select("#answer_result").style("display","inline");
+	d3.select("#rebirth").style("display","none");
+
 	d3.select("body")
 	  .append("div")
 	  .attr("id","result")
@@ -306,15 +310,16 @@ function answer_result(){
 
 function force(data){
 
-
   	encoded_data.fixed = true;
 
+  	//回答結果の文字表示部分
   	d3.select("body")
 	  .append("div")
 	  .attr("id","answer_words")
 	  .style("width",w)
-	  .style("height",200);
+	  .style("height",1000);
 
+	//ボタンの切り替え
 	d3.select("#answer_result").style("display","none");
 	d3.select("#rebirth").style("display","inline");
 
@@ -358,19 +363,19 @@ function force(data){
 	            .style("stroke","black")
 	            .style("stroke-width",0.5);
 
-	         svg.selectAll("circle")
-	            .on("click", function(e)
-	            {					
-					reset();
-	            	rebirth();
-	            });
+	    //      svg.selectAll("circle")
+	    //         .on("click", function(e)
+	    //         {					
+					// reset();
+	    //         	rebirth();
+	    //         });
 
-	         svg.selectAll("text")
-	            .on("click", function(e)
-	            {
-					reset();
-	            	rebirth();
-	            });
+	    //      svg.selectAll("text")
+	    //         .on("click", function(e)
+	    //         {
+					// reset();
+	    //         	rebirth();
+	    //         });
 
 
 		force.on("tick", function() {
@@ -387,6 +392,7 @@ function force(data){
 
 		});
 
+		//戻るボタン
 		d3.select("#rebirth")
 	        .on("click", function(e)
 	        {
@@ -527,9 +533,6 @@ function rebirth(){
 		.duration(2000)
 		.style("opacity",0)
 		.remove();
-
-    d3.select("#answer_result").style("display","inline");
-	d3.select("#rebirth").style("display","none");
 
 	first();
 	start();
