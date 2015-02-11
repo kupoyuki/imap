@@ -44,21 +44,16 @@ $(function()
   $('select.age') .change(function(e){ age   = $(this).val(); });
   $('input.type') .change(function(e)
   { 
-    var array = [];
-
-    for(var i = 0; i < 10; i++)
-    {
-      if($("#" + i).find('input').is(':checked') )
-      {
-        console.log( $("#" + i).find('input').val() );
-        genre.push( $("#" + i).find('input').val() );
-      }
+    type = $('[class="type"]:checked').map(function(){
+      return $(this).val();
+    }).get();
+    console.log(type);
+    if(type == 0){
+      type = undefined;
     }
-    type = array;
-  });
-  //$('select.type').change(function(e){ type  = $(this).val(); });
-  $('input.url')  .change(function(e){ url   = $(this).val(); });
 
+  });
+  $('input.url')  .change(function(e){ url   = $(this).val(); });
 
   var data = {};
 

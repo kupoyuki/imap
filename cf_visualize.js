@@ -270,12 +270,17 @@ function mouseout(d){
  * 回答結果を見るボタン                         *
  * ------------------------------------------*/
 
-var node = [];
-var edge = [];
+//初期化
+var node;
+var edge;
+var edges_count;
+var encoded_data;
 
-var edges_count = 0;
 
 function answer_result(){
+
+	//現在の画面の削除
+  	reset();
 
 	console.log(selectors);
 	console.log(selectors_size);
@@ -286,51 +291,32 @@ function answer_result(){
 		return;
 	}else{
 
-	var encoded_data;
-
   	$.each(selectors,function(i,val){
-  		console.log("ここまで")
   		encoded_data = encodeData(this,i);
   		}
   	)
 
   	console.log(encoded_data);
 
+  	force(encoded_data);
 
-	//削除する（画面を切り替える）
-  	svg.selectAll("circle")
-		.attr("r",10)
-		.transition()
-		.duration(3000)
-		.ease("elastic")
-  		.attr("cx",function(d) { return w/2 })
-  		.attr("cy",function(d) { return h/2 })
-  		.style("opacity",0)
-  		.remove();
-  		
-  	svg.selectAll("image")
-  		.transition()
-  		.duration(2000)
-  		.style("opacity",0)
-  		.remove();
+ }
 
-  	svg.selectAll("text")
-  		.transition()
-  		.duration(2000)
-  		.style("opacity",0)
-  		.remove();
+function force(data){
 
+
+  	encoded_data.fixed = true;
 
 
 	var force = d3.layout.force()
+	              .nodes(encoded_data.nodes)
+	              .links(encoded_data.edges)
 	              .size([w,h])
-	              .nodes(encoded_data.node)
-	              .links(encoded_data.edge)
-	              .linkDistance([250])
+	              .gravity(0.1)
+	              .linkDistance(250)
 	              .charge([-300])
 	              .start();
 
-  	alert("a");
 
 	var	links = svg.selectAll("line")
 		          .data(encoded_data.edges)
@@ -356,7 +342,7 @@ function answer_result(){
 	            //点の追加
 	      nodes.append("circle")
 	            .attr("class",select_class)
-	            .attr("r",10)
+	            .attr("r",c_size)
 	            .transition()
 	         	.duration(2000)
 	            .style("stroke","black")
@@ -364,19 +350,21 @@ function answer_result(){
 
 	         svg.selectAll("circle")
 	            .on("click", function(e)
-	            {
+	            {					
+					reset();
 	            	rebirth();
 	            });
 
 	         svg.selectAll("text")
 	            .on("click", function(e)
 	            {
+					reset();
 	            	rebirth();
 	            });
 
 
 		force.on("tick", function() {
-		edges.attr("x1", function(d) { return d.source.x; })
+		links.attr("x1", function(d) { return d.source.x; })
 		  .attr("y1", function(d) { return d.source.y; })
 		  .attr("x2", function(d) { return d.target.x; })
 		  .attr("y2", function(d) { return d.target.y; });
@@ -396,78 +384,33 @@ function answer_result(){
 
 //最初のデータを取得
 function select_class(d){
-	if(d.index == 0){
+	//無回答・タイムアウトは0
+	if(d.name != undefined){
 		return "first_data";
-	}else if(d.answer == 1){
+	}else if(d.answer == 1 || d.answer == true){
 		return "w_circle yes";
-	}else if(d.answer == -1){
+	}else if(d.answer == -1 || d.answer == false){
 		return "w_circle no";
 	}else{
-		return "w_circle none";
+		return "w_circle none";	//パス、またはタイムアウト
 	}
 }
 
-
 function c_text(d,i){
-  return (i == 0 ? d.name : d.word);
+	return (d.name != undefined ? d.name : d.word);
 }
 
 //円の大きさ
 function c_size(d,i){
-    return (i % (d.timeout == true ? 0 : (Math.sqrt(30000 - d.time*10)/15)));
+	//人のとき固定
+	if(d.name != undefined){
+		return 10;
+	}else if(d.answer == 1 || d.answer == true){
+		//回答の大きさ
+    	return (i % (Math.sqrt(30000 - d.time*10)/15));
+    }
 }
 
-/*
-//force用にデータを書き換える
-function encodeData(data){
-	$.each(data,function(){
-
-		var n = {};
-		n.name = data.name;
-		n.sex = data.sex;
-		n.age = data.age;
-		n.iamas = data.iamas;
-		n.type = data.type;
-		n.time = data.time;
-		n.url = data.url;
-
-		nodes.push(n);
-
-	});
-
-
-	$.each(data["question"], function()
-	{
-		var n = {};
-		n.time = this["time"];
-		n.word = this["word"];
-		n.answer = this["answer"];
-
-		nodes.push(n);
-	});
-
-	var question_size = 0;
-	for (var i in data["question"]) {
-	  question_size++;
-	}
-
-	//selectors_size;
-
-	for(var j = 0; j < selectors_size; j++ ){
-		for (var i = 1; i < question_size; i++)
-		{
-			var q = {};
-			q.source = j;
-			q.target = nodes.index;
-
-			edges.push(q);
-		}
-	}
-
-	return {nodes: nodes, edges: edges};
-}
-
-*/
 
 function encodeData(data,selector){
 
@@ -488,31 +431,77 @@ function encodeData(data,selector){
 		n.time = data.answer[i].time;
 		n.word = data.answer[i].word;
 		n.answer = data.answer[i].answer;
-
-		node.push(n);
+		if(('timeout' in data.answer) == true){
+			n.timeout = data.timeout[i].timeout;
+		}
+		if(data.answer[i] != 0 || data.timeout[i] != true){
+			node.push(n);
+		}
 	}
 
-	console.log("node:");
-	console.log(node);
+	//console.log(node);
 
 	var root = edges_count;
+	console.log(root);
+
 //	q.source = edges_count;	//固定
+
 
 	for(var i in node){
 
+		if(edges_count == node.length - 1){
+			break;
+		}
+
 		edges_count++;
-		var q = {
-			  source : root
-			, target : edges_count
-		};
+		var q = {}
+		q.source = parseInt(root);
+		q.target = parseInt(edges_count);
+
 		edge.push(q);
+
+
 	}
+
+	console.log(edge);
 
 	edges_count++; //root用
 
-	console.log("edge:");
-	console.log(edge);
 	return {nodes: node, edges: edge};
+}
+
+function reset(){
+
+	//初期化
+	edges_count = 0;
+	encoded_data = [];
+	node = [];
+	edge = [];
+
+
+	//削除する（画面を切り替える）
+  	d3.selectAll("circle")
+		.attr("r",10)
+		.transition()
+		.duration(3000)
+		.ease("elastic")
+  		.attr("cx",function(d) { return w/2 })
+  		.attr("cy",function(d) { return h/2 })
+  		.style("opacity",0)
+  		.remove();
+  		
+  	d3.selectAll("image")
+  		.transition()
+  		.duration(2000)
+  		.style("opacity",0)
+  		.remove();
+
+  	d3.selectAll("text")
+  		.transition()
+  		.duration(2000)
+  		.style("opacity",0)
+  		.remove();
+
 }
 
 
@@ -520,10 +509,10 @@ function encodeData(data,selector){
 function rebirth(){
 
 	d3.select("svg")
-	.transition()
-	.duration(500)
-	.style("opacity",0)
-	.remove();
+		.transition()
+		.duration(2000)
+		.style("opacity",0)
+		.remove();
 
 	first();
 	start();
