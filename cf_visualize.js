@@ -276,11 +276,10 @@ var edge;
 var edges_count;
 var encoded_data;
 
+h2 = $(window).height() * 0.8;
+
 
 function answer_result(){
-
-	//現在の画面の削除
-  	reset();
 
 	console.log(selectors);
 	console.log(selectors_size);
@@ -291,9 +290,12 @@ function answer_result(){
 		return;
 	}else{
 
-  	$.each(selectors,function(i,val){
-  		encoded_data = encodeData(this,i);
-  		}
+		//現在の画面の削除
+	  	reset();
+
+	  	$.each(selectors,function(i,val){
+	  		encoded_data = encodeData(this,i);
+	  	}
   	)
 
   	console.log(encoded_data);
@@ -307,6 +309,14 @@ function force(data){
 
   	encoded_data.fixed = true;
 
+  	d3.select("body")
+	  .append("div")
+	  .attr("id","answer_words")
+	  .style("width",w)
+	  .style("height",200);
+
+	d3.select("#answer_result").style("display","none");
+	d3.select("#rebirth").style("display","inline");
 
 	var force = d3.layout.force()
 	              .nodes(encoded_data.nodes)
@@ -377,6 +387,13 @@ function force(data){
 
 		});
 
+		d3.select("#rebirth")
+	        .on("click", function(e)
+	        {
+				reset();
+	        	rebirth();
+	        });
+
 	}
 
 }
@@ -439,12 +456,9 @@ function encodeData(data,selector){
 		}
 	}
 
-	//console.log(node);
 
 	var root = edges_count;
 	console.log(root);
-
-//	q.source = edges_count;	//固定
 
 
 	for(var i in node){
@@ -513,6 +527,9 @@ function rebirth(){
 		.duration(2000)
 		.style("opacity",0)
 		.remove();
+
+    d3.select("#answer_result").style("display","inline");
+	d3.select("#rebirth").style("display","none");
 
 	first();
 	start();
