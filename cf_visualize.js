@@ -270,49 +270,31 @@ function mouseout(d){
  * 回答結果を見るボタン                         *
  * ------------------------------------------*/
 
-var nodes = [];
-var edges = [];
+var node = [];
+var edge = [];
+
+var edges_count = 0;
 
 function answer_result(){
 
-	d = selectors;	//データの読み込み
-	console.log(d);
+	console.log(selectors);
 	console.log(selectors_size);
 
-
-	//選択していないとき
+	//選択していないときの警告
 	if(selectors_size　== 0){
 		alert("回答結果を見たい人を選択してください");
 		return;
 	}else{
 
-	
 	var encoded_data;
-	var user_data = [];
 
-  	var data_length = d.size;
-  	var count = 0;
+  	$.each(selectors,function(i,val){
+  		console.log("ここまで")
+  		encoded_data = encodeData(this,i);
+  		}
+  	)
 
-	// $.each(selectors, function(){
-
-	// 	$.each(all_data, function(){
-
-	// 		if (this.id==selectors.id){
-	// 			encoded_data = encodeData(this,count);
-	// 			user_data.push(encoded_data);
-	// 			//count += Object.keys(encoded_data).length;
-	// 		}
-
-	// 	});
-
-	// });
-
-	// console.log("encoded_data:");
-	// console.log(encoded_data);
-
-	// console.log("user_data:");
-	// console.log(user_data);
-
+  	console.log(encoded_data);
 
 
 	//削除する（画面を切り替える）
@@ -338,33 +320,28 @@ function answer_result(){
   		.style("opacity",0)
   		.remove();
 
-  		
-  	// for(var i = 0; i<selectors.length; i++){
-  	// 	.shift();
-  	// }
 
-  	//console.log(encoded_data);
-
-  	//user_data = encoded_data;
 
 	var force = d3.layout.force()
-	              .nodes(user_data.nodes)
-	              .links(user_data.edges)
 	              .size([w,h])
+	              .nodes(encoded_data.node)
+	              .links(encoded_data.edge)
 	              .linkDistance([250])
 	              .charge([-300])
 	              .start();
 
-		edges = svg.selectAll("line")
-		          .data(user_data.edges)
+  	alert("a");
+
+	var	links = svg.selectAll("line")
+		          .data(encoded_data.edges)
 		          .enter()
 		          .append("line")
 		          .style("stroke","#000")
 		          .style("opacity",0.5)
 		          .style("stroke-width",1);
 
-		nodes = svg.selectAll(".node")
-	             .data(user_data.nodes)
+	var	nodes = svg.selectAll(".node")
+	             .data(encoded_data.nodes)
 	             .enter()
 	             .append("g")
 	             .attr("class","node")
@@ -398,19 +375,19 @@ function answer_result(){
 	            });
 
 
-	force.on("tick", function() {
-	edges.attr("x1", function(d) { return d.source.x; })
-	  .attr("y1", function(d) { return d.source.y; })
-	  .attr("x2", function(d) { return d.target.x; })
-	  .attr("y2", function(d) { return d.target.y; });
+		force.on("tick", function() {
+		edges.attr("x1", function(d) { return d.source.x; })
+		  .attr("y1", function(d) { return d.source.y; })
+		  .attr("x2", function(d) { return d.target.x; })
+		  .attr("y2", function(d) { return d.target.y; });
 
-	nodes.attr("cx", function(d,i) { return i == 0 ? w : d.x; })
-	  .attr("cy", function(d) { return d.y; });
+		nodes.attr("cx", function(d,i) { return i == 0 ? w : d.x; })
+		  .attr("cy", function(d) { return d.y; });
 
 
-	nodes.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+		nodes.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
-	});
+		});
 
 	}
 
@@ -492,46 +469,50 @@ function encodeData(data){
 
 */
 
-function encodeData(data,count){
+function encodeData(data,selector){
 
-	var nodes = [];	
-	$.each(data,function(){
+	var n = {};
+	n.name = data.name;
+	n.sex = data.sex;
+	n.age = data.age;
+	n.iamas = data.iamas;
+	n.type = data.type;
+	n.time = data.time;
+	n.url = data.url;
+
+	node.push(n);
+
+	for(var i in data.answer){
 
 		var n = {};
-		n.name = data.name;
-		n.sex = data.sex;
-		n.age = data.age;
-		n.iamas = data.iamas;
-		n.type = data.type;
-		n.time = data.time;
-		n.url = data.url;
+		n.time = data.answer[i].time;
+		n.word = data.answer[i].word;
+		n.answer = data.answer[i].answer;
 
-		nodes.push(n);
+		node.push(n);
+	}
 
-		$.each(data["question"], function()
-		{
-			n = {};
-			n.time = this["time"];
-			n.word = this["word"];
-			n.answer = this["answer"];
-			nodes.push(n);
-		});
+	console.log("node:");
+	console.log(node);
 
-	});
+	var root = edges_count;
+//	q.source = edges_count;	//固定
 
-	// console.log(nodes);
-	var edges = [];
+	for(var i in node){
 
-	// for (var i = 1; i < nodes.length; i++)
-	// {
-	// 	var q = {};
-	// 	q.source = count;
-	// 	q.target = i;
+		edges_count++;
+		var q = {
+			  source : root
+			, target : edges_count
+		};
+		edge.push(q);
+	}
 
-	// 	edges.push(q);
-	// }
+	edges_count++; //root用
 
-	return {nodes: nodes, edges: edges};
+	console.log("edge:");
+	console.log(edge);
+	return {nodes: node, edges: edge};
 }
 
 
