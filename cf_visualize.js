@@ -89,7 +89,6 @@ function first(){
 
 }
 
-var status = 0;
 //データセット
 var humans;
 //選択されたデータを格納するところ
@@ -280,8 +279,6 @@ var edge;
 var edges_count;
 var encoded_data;
 
-h2 = $(window).height() * 0.8;
-
 
 function answer_result(){
 
@@ -312,12 +309,8 @@ function force(data){
 
   	encoded_data.fixed = true;
 
-  	//回答結果の文字表示部分
-  	d3.select("body")
-	  .append("div")
-	  .attr("id","answer_words")
-	  .style("width",w)
-	  .style("height",1000);
+  	//回答情報の領域
+  	text_field();
 
 	//ボタンの切り替え
 	d3.select("#answer_result").style("display","none");
@@ -428,12 +421,20 @@ function c_size(d,i){
 	//人のとき固定
 	if(d.name != undefined){
 		return 10;
-	}else if(d.answer == 1 || d.answer == true){
+	}else if(d.answer == true || d.answer == false){
+		
+		return (i % (Math.sqrt(30000 - d.time*10)/15));
+
+	}else if(d.answer != 0){
 		//回答の大きさ
     	return (i % (Math.sqrt(30000 - d.time*10)/15));
     }
 }
 
+
+/* ----------------------------------------- *
+ * node edge の形式に変換　　                   *
+ * ------------------------------------------*/
 
 function encodeData(data,selector){
 
@@ -483,13 +484,78 @@ function encodeData(data,selector){
 
 	}
 
-	console.log(edge);
+	//console.log(edge);
 
 	edges_count++; //root用
 
 	return {nodes: node, edges: edge};
 }
 
+
+
+/* ----------------------------------------- *
+ * 文字情報領域の表示　　　　　                   *
+ * ------------------------------------------*/
+
+function text_field(){
+
+  	//回答結果の文字表示部分
+  	d3.select("body")
+	  .append("div")
+	  .attr("id","answer_words")
+
+	console.log(selectors);
+
+	//回答者情報
+	$("#answer_words").html(function(){
+
+		var personal_text = [];
+
+		//一時
+		var sex;
+
+
+		for(var i = 0 ; i < selectors_size; i++){
+
+			//表記の処理
+			if(selectors[i].type == 0){
+				selectors[i].type = "回答なし";
+			}
+			if(selectors[i].sex == "man" ? sex = "男" : sex = "女");
+
+			//基本情報
+			personal_text.push(
+				"<h3>"+ (i+1) +"人目　"+ selectors[i].name +
+				"</h3><span class='parsonal_data'>年齢 : <b>" + selectors[i].age +
+				"</b>代　性別 : <b>"+ sex +
+				"</b>　属性 : <b>" + selectors[i].type +
+				"</b>　iamas関係者 <b>: " + selectors[i].iamas + "</b><br/></span>"
+			);
+
+			//回答を文字列にぶちこむ
+			var answer_text = "";	//初期化
+			console.log(answer_text);
+
+			for(var j in selectors[i].answer){
+				//最初のデータにwordが無い時無視
+				if(('word' in selectors[i].answer[j]) == false ){
+					continue;
+				}
+				answer_text += (selectors[i].answer[j].word+"　");
+			}
+
+			personal_text.push("<span class='answer_data'>"+ answer_text +"</span>");
+		}
+
+		console.log(answer_text);
+		return personal_text;
+	});
+
+
+}
+
+
+//リセット
 function reset(){
 
 	//初期化
@@ -527,6 +593,9 @@ function reset(){
 
 //最初の画面に戻る
 function rebirth(){
+
+	selectors = [];
+	selectors_size = 0;
 
 	d3.select("svg")
 		.transition()

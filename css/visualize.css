@@ -1,5 +1,7 @@
 @charset "UTF-8";
 
+/*  visualuze.html  */
+
 *{
   margin  : 0;
   padding : 0;
@@ -10,6 +12,9 @@ body{
   font-family:'Hiragino Kaku Gothic ProN', serif;
   font-size: 16px;
 }
+
+
+/*  first 全体の結果表示  */
 
 #top{	
  	background-color : #A9E2F3;
@@ -51,15 +56,40 @@ body{
 		margin-bottom: 20px;
 	}
 
-
 #result{
 }
 
-#answer_words{
-	z-index: 3;
-	background: #98FB98;
+#tip{
+
 	position: absolute;
+	width: 120px;
+	height: auto;
+	top: 0px;
+	left: 0px;
+	padding: 10px;
+	margin-left: 40px;
+	z-index: 9999;
+	border: 1px solid black;
+	background-color: #98FB98;
+	font-size: 10px;
+	color: black;
+	pointer-events: none;
+	border-radius: 10px;
+	box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
+
 }
+
+	#tip.hidden{
+		display: none;
+	}
+
+	#tip_name{
+		font-size: 15px;
+		font-weight: bold;
+	}
+
+
+/*  ボタン  */
 
 .select{
 	margin-right: 13%;
@@ -146,6 +176,31 @@ body{
 	}
 
 
+/*  回答表示部  */
+
+#answer_words{
+	-moz-box-sizing: border-box;
+    box-sizing: border-box;
+	z-index: 3;
+	background: #98FB98;
+	height: auto; 
+	width: 100%;
+	padding: 40px; 
+	font-size: 0.8em;
+}
+
+h3{
+	margin-top: 20px;
+	margin-bottom: 5px;
+	border-bottom: 1px solid #000;
+
+}
+
+.parsonal_data{
+}
+
+/*  D3.js  */
+
 .circle{
 	fill: #424242;
 	stroke-width: 0px;
@@ -162,36 +217,6 @@ body{
 		stroke: blue;
 		fill: none;
 		pointer-events: none;
-	}
-
-
-#tip{
-
-	position: absolute;
-	width: 120px;
-	height: auto;
-	top: 0px;
-	left: 0px;
-	padding: 10px;
-	margin-left: 40px;
-	z-index: 9999;
-	border: 1px solid black;
-	background-color: #98FB98;
-	font-size: 10px;
-	color: black;
-	pointer-events: none;
-	border-radius: 10px;
-	box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
-
-}
-
-	#tip.hidden{
-		display: none;
-	}
-
-	#tip_name{
-		font-size: 15px;
-		font-weight: bold;
 	}
 
 
