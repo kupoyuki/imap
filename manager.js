@@ -104,7 +104,6 @@ QuestionManager.prototype.startQuestion = function()
 		SELF.passQuestion();
 	});
 
-
 	// キーバインド
 	$("body").keydown(function(e)
 	{
