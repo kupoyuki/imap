@@ -56,7 +56,10 @@ class CF
 		return $res;
 	}
 
-	public static function calcSimDistance($src, $dest)
+	/*
+	 * 距離（0に近いほど類似する）を返す
+	*/
+	public static function calcDistance($src, $dest)
 	{
 		// 共通の単語を抽出する
 		$words = array_intersect($src->getWords(), $dest->getWords());
@@ -76,7 +79,16 @@ class CF
 			$sum += pow($dest_answer - $src_answer, 2);
 		}
 
-		return 1/(1+sqrt($sum));
+		return sqrt($sum);
+	}
+
+	/*
+	 * 類似度（1に近いほど類似する）を返す
+	*/
+	public static function calcSimDistance($src, $dest)
+	{
+		$dist = CF::calcDistance($src, $dest);
+		return 1/(1+$dist);
 	}
 
 	private function getFileList($dir)

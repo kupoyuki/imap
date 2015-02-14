@@ -4,12 +4,15 @@ require_once "cf/userdata.php";
 require_once "cf/cf.php";
 require_once "math.php";
 
+// mds試行回数
+$num_trials = 1000;
 // 学習率
 $rate = 0.01;
 $lasterror = 0;
 
 // 実際の距離（対称行列）
 $realdist = generateRealDistances("data");
+// $realdist = generateRealDistanceTest();
 $ary_size = sqrt(count($realdist));
 
 $len = count($realdist);
@@ -26,7 +29,7 @@ for ($i = 0; $i < $ary_size; $i++)
 }
 
 // 試行ループ
-for ($num = 0; $num < 1000; $num++)
+for ($num = 0; $num < $num_trials; $num++)
 {
 	// 仮座標の距離（対称行列）
 	$fakedist = array();
@@ -84,13 +87,11 @@ for ($i = 0; $i < count($grad); $i++)
 {
 	$loc[$i]["x"] -= $rate * $grad[$i]["x"];
 	$loc[$i]["y"] -= $rate * $grad[$i]["y"];
-
-	echo "(".$loc[$i]["x"].",".$loc[$i]["y"].")";
-	echo "<br>";
 }
 
+echo json_encode($loc);
 
-//echo json_encode($loc);
+
 
 function generateRealDistances($dirname)
 {
@@ -111,10 +112,35 @@ function generateRealDistances($dirname)
 			}
 			else
 			{
-				$res[$i * count($files) + $j] = CF::calcSimDistance($src, $dest);
+				$res[$i * count($files) + $j] = CF::calcDistance($src, $dest);
 			}
 		}
 	}
+	return $res;
+}
+
+/*
+ * テスト用
+*/
+function generateRealDistanceTest()
+{
+	$loc = array();
+	$loc[0] = array("x" => 1.0, "y" => 5.0);
+	$loc[1] = array("x" => 3.0, "y" => 7.0);
+	$loc[2] = array("x" => 8.0, "y" => 2.0);
+
+	$res = array();
+	for ($i = 0; $i < count($loc); $i++)
+	{
+		$src = $loc[$i];
+
+		for ($j = 0; $j < count($loc); $j++)
+		{
+			$dest = $loc[$j];
+			$res[$i * count($loc) + $j] = distance($src["x"], $src["y"], $dest["x"], $dest["y"]);
+		}
+	}
+
 	return $res;
 }
 
