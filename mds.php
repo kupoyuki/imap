@@ -75,7 +75,7 @@ for ($num = 0; $num < $num_trials; $num++)
 	}
 
 	// 誤差が大きくなってしまったら、その時点で終了
-	if ($lasterror < $totalerror)
+	if ($lasterror != 0 && $lasterror < $totalerror)
 	{
 		break;
 	}
