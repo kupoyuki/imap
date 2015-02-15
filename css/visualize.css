@@ -238,6 +238,17 @@ li{
 		pointer-events: none;
 	}
 
+.line{
+	opacity: 0.3;
+	stroke: #000;
+	stroke-width: 1px;
+}
+
+.same_word{
+	opacity: 1;
+	stroke: red;
+	stroke-width: 1px;
+}
 
 .image{
 	opacity: 0.3;
@@ -249,10 +260,15 @@ li{
 	color: black;
 }
 
-.word{
+.w_text{
 	font-size: 10px;
 	cursor: pointer;
 	font-color:black;
+}
+
+.w_text.no {
+	fill:#000;
+	opacity: 0.5;
 }
 
 .w_circle{
@@ -264,7 +280,7 @@ li{
 		opacity:1;
 	}
 	.no{
-		opacity: 0.3;
+		fill: #E0FFFF;
 	}
 	.none{
 		display: none;

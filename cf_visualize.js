@@ -21,7 +21,7 @@ function loadJsonFromPHP(phpname)
 var w = $(window).width(), //横
     h = $(window).height(); //縦
 
-var padding = 50;
+var padding = 100;
 
 var x_zure = 0.95;
 var y_zure = 0.95;
@@ -53,9 +53,9 @@ function first(){
           .attr("height", h);
 
 	var data = loadJsonFromPHP('get_data.php');
-	var user_pos = loadJsonFromPHP('mds.php');
+	// var user_pos = loadJsonFromPHP('mds.php');
 
-	console.log(user_pos);
+	// console.log(user_pos);
 
 	dataset = [];
 	$.each(data, function(index, value)
@@ -69,10 +69,10 @@ function first(){
 		user.type = this.type;
 		user.time = this.time;
 		user.url = this.url;
-		// user.x = Math.random();			// とりあえず乱数で表示する
-		// user.y = Math.random();			// とりあえず乱数で表示する
-		user.x = user_pos[index]["x"];
-		user.y = user_pos[index]["y"];
+		user.x = Math.random();			// とりあえず乱数で表示する
+		user.y = Math.random();			// とりあえず乱数で表示する
+		// user.x = user_pos[index]["x"];
+		// user.y = user_pos[index]["y"];
 		user.id = index;				// indexの追加
 		user.answer = this.question; 	//回答結果
 
@@ -299,16 +299,15 @@ function answer_result(){
 		//現在の画面の削除
 	  	reset();
 
-	  	$.each(selectors,function(i,val){
+	  	$.each(selectors,function(i){
 	  		encoded_data = encodeData(this,i);
-	  	}
-  	)
+	  	});
+	}
 
   	console.log(encoded_data);
-
   	force(encoded_data);
 
- }
+}
 
 function force(data){
 
@@ -325,9 +324,10 @@ function force(data){
 	              .nodes(encoded_data.nodes)
 	              .links(encoded_data.edges)
 	              .size([w,h])
-	              .gravity(0.1)
-	              .linkDistance(250)
-	              .charge([-300])
+	              .friction([0.6])		//摩擦力　アニメーションの収束速度
+	              .gravity([0.3])		//大きいほど中央に寄る
+	              .linkDistance([150])	//リンクの長さ
+	              .charge([-350])		//反発力 負の値だと離れようとする力
 	              .start();
 
 
@@ -335,9 +335,8 @@ function force(data){
 		          .data(encoded_data.edges)
 		          .enter()
 		          .append("line")
-		          .style("stroke","#000")
-		          .style("opacity",0.5)
-		          .style("stroke-width",1);
+		          .attr("class",select_line_class)
+		          
 
 	var	nodes = svg.selectAll(".node")
 	             .data(encoded_data.nodes)
@@ -347,7 +346,7 @@ function force(data){
 	             .call(force.drag);
 
           nodes.append("text")
-                .attr("class","word")//人のデータだけ,それ以外はword
+                .attr("class",select_text_class)//人のデータだけ,それ以外はword
      			.attr("dx", 18)
 				.attr("dy", ".35em")
 				.text(c_text);  
@@ -382,8 +381,8 @@ function force(data){
 		  .attr("x2", function(d) { return d.target.x; })
 		  .attr("y2", function(d) { return d.target.y; });
 
-		nodes.attr("cx", function(d,i) { return i == 0 ? w : d.x; })
-		  .attr("cy", function(d) { return d.y; });
+		nodes.attr("cx", function(d) { return select_class == "first_data" ? w : d.x; })
+		  	 .attr("cy", function(d) { return select_class == "first_data" ? h : d.y;});
 
 
 		nodes.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
@@ -397,8 +396,6 @@ function force(data){
 				reset();
 	        	rebirth();
 	        });
-
-	}
 
 }
 
@@ -421,6 +418,27 @@ function c_text(d,i){
 	return (d.name != undefined ? d.name : d.word);
 }
 
+function select_text_class(d){
+	//無回答・タイムアウトは0
+	if(d.name != undefined){
+		return "name";
+	}else if(d.answer == 1 || d.answer == true){
+		return "w_text yes";
+	}else if(d.answer == -1 || d.answer == false){
+		return "w_text no";
+	}else{
+		return "w_text none";	//パス、またはタイムアウト
+	}
+}
+
+function select_line_class(d){
+	if(d.same == true){
+		return "same_word";
+	}else{
+		return "line";
+	}
+}
+
 //円の大きさ
 function c_size(d,i){
 	//人のとき固定
@@ -441,7 +459,7 @@ function c_size(d,i){
  * node edge の形式に変換　　                   *
  * ------------------------------------------*/
 
-function encodeData(data,selector){
+function encodeData(data,select){
 
 	var n = {};
 	n.name = data.name;
@@ -486,15 +504,51 @@ function encodeData(data,selector){
 
 		edge.push(q);
 
-
 	}
 
 	//console.log(edge);
 
 	edges_count++; //root用
 
+
+	console.log(node);
+
+	//最後の人まで来たら同一回答間のedge処理
+	if(select == selectors_size-1){
+		edge = same_answer(node);
+	}
+
 	return {nodes: node, edges: edge};
 }
+
+
+/* ----------------------------------------- *
+ * 同一回答間のedgeを追加　　                   *
+ * ------------------------------------------*/
+
+function same_answer(node){
+	for(var i = 0; i < node.length - 1 ; i++){
+		for(var j = i + 1; j < node.length; j++){
+			if( 'word' in node[i] == false ) { continue; }
+			if( 'word' in node[j] == false ) { continue; }
+
+			if( node[i].word == node[j].word ){
+				if( node[i].answer == node[j].answer){
+					var q = {}
+					q.source = i;
+					q.target = j;
+					q.same = true;
+					console.log(q);
+					edge.push(q);
+				}
+			}
+
+		}
+	}
+	return edge;
+}
+
+
 
 
 
