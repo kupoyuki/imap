@@ -5,6 +5,7 @@
     <meta http-equiv="refresh" content="600" >
     <script src="js/jquery-2.1.1.min.js"></script>
     <script src="./js/d3-master/d3.min.js"></script>
+    <script type="text/javascript" src="js/jqDnR.js"></script>
     <link rel="stylesheet" href="css/visualize.css" type="text/css" />
 
     <title>興味のある「私」のための地図: I map</title>
@@ -39,10 +40,26 @@
 	</div>
 </div>
 
+
 <!--ツールチップだよ-->
 <div id="tip" class="hidden">
 	<p id="tip_name">aaaaaaaaa</p>
 	<p id="value">100</p>
+</div>
+
+<!--設定ウィンドウ-->
+<div id="config" class="jqDnR jqDrag">
+	<svg width="30" height="30" id="peke" class="config_close">
+    <rect x="5" y="10" width="15" height="15" rx="3" ry="3" fill="white" /></svg>
+    <span class="title">表示／非表示切り替え</span>
+    <span style="right:0; top:0; margin-right:10px; margin-top:0; padding-right:1px; position:absolute; font-size:20px; color:#242424";>×</span>
+    <form name="show_change" class="box">
+        <span><input type="checkbox" class="show_change" value="興味ある" checked>興味ある</input></span>
+        <span><input type="checkbox" class="show_change" value="興味ない" checked>興味ない</input></span>
+        <span><input type="checkbox" class="show_change" value="共通項のみ" checked>共通項のみ</input></span>
+    	</form>
+    </span>
+
 </div>
 
 <div><button id="answer_result" class="button">回答結果を見る</button></div>
@@ -50,5 +67,22 @@
 
 <script type="text/javascript" src="change_data.js"> </script>
 <script type="text/javascript" src="cf_visualize.js"> </script>
+
+<script type="text/javascript">
+
+$().ready(function() { 
+	$('#config').jqDrag();
+
+});
+
+$('.config_close').click(function()
+     {
+        $('#config').fadeOut(300);
+});
+
+
+</script>
+
+
 </body>
 </html>

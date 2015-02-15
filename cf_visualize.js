@@ -41,6 +41,8 @@ function first(){
     d3.select("#answer_result").style("display","inline");
 	d3.select("#rebirth").style("display","none");
 
+	$("#config").css("display","none");
+
 	d3.select("body")
 	  .append("div")
 	  .attr("id","result")
@@ -48,9 +50,14 @@ function first(){
 	  .style("height",h);
 
 	svg = d3.select("#result")
-          .append("svg")
-          .attr("width", w)
-          .attr("height", h);
+			.append("svg")
+			.attr("width", w)
+			.attr("height", h)
+
+	svg.transition()
+		.delay(500)
+		.transition(1000)
+		.style("opacity",1);
 
 	var data = loadJsonFromPHP('get_data.php');
 	// var user_pos = loadJsonFromPHP('mds.php');
@@ -319,6 +326,26 @@ function force(data){
 	//ボタンの切り替え
 	d3.select("#answer_result").style("display","none");
 	d3.select("#rebirth").style("display","inline");
+		$("#config").fadeIn(300);
+
+		$('input.show_change').change(function(e){ 
+
+		var fl_status;	//force layout
+
+		fl_status = $('[class="show_change"]:checked').map(function(){
+		  return $(this).val();
+		}).get();
+		console.log(fl_status);
+
+		//存在しない場合は-1を返すメソッド indexOf
+		if(fl_status.indexOf("興味ある") == -1){
+			$('.yes').css("display","none");
+		}
+		if(fl_status.indexOf("興味ない") == -1){
+			$('.no').css("display","none")
+		}
+
+	});
 
 	var force = d3.layout.force()
 	              .nodes(encoded_data.nodes)
@@ -336,7 +363,7 @@ function force(data){
 		          .enter()
 		          .append("line")
 		          .attr("class",select_line_class)
-		          
+
 
 	var	nodes = svg.selectAll(".node")
 	             .data(encoded_data.nodes)
@@ -434,8 +461,10 @@ function select_text_class(d){
 function select_line_class(d){
 	if(d.same == true){
 		return "same_word";
-	}else{
-		return "line";
+	}else if(d.target.answer == 1 || d.target.answer == true){
+		return "line yes";
+	}else if(d.target.answer == -1 || d.target.answer == false){
+		return "line no";
 	}
 }
 
@@ -549,8 +578,14 @@ function same_answer(node){
 }
 
 
+/* ----------------------------------------- *
+ * forceレイアウト表示非表示切り替え　　　　　      *
+ * ------------------------------------------*/
+
+function status_change(){
 
 
+}
 
 /* ----------------------------------------- *
  * 文字情報領域の表示　　　　　                   *
@@ -645,6 +680,7 @@ function reset(){
 	node = [];
 	edge = [];
 
+	$("#config").fadeOut(300);
 
 	//削除する（画面を切り替える）
   	d3.selectAll("circle")
@@ -652,8 +688,8 @@ function reset(){
 		.transition()
 		.duration(3000)
 		.ease("elastic")
-  		.attr("cx",function(d) { return w/2 })
-  		.attr("cy",function(d) { return h/2 })
+  		// .attr("cx",function(d) { return w/2 })
+  		// .attr("cy",function(d) { return h/2 })
   		.style("opacity",0)
   		.remove();
   		
@@ -669,6 +705,12 @@ function reset(){
   		.style("opacity",0)
   		.remove();
 
+  	d3.selectAll("line")
+  	  .transition()
+  	  .duration(2000)
+  	  .style("opacity",0)
+  	  .remove();
+
 }
 
 
@@ -678,9 +720,9 @@ function rebirth(){
 	selectors = [];
 	selectors_size = 0;
 
-	d3.select("svg")
+	d3.selectAll("svg")
 		.transition()
-		.duration(2000)
+		.duration(600)
 		.style("opacity",0)
 		.remove();
 
