@@ -94,9 +94,7 @@ for ($num = 0; $num < $num_trials; $num++)
 	}
 }
 
-echo $lasterror;
-
-// echo json_encode($loc);
+echo json_encode($loc);
 
 
 
