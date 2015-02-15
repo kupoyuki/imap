@@ -533,21 +533,43 @@ function text_field(){
 			);
 
 			//回答を文字列にぶちこむ
-			var answer_text = "";	//初期化
-			console.log(answer_text);
+			var answer_text_yes = "";	//初期化
+			var answer_text_no = "";	//初期化
+			var answer_text_pass = "";
 
 			for(var j in selectors[i].answer){
 				//最初のデータにwordが無い時無視
 				if(('word' in selectors[i].answer[j]) == false ){
 					continue;
 				}
-				answer_text += (selectors[i].answer[j].word+"　");
+				//興味ある
+				if(selectors[i].answer[j].answer == 1 || selectors[i].answer[j].answer == true){
+					answer_text_yes += (selectors[i].answer[j].word+"　");
+				//興味ない
+				}else if(selectors[i].answer[j].answer == -1 || selectors[i].answer[j].answer == false){
+					answer_text_no += (selectors[i].answer[j].word+"　");
+				}else{
+					answer_text_pass += (selectors[i].answer[j].word+"　");
+				}
+
+				if(j == 25){
+					answer_text_yes += "<br/>";
+					answer_text_no += "<br/>";
+					answer_text_pass += "<br/>";
+				}
+				//answer_text += (selectors[i].answer[j].word+"　");
 			}
 
-			personal_text.push("<span class='answer_data'>"+ answer_text +"</span>");
+			personal_text.push(
+				"<span class='answer_data'>"+
+				"<span class='yes'><li>興味ある</li>"+ answer_text_yes +"</span>"+
+				"<span class='no'><li>興味ない</li>"+ answer_text_no +"</span>"+
+				"<span class='pass'><li>パス</li>"+ answer_text_pass + "</span>"+
+				"</span>"
+			);
+
 		}
 
-		console.log(answer_text);
 		return personal_text;
 	});
 

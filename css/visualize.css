@@ -191,12 +191,31 @@ body{
 
 h3{
 	margin-top: 20px;
-	margin-bottom: 5px;
+	margin-bottom: 10px;
 	border-bottom: 1px solid #000;
 
 }
 
+li{
+	font-size: 1.1em;
+}
+
+#answer_words span{
+	display: block;
+}
+
 .parsonal_data{
+	margin-bottom: 10px;
+}
+
+.answer_data {
+	border-left: 1px solid #000;
+}
+
+.answer_data span{
+	font-size: 0.9em;
+	margin-bottom: 5px;
+	padding-left: 10px;
 }
 
 /*  D3.js  */
