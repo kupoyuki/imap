@@ -76,6 +76,12 @@ class CF
 			$dest_answer = $dest->getAnswer($word);
 			$src_answer = $src->getAnswer($word);
 
+			// パスは計算しない
+			// if ($dest_answer == 0 || $src_answer == 0)
+			// {
+			// 	continue;
+			// }
+
 			$sum += pow($dest_answer - $src_answer, 2);
 		}
 
