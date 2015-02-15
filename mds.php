@@ -22,10 +22,10 @@ $loc = array();
 // 仮座標をランダムに設定する
 for ($i = 0; $i < $ary_size; $i++)
 {
-		$loc[] = array(
-			"x" => randomFloat(),
-			"y" => randomFloat(),
-			);
+	$loc[] = array(
+		"x" => randomFloat(),
+		"y" => randomFloat(),
+		);
 }
 
 // 試行ループ
@@ -49,6 +49,11 @@ for ($num = 0; $num < $num_trials; $num++)
 	$grad = array();
 	for ($i = 0; $i < count($loc); $i++)
 	{
+		$grad[] = array("x" => 0, "y" => 0);
+	}
+
+	for ($i = 0; $i < count($loc); $i++)
+	{
 		$src = $loc[$i];
 
 		for ($j = 0; $j < count($loc); $j++)
@@ -66,9 +71,9 @@ for ($num = 0; $num < $num_trials; $num++)
 			// 誤差を計算する
 			$errterm = ($fdist - $rdist) / $rdist;
 
-			// 移動量を計算する
-			$grad[$i] = array("x" => (($src["x"] - $dest["x"]) / $fdist) * $errterm,
-							  "y" => (($src["y"] - $dest["y"]) / $fdist) * $errterm);
+			// 移動量
+			$grad[$i]["x"] += (($src["x"] - $dest["x"]) / $fdist) * $errterm;
+			$grad[$i]["y"] += (($src["y"] - $dest["y"]) / $fdist) * $errterm;
 
 			$totalerror += abs($errterm);
 		}
@@ -80,16 +85,18 @@ for ($num = 0; $num < $num_trials; $num++)
 		break;
 	}
 	$lasterror = $totalerror;
+
+	// 移動量を仮座標に適用する
+	for ($i = 0; $i < count($grad); $i++)
+	{
+		$loc[$i]["x"] -= $rate * $grad[$i]["x"];
+		$loc[$i]["y"] -= $rate * $grad[$i]["y"];
+	}
 }
 
-// 移動量を仮座標に適用する
-for ($i = 0; $i < count($grad); $i++)
-{
-	$loc[$i]["x"] -= $rate * $grad[$i]["x"];
-	$loc[$i]["y"] -= $rate * $grad[$i]["y"];
-}
+echo $lasterror;
 
-echo json_encode($loc);
+// echo json_encode($loc);
 
 
 
@@ -112,11 +119,29 @@ function generateRealDistances($dirname)
 			}
 			else
 			{
-				$res[$i * count($files) + $j] = CF::calcDistance($src, $dest);
+				$res[$i * count($files) + $j] = 1.0 - CF::calcSimDistance($src, $dest);
 			}
 		}
 	}
 	return $res;
+}
+
+function getFileList($dir)
+{
+	$files = glob(rtrim($dir, '/') . '/*');
+	$list = array();
+	foreach($files as $file)
+	{
+		if (is_file($file))
+		{
+			$list[] = $file;
+		}
+		if (is_dir($file))
+		{
+			$list = array_merge($list, getFileList($file));
+		}
+	}
+	return $list;
 }
 
 /*
@@ -124,6 +149,8 @@ function generateRealDistances($dirname)
 */
 function generateRealDistanceTest()
 {
+	// TODO: 距離1.0の座標を2つ用意する
+
 	$loc = array();
 	$loc[0] = array("x" => 1.0, "y" => 5.0);
 	$loc[1] = array("x" => 3.0, "y" => 7.0);
@@ -144,22 +171,13 @@ function generateRealDistanceTest()
 	return $res;
 }
 
-function getFileList($dir)
+function tempLocationsTest()
 {
-	$files = glob(rtrim($dir, '/') . '/*');
-	$list = array();
-	foreach($files as $file)
-	{
-		if (is_file($file))
-		{
-			$list[] = $file;
-		}
-		if (is_dir($file))
-		{
-			$list = array_merge($list, getFileList($file));
-		}
-	}
-	return $list;
+	$loc = array();
+	$loc[0] = array("x" => 0.1, "y" => 0.8);
+	$loc[1] = array("x" => 0.5, "y" => 0.4);
+
+	return $loc;
 }
 
 ?>
