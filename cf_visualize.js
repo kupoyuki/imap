@@ -53,6 +53,9 @@ function first(){
           .attr("height", h);
 
 	var data = loadJsonFromPHP('get_data.php');
+	var user_pos = loadJsonFromPHP('mds.php');
+
+	console.log(user_pos);
 
 	dataset = [];
 	$.each(data, function(index, value)
@@ -66,8 +69,10 @@ function first(){
 		user.type = this.type;
 		user.time = this.time;
 		user.url = this.url;
-		user.x = Math.random();			// とりあえず乱数で表示する
-		user.y = Math.random();			// とりあえず乱数で表示する
+		// user.x = Math.random();			// とりあえず乱数で表示する
+		// user.y = Math.random();			// とりあえず乱数で表示する
+		user.x = user_pos[index]["x"];
+		user.y = user_pos[index]["y"];
 		user.id = index;				// indexの追加
 		user.answer = this.question; 	//回答結果
 

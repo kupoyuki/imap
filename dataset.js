@@ -98,12 +98,8 @@ $(function()
       $('#answer').fadeIn('fast');
     });
 
-    //（属性データ,生成済み問題リスト,全単語）;
-    //生成済み問題リストのidを参照し、全単語から選択
-    // Start(data, question_list , all_word);
-
     // 質問数
-    var q_data = {
+    var q_options = {
       all_question_num     : 50               // 全質問数
       ,common_question_num : 25               // 共通質問
       ,common_words        : common_words     // 共通の単語
@@ -111,7 +107,7 @@ $(function()
       ,timeout_sec         : 5             // タイムアウト時間（秒）
     };
 
-    var manager = new QuestionManager(data, q_data);
+    var manager = new QuestionManager(data, q_options);
     manager.startQuestion();
   });
 });

@@ -55,14 +55,14 @@ function QuestionManager(data, q_data)
 	// 共通の質問数のほうが全質問数よりも多かったらエラー
 	if (this._common_question_num > this._all_question_num)
 	{
-		alert('error!');
+		alert('ERROR: 全質問数＜共通質問数');
 	}
 
-	this._timeout_sec = q_data['timeout_sec'];						// タイムアウト時間（秒）
+	this._timeout_sec = abs(q_data['timeout_sec']);					// タイムアウト時間（秒）
 
 	if (this._timeout_sec < 1)
 	{
-		alert('error!');
+		alert('ERROR: タイムアウト時間は1秒以上に設定してください');
 	}
 
 	this._cur_question_count = 1;									// 現在の回答数
@@ -103,7 +103,6 @@ QuestionManager.prototype.startQuestion = function()
 	{
 		SELF.passQuestion();
 	});
-
 
 	// キーバインド
 	$("body").keydown(function(e)
