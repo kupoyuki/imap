@@ -21,10 +21,10 @@ function generateRealDistances($dirname)
 	for ($i = 0; $i < count($files); $i++)
 	{
 		$line = array();
+		$src = new UserData($files[$i]);
 
 		for ($j = 0; $j < count($files); $j++)
 		{
-			$src = new UserData($files[$i]);
 			$dest = new UserData($files[$j]);
 
 			if ($src->getUserName() === $dest->getUserName())
