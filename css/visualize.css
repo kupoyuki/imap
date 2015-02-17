@@ -351,6 +351,8 @@ li{
 	/*最初の人*/
 	.first_data{
 		fill: red;
+		color: black;
+		font-weight: bold;
 		cursor: pointer;
 	}
 

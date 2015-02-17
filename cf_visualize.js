@@ -334,9 +334,7 @@ function force(data){
 
 	//表示・非表示切り替え機能
 	var fl_status;	//force layout
-	$('input.show_change').change(function(e){ 
-		status_change(e);
-	});
+	$('input.show_change').change( status_change );
 
 	var force = d3.layout.force()
 	              .nodes(encoded_data.nodes)
@@ -360,8 +358,8 @@ function force(data){
 	             .data(encoded_data.nodes)
 	             .enter()
 	             .append("g")
-	             .attr("class","node")
-	             .call(force.drag);
+				 .attr("class",select_node_class)
+				 .call(force.drag);	             
 
           nodes.append("text")
                 .attr("class",select_text_class)//人のデータだけ,それ以外はword
@@ -377,6 +375,7 @@ function force(data){
 	         	.duration(2000)
 	            .style("stroke","black")
 	            .style("stroke-width",0.5);
+
 
 	    //      svg.selectAll("circle")
 	    //         .on("click", function(e)
@@ -417,12 +416,21 @@ function force(data){
 
 }
 
+function select_node_class(d){
+	if(d.name != undefined){
+		return "node first_data";
+	}if(d.same == true){
+		return "node same";
+	}else{
+		return "node";
+	}
+}
 
 //最初のデータを取得
 function select_class(d){
 	//無回答・タイムアウトは0
 	if(d.name != undefined){
-		return "first_data";
+		return;
 	}else if(d.answer == 1 || d.answer == true){
 		return "w_circle yes";
 	}else if(d.answer == -1 || d.answer == false){
@@ -455,6 +463,12 @@ function select_line_class(d){
 			return "sameword yes";
 		}else if(d.target.answer == -1 || d.target.answer == false){
 			return "sameword no";
+		}
+	}else if(d.target.same == true){
+		if(d.target.answer == 1 || d.target.answer == true){
+			return "line same yes";
+		}else if(d.target.answer == -1 || d.target.answer == false){
+			return "line same no";
 		}
 	}else if(d.target.answer == 1 || d.target.answer == true){
 		return "line yes";
@@ -558,6 +572,9 @@ function same_answer(node){
 
 			if( node[i].word == node[j].word ){
 				if( node[i].answer == node[j].answer){
+					console.log(i);
+					node[i].same = true;
+					node[j].same = true;
 					var q = {}
 					q.source = i;
 					q.target = j;
@@ -579,33 +596,55 @@ function same_answer(node){
 
 function status_change(e){
 
+	//alert( $(this).val() );	//クリックされた要素
+
+	switch($(this).val() ){
+		case '興味ある':
+			if( $(this).is(':checked') ){
+				$('.yes').css("display","inline");
+			}
+			else{
+				$('.yes').css("display","none");
+			}
+		break;
+		case '興味ない':
+			if( $(this).is(':checked') ){
+				$('.no').css("display","inline");
+			}
+			else{
+				$('.no').css("display","none");
+			}	
+		break;
+		case '共通項のみ':
+			if( $(this).is(':checked') ){
+				$(':checkbox[class="show_change"][value="興味ある"]').prop('checked',false);
+				$(':checkbox[class="show_change"][value="興味ない"]').prop('checked',false);
+				$(':checkbox[class="show_change"][value="共通項のみ"]').prop('checked',true);
+				$('.node').css("display","none");
+				$('.line').css("display","none");
+				$('.first_data').css("display","inline");
+				$('.same').css("display","inline");
+				$('.same').css("display","inline");
+				$('.sameword').css("display","inline");
+
+			}
+			else{
+				$(':checkbox[class="show_change"][value="興味ある"]').prop('checked',true);
+				$(':checkbox[class="show_change"][value="興味ない"]').prop('checked',true);
+				$(':checkbox[class="show_change"][value="共通項のみ"]').prop('checked',false);
+				$('.node').css("display","inline");
+				$('.yes').css("display","inline");
+				$('.no').css("display","inline");				
+			}		
+		break;
+	}
+
 	fl_status = $('[class="show_change"]:checked').map(function(){
 	  return $(this).val();
 	}).get();
 	console.log(fl_status);
 
-	//チェックなし
-	//存在しない場合は-1を返すメソッド indexOf
-	if(fl_status.indexOf("興味ある") == -1){
-		$('.yes').css("display","none");
-	}
-	if(fl_status.indexOf("興味ない") == -1){
-		$('.no').css("display","none");
-	}
-	if(fl_status.indexOf("共通項のみ") == -1){
-		$('.same_word').css("display","none");
-	}
-
-	//チェックなし
-	if(fl_status.indexOf("興味ある") != -1){
-		$('.yes').css("display","inline");
-	}
-	if(fl_status.indexOf("興味ない") != -1){
-		$('.no').css("display","inline");
-	}
-	if(fl_status.indexOf("共通項のみ") != -1){
-		$('.same_word').css("display","inline");
-	}	
+	var flag = false;
 
 }
 
@@ -635,7 +674,7 @@ function text_field(){
 
 			//表記の処理
 			if(selectors[i].type == 0){
-				selectors[i].type = "回答なし";
+				selectors[i].type = "どれでもない";
 			}
 			if(selectors[i].sex == "man" ? sex = "男" : sex = "女");
 
