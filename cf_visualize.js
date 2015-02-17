@@ -62,11 +62,11 @@ function first(){
 	var data = loadJsonFromPHP('get_data.php');
 	// var user_pos = loadJsonFromPHP('mds.php');
 
-	// MDS
-	var dist_mat = loadJsonFromPHP('dist_mat.php');
-	var user_pos = mds.classic(dist_mat);
+	// // MDS
+	// var dist_mat = loadJsonFromPHP('dist_mat.php');
+	// var user_pos = mds.classic(dist_mat);
 
-	console.log(user_pos);
+	// console.log(user_pos);
 
 	dataset = [];
 	$.each(data, function(index, value)
@@ -80,10 +80,10 @@ function first(){
 		user.type = this.type;
 		user.time = this.time;
 		user.url = this.url;
-		// user.x = Math.random();			// とりあえず乱数で表示する
-		// user.y = Math.random();			// とりあえず乱数で表示する
-		user.x = user_pos[index][0];
-		user.y = user_pos[index][1];
+		user.x = Math.random();			// とりあえず乱数で表示する
+		user.y = Math.random();			// とりあえず乱数で表示する
+		// user.x = user_pos[index][0];
+		// user.y = user_pos[index][1];
 		user.id = index;				// indexの追加
 		user.answer = this.question; 	//回答結果
 
@@ -330,25 +330,12 @@ function force(data){
 	//ボタンの切り替え
 	d3.select("#answer_result").style("display","none");
 	d3.select("#rebirth").style("display","inline");
-		$("#config").fadeIn(300);
+	$("#config").fadeIn(300);
 
-		$('input.show_change').change(function(e){ 
-
-		var fl_status;	//force layout
-
-		fl_status = $('[class="show_change"]:checked').map(function(){
-		  return $(this).val();
-		}).get();
-		console.log(fl_status);
-
-		//存在しない場合は-1を返すメソッド indexOf
-		if(fl_status.indexOf("興味ある") == -1){
-			$('.yes').css("display","none");
-		}
-		if(fl_status.indexOf("興味ない") == -1){
-			$('.no').css("display","none")
-		}
-
+	//表示・非表示切り替え機能
+	var fl_status;	//force layout
+	$('input.show_change').change(function(e){ 
+		status_change(e);
 	});
 
 	var force = d3.layout.force()
@@ -464,7 +451,11 @@ function select_text_class(d){
 
 function select_line_class(d){
 	if(d.same == true){
-		return "same_word";
+		if(d.target.answer == 1 || d.target.answer == true){
+			return "sameword yes";
+		}else if(d.target.answer == -1 || d.target.answer == false){
+			return "sameword no";
+		}
 	}else if(d.target.answer == 1 || d.target.answer == true){
 		return "line yes";
 	}else if(d.target.answer == -1 || d.target.answer == false){
@@ -586,8 +577,35 @@ function same_answer(node){
  * forceレイアウト表示非表示切り替え　　　　　      *
  * ------------------------------------------*/
 
-function status_change(){
+function status_change(e){
 
+	fl_status = $('[class="show_change"]:checked').map(function(){
+	  return $(this).val();
+	}).get();
+	console.log(fl_status);
+
+	//チェックなし
+	//存在しない場合は-1を返すメソッド indexOf
+	if(fl_status.indexOf("興味ある") == -1){
+		$('.yes').css("display","none");
+	}
+	if(fl_status.indexOf("興味ない") == -1){
+		$('.no').css("display","none");
+	}
+	if(fl_status.indexOf("共通項のみ") == -1){
+		$('.same_word').css("display","none");
+	}
+
+	//チェックなし
+	if(fl_status.indexOf("興味ある") != -1){
+		$('.yes').css("display","inline");
+	}
+	if(fl_status.indexOf("興味ない") != -1){
+		$('.no').css("display","inline");
+	}
+	if(fl_status.indexOf("共通項のみ") != -1){
+		$('.same_word').css("display","inline");
+	}	
 
 }
 
