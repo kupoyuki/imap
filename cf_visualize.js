@@ -97,11 +97,11 @@ function first(){
 
 	//ちょうどいい感じの大きさで描画するようにする
 	xScale = d3.scale.linear()
-				   .domain([0,d3.max(dataset, function(d){ return d.x; })])
-				   .range([padding,w-padding]);
+				.domain([d3.min(dataset, function(d){ return d.x; }),d3.max(dataset, function(d){ return d.x; })])
+				.range([padding,w-padding]);
 	yScale = d3.scale.linear()
-				   .domain([0,d3.max(dataset, function(d){ return d.y; })])
-				   .range([h-padding,padding]);
+				.domain([d3.min(dataset, function(d){ return d.y; }),d3.max(dataset, function(d){ return d.y; })])
+				.range([h-padding,padding]);
 
 }
 
