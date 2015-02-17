@@ -334,6 +334,7 @@ function force(data){
 
 	//表示・非表示切り替え機能
 	var fl_status;	//force layout
+
 	$('input.show_change').change( status_change );
 
 	var force = d3.layout.force()
@@ -344,6 +345,8 @@ function force(data){
 	              .gravity([0.3])		//大きいほど中央に寄る
 	              .linkDistance([150])	//リンクの長さ
 	              .charge([-350])		//反発力 負の値だと離れようとする力
+	              .linkStrength([2])
+				  ///.linkStrength(function(x) { return x.weight * 10 })
 	              .start();
 
 
@@ -390,6 +393,9 @@ function force(data){
 					// reset();
 	    //         	rebirth();
 	    //         });
+
+
+
 
 
 		force.on("tick", function() {
@@ -740,6 +746,11 @@ function reset(){
 	encoded_data = [];
 	node = [];
 	edge = [];
+
+
+	$(':checkbox[class="show_change"][value="興味ある"]').prop('checked',true);
+	$(':checkbox[class="show_change"][value="興味ない"]').prop('checked',true);
+	$(':checkbox[class="show_change"][value="共通項のみ"]').prop('checked',false);
 
 	$("#config").fadeOut(300);
 
