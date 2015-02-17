@@ -12,7 +12,7 @@ $lasterror = 0;
 
 // 実際の距離（対称行列）
 $realdist = generateRealDistances("data");
-// $realdist = generateRealDistanceTest();
+// $realdist = testGenerateRealDistance();
 $ary_size = sqrt(count($realdist));
 
 $len = count($realdist);
@@ -143,11 +143,11 @@ function getFileList($dir)
 }
 
 /*
- * テスト用
+ * 以下、単体テスト用メソッド
 */
-function generateRealDistanceTest()
+function testGenerateRealDistance()
 {
-	// TODO: 距離1.0の座標を2つ用意する
+	// TODO: 距離1.0となる座標を2つ用意する
 
 	$loc = array();
 	$loc[0] = array("x" => 1.0, "y" => 5.0);
@@ -169,7 +169,7 @@ function generateRealDistanceTest()
 	return $res;
 }
 
-function tempLocationsTest()
+function testTempLocations()
 {
 	$loc = array();
 	$loc[0] = array("x" => 0.1, "y" => 0.8);
