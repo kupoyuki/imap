@@ -29,6 +29,7 @@ function generateRealDistances($dirname)
 
 			if ($src->getUserName() === $dest->getUserName())
 			{
+				// $res[$i * count($files) + $j] = 0.0;
 				$line[] = 0.0;
 			}
 			else
