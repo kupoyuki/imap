@@ -324,6 +324,8 @@ function answer_result(){
 
 function force(data){
 
+	$("#soft").fadeIn(5000);
+
   	encoded_data.fixed = true;
 
   	//回答情報の領域
@@ -351,6 +353,22 @@ function force(data){
 		}
 
 	});
+
+	//ボタンによる再呼び出し
+
+	$('#show_change_show').click(function(){
+		//offのとき再表示
+		if($(this).hasClass("imgChange_off") == true){
+			$('#show_change').css("display","inline");
+		}
+	})
+	$('#size_change_show').click(function(){
+		//offのとき再表示
+		if($(this).hasClass("imgChange_off") == true){
+			$('#size_change').css("display","inline");
+		}
+	})
+
 
 	var force = d3.layout.force()
 	              .nodes(encoded_data.nodes)
@@ -392,8 +410,8 @@ function force(data){
 
           nodes.append("text")
                 .attr("class",select_text_class)//人のデータだけ,それ以外はword
-     			.attr("dx", 18)
-				.attr("dy", ".35em")
+     			.attr("dx", 30)
+				.attr("dy", ".40em")
 				.text(c_text);  
 
 			d3.select('#size_change')
@@ -479,7 +497,7 @@ function c_text(d,i){
 function select_text_class(d){
 	//無回答・タイムアウトは0
 	if(d.name != undefined){
-		return "name";
+		return "name first_data";
 	}else if(d.answer == 1 || d.answer == true){
 		return "w_text yes";
 	}else if(d.answer == -1 || d.answer == false){
@@ -512,7 +530,7 @@ function select_line_class(d){
 //円の大きさ
 function c_size(d){
 	//人のときは固定：10px
-	if(d.name != undefined){ return 10; }
+	if(d.name != undefined){ return 20; }
 
 	var time = [];
 	$.each(encoded_data.edges, function(index, value){
@@ -803,6 +821,8 @@ function text_field(){
 //リセット
 function reset(){
 
+	//背景の変化
+	$("#soft").fadeOut(1000);
 	//初期化
 	edges_count = 0;
 	encoded_data = [];
@@ -813,6 +833,12 @@ function reset(){
 	$(':checkbox[class="show_change"][value="興味ある"]').prop('checked',true);
 	$(':checkbox[class="show_change"][value="興味ない"]').prop('checked',true);
 	$(':checkbox[class="show_change"][value="共通項のみ"]').prop('checked',false);
+
+	size_status = "fast";
+
+	$('input.size_change[value="回答時間の速かったものを大きく"]').prop('checked',true);
+	$('input.size_change[value="回答時間の遅かったものを大きく"]').prop('checked',false);
+
 
 	$(".config").fadeOut(300);
 

@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import url(http://fonts.googleapis.com/earlyaccess/notosansjapanese.css);
 
 /*  visualuze.html  */
 
@@ -8,26 +9,39 @@
 }
 
 body{
-  background-color: #F0F8FF;
-  font-family:'Hiragino Kaku Gothic ProN', serif;
+/*  background-color: #F0F8FF;*/
+/*  font-family:'Hiragino Kaku Gothic ProN', serif;*/
+  background-color: #393939;
+  font-family: 'Noto Sans Japanese', serif;
+  font-weight: 100;
   font-size: 12px;
 }
 
+#soft{
+	background-color: #F0F8FF;
+	position: absolute;
+	width:100%;
+	height: 100%;
+	z-index: -4444;
+	display: none;
+}
 
 /*  first 全体の結果表示  */
 
 #top{	
+	font-weight: 500;
  	background-color : #A9E2F3;
  	position: absolute;
- 	height: 70px;
+ 	height: 50px;
  	width: 100%;
  	margin-right: 20px;
- 	padding: 20px 60px 20px 60px;
+ 	padding: 10px 60px 10px 60px;
  	z-index: 1;
  	display: none;
 }
 
 #menu{
+	font-weight: 700;
 	color: #00BFFF;
 	cursor: pointer;
 	height: 40px;
@@ -36,29 +50,99 @@ body{
  	top: 0;
  	margin-top: 5px;
 	margin-left: 20px;
+	margin-bottom: 5px;
  	z-index: 2;
 }
 
 	#title{
-		height: 50px;
-		font-size: 30px;
-	  	font-family:'Hiragino Mincho ProN', serif;
-		float: left;
+		position: relative;
+		font-size: 16px;
+		height : 40%;
+		width : 300px;
+		margin-left:20px;
 	}
 
 	#sub{
-		font-size: 20px;
-		padding-left: 120px; 
-		position :absolute;
+		position: relative;
+		font-size: 12px;
+		margin-left: 20px; 
 	  	top:0;
 	  	margin-right: 50px;
-		margin-top: 20px;
+		margin-top: 5px;
 		margin-bottom: 20px;
+
+		width : 200px;
+		height : 40%;
 	}
+
+#main_title{
+	float :left;
+	height : 100%;
+
+}
+
+div.clear{
+	clear : both;
+}
+p.center{
+
+	position :absolute;
+
+	width : 100%;
+	height : 50%;
+
+	top : 0;
+	left : 0;
+	right : 0;
+	bottom : 0;
+
+	margin : auto;
+
+	vertical-align: middle;
+}
+
+#title_buttons{
+
+	float :left;
+	height : 100%;
+
+}
+
+div.show{
+	float : left;
+	height : 100%;
+}
+
+	#top img{
+		width: 30px;
+		margin-top: 10px;
+		margin-left: 30px;
+		margin-right: 10px;
+		display:block;
+		float :left;
+	}
+div.right{
+	position :relative;
+	float : left;
+	height : 100%;
+	width : 110px;
+	margin-top: 5px;
+}
+/*
+	span.show{
+
+		top:0;
+		margin-bottom:100px; 
+		margin-top: 10px;
+		padding-bottom: 50px;
+	}
+*/
+
 
 /*  設定メニュー  */
 
 .config{
+	font-weight: 300;
 	opacity: 0.9;
 	display: none;
 }
@@ -300,19 +384,21 @@ li{
 /*  D3.js  */
 
 .circle{
+	stroke :#e0ffff;
+	stroke-width : 1px;	
 	fill: #424242;
-	stroke-width: 0px;
 	cursor: pointer;
 }
 
 	#latest{
-		fill: red;
+		fill:#eddf49;
+		stroke-width: 0px;
 		font-weight: bold;
 	}
 
 	.choice{
 		stroke-width: 5px;
-		stroke: blue;
+		stroke: #DC143C;
 		fill: none;
 		pointer-events: none;
 	}
@@ -325,20 +411,21 @@ li{
 
 .sameword{
 	opacity: 1;
-	stroke: red;
+	stroke: #DC143C;
 	stroke-width: 1px;
 }
 
 .image{
-	opacity: 0.3;
+	opacity: 0.5;
 	cursor: pointer;
 }
 
 .name{
-	color: black;
+	fill: #e0ffff;
 }
 
 .w_text{
+	font-weight: 300;
 	font-size: 10px;
 	cursor: pointer;
 	font-color:black;
@@ -350,6 +437,8 @@ li{
 }
 
 .w_circle{
+	stroke :#e0ffff;
+	stroke-width : 1px;	
 	fill: #00BFFF;	
 	cursor: pointer;
 }
@@ -367,10 +456,10 @@ li{
 	/*最初の人*/
 	.first_data{
 		font-size: 20px;
-		text-shadow:2px 2px 3px white;
-		fill: red;
-		font-weight: bold;
+/*		text-shadow:2px 2px 3px white;*/
+		fill:#DC143C;
 		cursor: pointer;
+		font-weight: 500;
 	}
 
 

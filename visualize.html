@@ -16,21 +16,40 @@
 </head>
 
 <body>
-<!--
-<div id="menu">≡</div>
--->
 
+<div id="menu">≡</div>
+
+<div id="soft"></div>
 
 <!--タイトルとメニュー-->
 <div id="top">
-	<div id = "title">
-		<b>I map :</b>
-		<div id = "sub">
-			興味のある「私」のための地図<br/>
+	<div id="main_title">
+	<div id ="title">
+		<p class="center">
+			I map : 興味のある「私」のための地図
+		</p>
+	</div>
+	<div id ="sub">
+		<p class="center">
 			Interest map of oneself
+		</p>
+	</div>
+	</div>
+	<div id="title_buttons">
+		<div name="size_change_show" class="show">
+			<img src="img/eye.svg" class="eye imgChange" id="size_change_show">
+			<div class="right"><p class="center">回答時間の昇順</p></div>
+		</div>	
+		<div name="show_change_show" class="show">
+			<img src="img/eye.svg" class="eye imgChange" id="show_change_show">
+			<div class="right"><p class="center">回答結果のフィルタ</p></div>
 		</div>
 	</div>
 
+	<div class="clear"></div>
+
+</div>
+<!-- 
 	<div cless="selector" align ="right">
 		<select class="select"></select>
 	</div>
@@ -40,7 +59,7 @@
 	<div>
 		<button id = "enter" class="button">実行</button>
 	</div>
-</div>
+</div> -->
 
 
 <!--ツールチップだよ-->
@@ -49,13 +68,13 @@
 	<p id="value">100</p>
 </div>
 
-<!--設定ウィンドウ-->
+
 <!--表示非表示切り替え:チェックボックス-->
 <div id="show_change" class="config jqDnR jqDrag">
 	<svg width="30" height="30" class="config_close">
     <rect x="5" y="10" width="15" height="15" rx="3" ry="3" fill="white"></svg>
-    <span class="config_title">表示／非表示切り替え</span>
-    <span class="config_close" style="right:0; top:0; margin-right:10px; margin-top:1px; padding-right:0.7px; position:absolute; font-size:20px; color:#242424;">×</span>
+    <span class="config_title">回答結果のフィルタ</span>
+    <span class="config_close" style="right:0; top:0; margin-right:11px; margin-top:10px; padding-right:0.7px; position:absolute; font-size:10px; color:#242424;">×</span>
     <form name="show_change" class="box">
         <span><input type="checkbox" class="show_change" value="興味ある" checked>興味ある</input></span>
         <span><input type="checkbox" class="show_change" value="興味ない" checked>興味ない</input></span>
@@ -68,8 +87,8 @@
 <div id="size_change" class="config jqDnR jqDrag">
 	<svg width="30" height="30" class="config_close">
     <rect x="5" y="10" width="15" height="15" rx="3" ry="3" fill="white"></svg>
-    <span class="config_title">回答時間のソート</span>
-    <span class="config_close" style="right:0; top:0; margin-right:10px; margin-top:1px; padding-right:0.7px; position:absolute; font-size:20px; color:#242424;">×</span>
+    <span class="config_title">回答時間の昇順</span>
+    <span class="config_close" style="right:0; top:0; margin-right:11px; margin-top:10px; padding-right:0.7px; position:absolute; font-size:10px; color:#242424;">×</span>
     	<span class="box">
     		<table>
 				<label><tr><td><input type="radio" name="size_change" value="回答時間の速かったものを大きく" class="size_change" checked></td>
@@ -86,7 +105,7 @@
 
 
 <!--js-->
-<script type="text/javascript" src="change_data.js"> </script>
+<script type="text/javascript" src="change.js"> </script>
 <script type="text/javascript" src="cf_visualize.js"> </script>
 
 <script type="text/javascript">
@@ -99,9 +118,9 @@ $().ready(function() {
 
 $('.config_close').click(function()
      {
-     	alert($(this).parent("div").attr("id"));
-     	var config_id = $(this).attr("id"); 
-        $(config_id).fadeOut(300);
+     	// alert($(this).parent("div").attr("id"));
+     	var config_id = $(this).parent("div").attr("id"); 
+        $('#'+config_id).css("display","none");
 });
 
 
