@@ -41,7 +41,7 @@ function first(){
     d3.select("#answer_result").style("display","inline");
 	d3.select("#rebirth").style("display","none");
 
-	$("#config").css("display","none");
+	$(".config").css("display","none");
 
 	d3.select("body")
 	  .append("div")
@@ -295,11 +295,13 @@ var edge;
 var edges_count;
 var encoded_data;
 
+var size_status;
+
 
 function answer_result(){
 
 	console.log(selectors);
-	console.log(selectors_size);
+	//console.log(selectors_size);
 
 	//選択していないときの警告
 	if(selectors_size　== 0){
@@ -330,12 +332,25 @@ function force(data){
 	//ボタンの切り替え
 	d3.select("#answer_result").style("display","none");
 	d3.select("#rebirth").style("display","inline");
-	$("#config").fadeIn(300);
+	$(".config").fadeIn(300);
 
 	//表示・非表示切り替え機能
-	var fl_status;	//force layout
-
 	$('input.show_change').change( status_change );
+	size_status = 'fast';
+
+	$('input.size_change').change(function size_change(e){
+
+		console.log(size_status);
+
+		if($(this).val() == '回答時間の速かったものを大きく'){
+			console.log($(this).val());
+			size_status = "fast";
+		}else if($(this).val() == '回答時間の遅かったものを大きく'){
+			console.log($(this).val());
+			size_status = "slow";
+		}
+
+	});
 
 	var force = d3.layout.force()
 	              .nodes(encoded_data.nodes)
@@ -354,7 +369,8 @@ function force(data){
 		          .data(encoded_data.edges)
 		          .enter()
 		          .append("line")
-		          .attr("class",select_line_class)
+		          .attr("class",select_line_class);
+
 
 
 	var	nodes = svg.selectAll(".node")
@@ -364,11 +380,6 @@ function force(data){
 				 .attr("class",select_node_class)
 				 .call(force.drag);	             
 
-          nodes.append("text")
-                .attr("class",select_text_class)//人のデータだけ,それ以外はword
-     			.attr("dx", 18)
-				.attr("dy", ".35em")
-				.text(c_text);  
 
 	            //点の追加
 	      nodes.append("circle")
@@ -378,6 +389,21 @@ function force(data){
 	         	.duration(2000)
 	            .style("stroke","black")
 	            .style("stroke-width",0.5);
+
+          nodes.append("text")
+                .attr("class",select_text_class)//人のデータだけ,それ以外はword
+     			.attr("dx", 18)
+				.attr("dy", ".35em")
+				.text(c_text);  
+
+			d3.select('#size_change')
+				.on("click",function(){
+					d3.selectAll("circle")
+						.data(encoded_data.nodes)
+						.attr("r",c_size);
+				});
+
+           
 
 
 	    //      svg.selectAll("circle")
@@ -484,18 +510,49 @@ function select_line_class(d){
 }
 
 //円の大きさ
-function c_size(d,i){
-	//人のとき固定
-	if(d.name != undefined){
-		return 10;
-	}else if(d.answer == true || d.answer == false){
-		
-		return (i % (Math.sqrt(30000 - d.time*10)/15));
+function c_size(d){
+	//人のときは固定：10px
+	if(d.name != undefined){ return 10; }
 
-	}else if(d.answer != 0){
-		//回答の大きさ
-    	return (i % (Math.sqrt(30000 - d.time*10)/15));
-    }
+	var time = [];
+	$.each(encoded_data.edges, function(index, value){
+		time.push(value.target.time);
+	});
+
+	//console.log(time);
+
+	var max, min, size;
+
+	//早ければ早いほど大きい
+	if(size_status == "fast"){
+		max = -(d3.min(time));
+		min = -(d3.max(time));
+		// console.log(max);
+		// console.log(min);
+
+		size = d3.scale.linear()
+				.domain([min,max])
+				.range([0,20]);
+
+		console.log(-d.time);
+		console.log(size(-(d.time)));
+		//console.log( Math.sqrt(size(-d.time)));
+		return size(-(d.time));
+
+	}
+	else if(size_status == "slow"){
+		max = d3.max(time);
+		min = d3.min(time);
+		// console.log(max);
+		// console.log(min);
+
+		size = d3.scale.linear()
+				.domain([min,max])
+				.range([0,50]);
+
+		console.log(d.time);
+		return size(d.time);
+	}
 }
 
 
@@ -518,14 +575,20 @@ function encodeData(data,select){
 
 	for(var i in data.answer){
 
+		//氏名情報が入っているときはスキップ
+		if(data.answer[i].name != undefined) continue;
+
 		var n = {};
 		n.time = data.answer[i].time;
 		n.word = data.answer[i].word;
 		n.answer = data.answer[i].answer;
-		if(('timeout' in data.answer) == true){
-			n.timeout = data.timeout[i].timeout;
+		if(('timeout' in data.answer[i]) == true){
+			n.timeout = data.answer[i].timeout;
 		}
-		if(data.answer[i] != 0 || data.timeout[i] != true){
+		if(n.answer == 0 || n.timeout == true){	
+			//パス、またはタイムアウトの時はpushしない
+			continue;
+		}else{
 			node.push(n);
 		}
 	}
@@ -555,7 +618,7 @@ function encodeData(data,select){
 	edges_count++; //root用
 
 
-	console.log(node);
+	//console.log(node);
 
 	//最後の人まで来たら同一回答間のedge処理
 	if(select == selectors_size-1){
@@ -578,14 +641,14 @@ function same_answer(node){
 
 			if( node[i].word == node[j].word ){
 				if( node[i].answer == node[j].answer){
-					console.log(i);
+					//console.log(i);
 					node[i].same = true;
 					node[j].same = true;
 					var q = {}
 					q.source = i;
 					q.target = j;
 					q.same = true;
-					console.log(q);
+					//console.log(q);
 					edge.push(q);
 				}
 			}
@@ -594,7 +657,6 @@ function same_answer(node){
 	}
 	return edge;
 }
-
 
 /* ----------------------------------------- *
  * forceレイアウト表示非表示切り替え　　　　　      *
@@ -752,7 +814,7 @@ function reset(){
 	$(':checkbox[class="show_change"][value="興味ない"]').prop('checked',true);
 	$(':checkbox[class="show_change"][value="共通項のみ"]').prop('checked',false);
 
-	$("#config").fadeOut(300);
+	$(".config").fadeOut(300);
 
 	//削除する（画面を切り替える）
   	d3.selectAll("circle")

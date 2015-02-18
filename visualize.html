@@ -50,36 +50,58 @@
 </div>
 
 <!--設定ウィンドウ-->
-<div id="config" class="jqDnR jqDrag">
-	<svg width="30" height="30" id="peke" class="config_close">
-    <rect x="5" y="10" width="15" height="15" rx="3" ry="3" fill="white" /></svg>
-    <span class="title">表示／非表示切り替え</span>
-    <span style="right:0; top:0; margin-right:10px; margin-top:1px; padding-right:0.7px; position:absolute; font-size:20px; color:#242424";>×</span>
+<!--表示非表示切り替え:チェックボックス-->
+<div id="show_change" class="config jqDnR jqDrag">
+	<svg width="30" height="30" class="config_close">
+    <rect x="5" y="10" width="15" height="15" rx="3" ry="3" fill="white"></svg>
+    <span class="config_title">表示／非表示切り替え</span>
+    <span class="config_close" style="right:0; top:0; margin-right:10px; margin-top:1px; padding-right:0.7px; position:absolute; font-size:20px; color:#242424;">×</span>
     <form name="show_change" class="box">
         <span><input type="checkbox" class="show_change" value="興味ある" checked>興味ある</input></span>
         <span><input type="checkbox" class="show_change" value="興味ない" checked>興味ない</input></span>
         <span><input type="checkbox" class="show_change" value="共通項のみ">共通項のみ</input></span>
     	</form>
     </span>
-
 </div>
 
+<!--circleの大きさ切り替え:ラジオボタン-->
+<div id="size_change" class="config jqDnR jqDrag">
+	<svg width="30" height="30" class="config_close">
+    <rect x="5" y="10" width="15" height="15" rx="3" ry="3" fill="white"></svg>
+    <span class="config_title">回答時間のソート</span>
+    <span class="config_close" style="right:0; top:0; margin-right:10px; margin-top:1px; padding-right:0.7px; position:absolute; font-size:20px; color:#242424;">×</span>
+    	<span class="box">
+    		<table>
+				<label><tr><td><input type="radio" name="size_change" value="回答時間の速かったものを大きく" class="size_change" checked></td>
+				<td>回答時間の<strong>速かった</strong>ものを大きく</td></tr></label>
+				<label><tr><td><input type="radio" name="size_change" value="回答時間の遅かったものを大きく"  class="size_change"></td>
+				<td>回答時間の<strong>遅かった</strong>ものを大きく</td></tr></label>
+			</table>
+         </span>
+</div>
+
+<!--ボタン-->
 <div><button id="answer_result" class="button">回答結果を見る</button></div>
 <div><button id="rebirth" class="button">全体の結果に戻る</button></div>
 
+
+<!--js-->
 <script type="text/javascript" src="change_data.js"> </script>
 <script type="text/javascript" src="cf_visualize.js"> </script>
 
 <script type="text/javascript">
 
 $().ready(function() { 
-	$('#config').jqDrag();
+	$('#show_change').jqDrag();	
+	$('#size_change').jqDrag();
 
 });
 
 $('.config_close').click(function()
      {
-        $('#config').fadeOut(300);
+     	alert($(this).parent("div").attr("id"));
+     	var config_id = $(this).attr("id"); 
+        $(config_id).fadeOut(300);
 });
 
 
