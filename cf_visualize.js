@@ -63,8 +63,21 @@ function first(){
 	// var user_pos = loadJsonFromPHP('mds.php');
 
 	// // MDS
-	// var dist_mat = loadJsonFromPHP('dist_mat.php');
-	// var user_pos = mds.classic(dist_mat);
+	var dist_mat = loadJsonFromPHP('dist_mat.php');
+
+	// var dist_mat_2d = [];
+	// for (var i = 0; i < data.length; i++)
+	// {
+	// 	dist_mat_2d[i] = [];
+
+	// 	for (var j = 0; j < data.length; j++)
+	// 	{
+	// 		var dist = dist_mat[i * data.length + j];
+	// 		dist_mat_2d[i][j] = dist;
+	// 	}
+	// }
+
+	var user_pos = mds.classic(dist_mat);
 
 	// console.log(user_pos);
 
@@ -80,10 +93,10 @@ function first(){
 		user.type = this.type;
 		user.time = this.time;
 		user.url = this.url;
-		user.x = Math.random();			// とりあえず乱数で表示する
-		user.y = Math.random();			// とりあえず乱数で表示する
-		// user.x = user_pos[index][0];
-		// user.y = user_pos[index][1];
+		// user.x = Math.random();			// とりあえず乱数で表示する
+		// user.y = Math.random();			// とりあえず乱数で表示する
+		user.x = user_pos[index][0];
+		user.y = user_pos[index][1];
 		user.id = index;				// indexの追加
 		user.answer = this.question; 	//回答結果
 
