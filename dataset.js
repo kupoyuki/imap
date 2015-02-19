@@ -57,7 +57,7 @@ $(function()
 
   var data = {};
 
-  $('#next').click(function(e)
+  $('#go').click(function(e)
   {
     time = $.now();
 
@@ -102,31 +102,37 @@ $(function()
     {
       $('#intro').fadeIn('fast');
     });
-    $('#next').fadeOut('fast', function()
+
+    $('#go').fadeOut('fast', function()
     {
       $('#start').fadeIn('fast');
     });
-    $('#start').click(function(e)
-    {
-      $('#start') .fadeOut('fast', function()
-      {
-        $('#intro').fadeOut('fast');
-        $('#txt').fadeIn('fast');
-        $('#answer').fadeIn('fast');
-      });
-    });
 
-    // 質問数
-    var q_options = {
-      all_question_num     : 50               // 全質問数
-      ,common_question_num : 25               // 共通質問
-      ,common_words        : common_words     // 共通の単語
-      ,category_words      : category_words   // 分類単語
-      ,timeout_sec         : 5             // タイムアウト時間（秒）
-    };
-
-    var manager = new QuestionManager(data, q_options);
-    manager.startQuestion();
   });
+
+
+    $('#start').click(function(e)
+  {
+    $('#start') .fadeOut('fast', function()
+    {
+      $('#intro').fadeOut('fast');
+      $('#txt').fadeIn('fast');
+      $('#answer').fadeIn('fast');
+    });
+  });
+
+  // 質問数
+  var q_options = {
+    all_question_num     : 50               // 全質問数
+    ,common_question_num : 25               // 共通質問
+    ,common_words        : common_words     // 共通の単語
+    ,category_words      : category_words   // 分類単語
+    ,timeout_sec         : 5             // タイムアウト時間（秒）
+  };
+
+  var manager = new QuestionManager(data, q_options);
+  manager.startQuestion();
+
+  
 });
 

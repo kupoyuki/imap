@@ -23,7 +23,7 @@ body{
   /* この５行は必須 */
 
   width: 40%;
-  height: 50%;
+  height: 600px;
   position: absolute;
   display: none;
   z-index: 9999;
@@ -232,7 +232,7 @@ span.pointup{
   display: none;
 }
 
-#next{
+#go{
   width         : 1000px;
   height        : 90px;
   text-align    : center;
@@ -261,8 +261,7 @@ span.pointup{
   font-size     : 30px;
   text-align    : center;
   margin        : 0 auto 0 auto;
-
-  display : none;
+  display       :none;
 }
 
 #yes{
