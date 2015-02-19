@@ -58,7 +58,7 @@ function QuestionManager(data, q_data)
 		alert('ERROR: 全質問数＜共通質問数');
 	}
 
-	this._timeout_sec = q_data['timeout_sec']);					// タイムアウト時間（秒）
+	this._timeout_sec = Math.abs(q_data['timeout_sec']);					// タイムアウト時間（秒）
 
 	if (this._timeout_sec < 1)
 	{
