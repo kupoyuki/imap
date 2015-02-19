@@ -7,7 +7,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1" />                      
     <meta name="format-detection" content="telephone=no"/>
-    <link rel="apple-touch-icon-precomposed" href="./apple-touch-icon.png"/>
+    <link rel="apple-touch-icon-precomposed" href="./apple-touch-icon.png" class="abst"/>
     <link rel="shortcut icon" href="./favicon.ico"/>
 
     <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -23,28 +23,26 @@
   </noscript>
 -->
 
-
   <div id="ipop">
-    <div id="ipop_title">
     <svg width="40" height="40" id="peke" class="ipop_close">
     <circle cx="20" cy="20" r="20" fill="white" />
     <text font-size="30" x="9" y="30" fill="#fdc">✕</text></svg>
 
-    <h3  class ="effect">
+<!--     <h3  class ="effect">
     興味のある「私」のための地図
     </h3>
-    <p class="effect"><b>I map</b> : Interest map of oneself</p>
-    </div>
-    <p class="abstract" id="abst1">
-    <img src="img/setsumei-01.png" id = "1" width="50%" style="z-index:1;position: absolute;">
-    <img src="img/setsumei-02.png" id = "2" width="50%" style="z-index:2;position: absolute;">
-    <img src="img/setsumei-03.png" id = "3" width="50%" style="z-index:3;position: absolute;">
-    <img src="img/setsumei-04.png" id = "4" width="50%" style="z-index:4;position: absolute;">
-    <img src="img/setsumei-05.png" id = "5" width="50%" style="z-index:5;position: absolute;">
-    <img src="img/setsumei-06.png" id = "6" width="50%" style="z-index:6;position: absolute;">
-    <img src="img/setsumei-07.png" id = "7" width="50%" style="z-index:7;position: absolute;">
+    <p class="effect"><b>I map</b> : Interest map of oneself</p> -->
 
-    </p>
+    <div class="abstract">
+    <p class="abst"><img src="img/setsumei-01.png" class="abst" id = "1"  style="z-index:1;"></p>
+    <p class="abst"><img src="img/setsumei-02.png" class="abst" id = "2"  style="z-index:2;"></p>
+    <p class="abst"><img src="img/setsumei-03.png" class="abst" id = "3"  style="z-index:3;"></p>
+    <p class="abst"><img src="img/setsumei-04.png" class="abst" id = "4"  style="z-index:4;"></p>
+    <p class="abst"><img src="img/setsumei-05.png" class="abst" id = "5"  style="z-index:5;"></p>
+    <p class="abst"><img src="img/setsumei-06.png" class="abst" id = "6"  style="z-index:6;"></p>
+    <p class="abst"><img src="img/setsumei-07.png" class="abst" id = "7"  style="z-index:7;"></p>
+    </div>
+
     <div id="under">
     <div class="button" id="next">次へ</div>
     <div id="ipop_close_button" class="button ipop_close">閉じる</div>
@@ -58,21 +56,23 @@
   <div id="contents">
 
 <!--被験者情報-->
-    <div id="top">
+      <div id="intro"><p>
+        <span class="pointup">50個の単語</span>が提示されます。<br>
+        表示された言葉に対して、
+        <span class="pointup">「興味がある」</span>か、
+        <span class="pointup">「興味がない」</span>かを判断し、ボタンをクリックしてください。<br/>(キーボードの方向キー「←」「→」に対応しています。) <br/>
+        クリックすると次の単語に変わります。なるべく直感で判断してください。</p>
+      </div>
 
-      <h3>最大5分ほどの簡単な調査にご協力ください。</h3><p id="call"><u>説明を読む</u></p>
-      <p id="intro">
-      <span style="font-size:20px">
-      <span class="pointup">50個の単語</span>が提示されます。<br>
-      表示された言葉に対して、
-      <span class="pointup">「興味がある」</span>か、
-      <span class="pointup">「興味がない」</span>かを判断し、ボタンをクリックしてください。<br/>(キーボードの方向キー「←」「→」に対応しています。) <br/>
-      クリックすると次の単語に変わります。なるべく直感で判断してください。</span><br/>
-      </p>
+      <div id="top">
+
+      <h3>I map : 興味のある「私」のための地図</h3>
+      <h2>最大5分ほどの簡単な調査にご協力ください。</h2>
+      <p id="call"><u>説明を読む</u></p>
 
       <form name="data_set">
         <p>
-          氏名と、性別、属性、HPなどのURLを入力後、開始ボタンを押してください。（<span class="pointup"> *</span>の項目は入力必須です。）</br>情報は、web上で検索のために使用されたり、他者が閲覧できる形になります。</br>
+          氏名と、性別、属性、HPなどのURLを入力後、「次へ」ボタンを押してください。（<span class="pointup"> *</span>の項目は入力必須です。）</br>情報は、web上で検索のために使用されたり、他者が閲覧できる形になります。</br>
           氏名は、アーティスト名やTwitterIDなどでも結構です。
         </p>
         <p class="p1"></p>
@@ -187,6 +187,9 @@
 
 <!--ボタンセット-->
     <div id="button">
+      <div id="next" class="button">
+        次へ
+      </div>      
       <div id="start" class="button">
         開始！
       </div>
@@ -201,7 +204,7 @@
         </div>
         <div id="pass" class="button">
           <p style="margin-top:2px;">パス</p></div>
-        </div>
+      </div>
         <div class="clear">
       </div>
       </div>

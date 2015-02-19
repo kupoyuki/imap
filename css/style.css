@@ -1,4 +1,6 @@
 @charset "UTF-8";
+@import url(http://fonts.googleapis.com/earlyaccess/notosansjapanese.css);
+
 
 *{
   margin  : 0;
@@ -7,7 +9,7 @@
 
 body{
   background-color: #424242;
-  font-family:'Hiragino Mincho ProN', serif;
+  font-family: 'Noto Sans Japanese', serif;
   font-size: 16px;
 }
 
@@ -15,14 +17,13 @@ body{
 /*ポップアップ*/
 
 #ipop {
-  padding: 0;
-  background-color: #fed;
+  background-color: #A9E2F3;
   border: 1px solid #aaa;
 
   /* この５行は必須 */
 
-  width: 70%;
-  height: 80%;
+  width: 40%;
+  height: 50%;
   position: absolute;
   display: none;
   z-index: 9999;
@@ -36,9 +37,9 @@ body{
 }
 
 #ipop_title {
-  background-color: #fdc;
+  background-color: #A9E2F3;
   cursor: move;
-  height : 100px;
+  height : 50px;
   padding-top: 20px;
   padding-bottom: 20px;
 
@@ -92,7 +93,8 @@ body{
 
 #peke {
   float:right;
-  margin-right: 30px;
+  margin-right : 30px;
+  margin-top   : 30px; 
 }
 
 #under {
@@ -104,10 +106,23 @@ body{
 
 }
 .abstract {
-  height: 60%;
-  margin: 10px 20px 30px 20px;
+  height: 70%;
   font-size:0.5em;
-
+}
+p.abst{
+  display: inline-block;
+  margin-right: auto;
+  margin-left: auto;  
+}
+img.abst{
+  width: 85%;
+  position: absolute;
+  display: block;
+  margin-top: 30px;
+  margin-right: auto;
+  margin-left: auto;
+  left : 0;
+  right : 0;
 }
 
 
@@ -150,7 +165,15 @@ div#footer{
 
 div#top {
   width: 1000px;
-  margin: 0 auto 0 auto;
+  margin: 30px auto 0 auto;
+}
+
+div#intro{
+  font-size: 20px;
+  height: 416px;
+  width: 1000px;
+  margin: 30px auto 0 auto;  
+  display: none;
 }
 
 
@@ -178,7 +201,7 @@ h3{
 }
 
 #call{
-  margin-bottom:10px;
+  margin-bottom:50px;
   cursor: pointer;
 }
 
@@ -203,7 +226,20 @@ span.pointup{
   text-align    : center;
   font-size     : 50px;
   padding-top   : 10px;
-  margin        : 20px auto 20px auto;
+  margin        : 50px auto 0px auto;
+  bottom:       : 0;
+  border-radius : 10px;
+  display: none;
+}
+
+#next{
+  width         : 1000px;
+  height        : 90px;
+  text-align    : center;
+  font-size     : 50px;
+  padding-top   : 10px;
+  margin        : 50px auto 0px auto;
+  bottom:       : 0;
   border-radius : 10px;
 }
 

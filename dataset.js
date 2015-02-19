@@ -57,7 +57,7 @@ $(function()
 
   var data = {};
 
-  $('#start').click(function(e)
+  $('#next').click(function(e)
   {
     time = $.now();
 
@@ -89,13 +89,31 @@ $(function()
       return;
     }
 
+    // $('#top').fadeOut('fast', function()
+    // {
+    //   $('#txt').fadeIn('fast');
+    // });
+    // $('#start') .fadeOut('fast', function()
+    // {
+    //   $('#answer').fadeIn('fast');
+    // });
+
     $('#top').fadeOut('fast', function()
     {
-      $('#txt').fadeIn('fast');
+      $('#intro').fadeIn('fast');
     });
-    $('#start') .fadeOut('fast', function()
+    $('#next').fadeOut('fast', function()
     {
-      $('#answer').fadeIn('fast');
+      $('#start').fadeIn('fast');
+    });
+    $('#start').click(function(e)
+    {
+      $('#start') .fadeOut('fast', function()
+      {
+        $('#intro').fadeOut('fast');
+        $('#txt').fadeIn('fast');
+        $('#answer').fadeIn('fast');
+      });
     });
 
     // 質問数
