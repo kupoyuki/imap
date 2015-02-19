@@ -60,7 +60,7 @@ function first(){
 		.style("opacity",1);
 
 	var data = loadJsonFromPHP('get_data.php');
-	var user_pos = loadJsonFromPHP('mds.php');
+	// var user_pos = loadJsonFromPHP('mds.php');
 
 	// MDS
 	var dist_mat = loadJsonFromPHP('distmat.php');

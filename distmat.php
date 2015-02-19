@@ -47,18 +47,10 @@ class DistmatCache
 	public function updateCache($data)
 	{
 		// ユーザリストの更新
-		if (!file_exists($this->_filelist_cache))
-		{
-			touch($this->_filelist_cache);
-		}
 		$filenames = getFileList($this->_data_dir);
 		file_put_contents($this->_filelist_cache, implode("\n", $filenames));
 
 		// キャッシュデータ
-		if (!file_exists($this->_distmat_cache))
-		{
-			touch($this->_distmat_cache);
-		}
 		file_put_contents($this->_distmat_cache, $data);
 	}
 
