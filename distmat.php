@@ -2,13 +2,86 @@
 require_once "cf/userdata.php";
 require_once "cf/cf.php";
 
-$realdist = generateRealDistances("data");
+$dirname = 'data';
+
+$cache = new DistmatCache($dirname);
+
+if ($cache->isUseCache())
+{
+	echo $cache->getCacheData();
+}
+else
+{
+	$realdist = generateRealDistances($dirname);
+	$json_data = json_encode($realdist);
+
+	$cache->updateCache($json_data);
+	echo $json_data;
+}
 
 
+class DistmatCache
+{
+	private $_data_dir;
 
-echo json_encode($realdist);
+	private $_filelist_cache = 'userlist_cache.txt';
+	private $_distmat_cache = 'distmat_cache.txt';
 
-// testDistanceMatrix($realdist);
+	public function __construct($dirname)
+	{
+		$this->_data_dir = $dirname;
+	}
+
+	public function isUseCache()
+	{
+		$filenames = getFileList($this->_data_dir);
+		$filenames_cache = $this->getCacheFileList($this->_filelist_cache);
+
+		if (count(array_diff($filenames, $filenames_cache)) == 0)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public function updateCache($data)
+	{
+		// ユーザリストの更新
+		if (!file_exists($this->_filelist_cache))
+		{
+			touch($this->_filelist_cache);
+		}
+		$filenames = getFileList($this->_data_dir);
+		file_put_contents($this->_filelist_cache, implode("\n", $filenames));
+
+		// キャッシュデータ
+		if (!file_exists($this->_distmat_cache))
+		{
+			touch($this->_distmat_cache);
+		}
+		file_put_contents($this->_distmat_cache, $data);
+	}
+
+	public function getCacheData()
+	{
+		$cache_name = $this->_distmat_cache;
+
+		if (!file_exists($cache_name))
+		{
+			return null;
+		}
+		return file_get_contents($cache_name);
+	}
+
+	public function getCacheFileList($filename)
+	{
+		if (!file_exists($filename))
+		{
+			touch($filename);
+		}
+		return explode("\n", file_get_contents($filename));
+	}
+}
 
 /*
  * 全ユーザの類似距離の対称行列を返す

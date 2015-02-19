@@ -63,7 +63,7 @@ function first(){
 	var user_pos = loadJsonFromPHP('mds.php');
 
 	// MDS
-	var dist_mat = loadJsonFromPHP('dist_mat.php');
+	var dist_mat = loadJsonFromPHP('distmat.php');
 
 	// var dist_mat_2d = [];
 	// for (var i = 0; i < data.length; i++)
