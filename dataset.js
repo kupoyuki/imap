@@ -111,27 +111,29 @@ $(function()
   });
 
 
-    $('#start').click(function(e)
+  $('#start').click(function(e)
   {
     $('#start') .fadeOut('fast', function()
     {
       $('#intro').fadeOut('fast');
       $('#txt').fadeIn('fast');
-      $('#answer').fadeIn('fast');
+      $('#answer').fadeIn('fast', function()
+      {
+        // 質問数
+        var q_options = {
+          all_question_num     : 50               // 全質問数
+          ,common_question_num : 25               // 共通質問
+          ,common_words        : common_words     // 共通の単語
+          ,category_words      : category_words   // 分類単語
+          ,timeout_sec         : 5             // タイムアウト時間（秒）
+        };
+
+        var manager = new QuestionManager(data, q_options);
+        manager.startQuestion();
+      });
     });
   });
 
-  // 質問数
-  var q_options = {
-    all_question_num     : 50               // 全質問数
-    ,common_question_num : 25               // 共通質問
-    ,common_words        : common_words     // 共通の単語
-    ,category_words      : category_words   // 分類単語
-    ,timeout_sec         : 5             // タイムアウト時間（秒）
-  };
-
-  var manager = new QuestionManager(data, q_options);
-  manager.startQuestion();
 
   
 });
