@@ -60,9 +60,9 @@ function first(){
 		.style("opacity",1);
 
 	var data = loadJsonFromPHP('get_data.php');
-	// var user_pos = loadJsonFromPHP('mds.php');
+	var user_pos = loadJsonFromPHP('mds.php');
 
-	// // MDS
+	// MDS
 	var dist_mat = loadJsonFromPHP('dist_mat.php');
 
 	// var dist_mat_2d = [];
@@ -700,15 +700,23 @@ function status_change(e){
 	switch($(this).val() ){
 		case '興味ある':
 			if( $(this).is(':checked') ){
+				$('.node').css("display","inline");
+				$('.line').css("display","inline");
+				$('.no').css("display","none");					
 				$('.yes').css("display","inline");
+				$(':checkbox[class="show_change"][value="共通項のみ"]').prop('checked',false);
 			}
 			else{
 				$('.yes').css("display","none");
 			}
 		break;
 		case '興味ない':
-			if( $(this).is(':checked') ){
-				$('.no').css("display","inline");
+			if( $(this).is(':checked') ){	
+				$('.node').css("display","inline");
+				$('.line').css("display","inline");	
+				$('.yes').css("display","none");			
+				$('.no').css("display","inline");				
+				$(':checkbox[class="show_change"][value="共通項のみ"]').prop('checked',false);
 			}
 			else{
 				$('.no').css("display","none");
@@ -720,9 +728,8 @@ function status_change(e){
 				$(':checkbox[class="show_change"][value="興味ない"]').prop('checked',false);
 				$(':checkbox[class="show_change"][value="共通項のみ"]').prop('checked',true);
 				$('.node').css("display","none");
-				$('.line').css("display","none");
+				$('.line').css("display","none");　//一旦全部消して
 				$('.first_data').css("display","inline");
-				$('.same').css("display","inline");
 				$('.same').css("display","inline");
 				$('.sameword').css("display","inline");
 
@@ -732,6 +739,8 @@ function status_change(e){
 				$(':checkbox[class="show_change"][value="興味ない"]').prop('checked',true);
 				$(':checkbox[class="show_change"][value="共通項のみ"]').prop('checked',false);
 				$('.node').css("display","inline");
+				$('.line').css("display","inline");
+				$('.first_data').css("display","inline");
 				$('.yes').css("display","inline");
 				$('.no').css("display","inline");				
 			}		

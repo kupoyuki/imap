@@ -31,8 +31,8 @@ $(function()
     if (wy < 0) wy = 0;
 
     // ポップアップウインドウを表示する。
-    $('#ipop').css({top: wy, left: wx}).fadeIn(100);
-    $('#ipop').fadeIn(100);
+    // $('#ipop').css({top: wy, left: wx}).fadeIn(100);
+    // $('#ipop').fadeIn(100);
 
     $('#call').click(function(){
       $('#ipop').css({top: wy, left: wx}).fadeIn(100);
