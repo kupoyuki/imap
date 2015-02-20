@@ -139,88 +139,6 @@ div.right{
 */
 
 
-/*  設定メニュー  */
-
-.config{
-	font-weight: 300;
-	opacity: 0.9;
-	display: none;
-}
-
-	.config_close{
-		float:right;
-		cursor: pointer;
-	}
-
-	.config span{
-		width: auto;
-		font-size: 1em;
-		display: block;
-		margin-left: 10px;
-		margin-top: 10px;
-		margin-bottom: 10px;
-		color: #242424;
-	}
-
-	.box{
-		background-color: #a9a9a9;
-		margin: 15px;
-		padding: 5px;
-	}
-
-	table{
-		border-spacing: 0px 10px;
-		margin-left: 10px;
-		margin-right: 10px;
-	}
-
-	table td{
-		vertical-align:top;
-	}
-
-	input {
-		margin-right: 5px;
-		color: #242424;
-	}
-
-	span.config_title{
-		display: inline-block;
-		font-size: 1em;
-		margin-bottom: 10px;
-		color: #fff;
-	}
-
-	.jqDrag{
-	    width: 100%;
-	    cursor: move;
-
-	}
-
-	.jqDnR{
-	    z-index: 7777;
-	    position: absolute;
-	    font-size: 12px;
-	    background-color: #242424;
-	    border: 1px solid #CCC;
-	    border-radius: 5px;
-	    box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
-	}
-
-	#show_change{
-		right: 30px;
-		bottom: 30px;
-	    width: 170px;
-	    height: auto;		
-	}
-
-	#size_change{
-		right:30px;
-		bottom: 220px;
-	    width: 200px;
-	    height: auto;		
-	}	
-
-
 /*  チップ  */
 
 #tip{
@@ -384,9 +302,8 @@ li{
 /*  D3.js  */
 
 .circle{
-	stroke :#e0ffff;
-	stroke-width : 1px;	
-	fill: #424242;
+	fill: #000;
+	opacity: 0.8;
 	cursor: pointer;
 }
 

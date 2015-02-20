@@ -1,3 +1,15 @@
+/* ======================================== *
+ * include(filename)                        *
+ * ---------------------------------------- *
+ * 他Javascriptファイルの読み込みを行う     *
+ * filename : ファイル名                    *
+ * ======================================== */
+include = function(filename)
+{
+	$('head').append('<script type="text/javascript" src="' + filename + '"></script>');
+}
+
+include("config.js");
 
 function loadJsonFromPHP(phpname)
 {
@@ -347,12 +359,17 @@ function force(data){
 	//ボタンの切り替え
 	d3.select("#answer_result").style("display","none");
 	d3.select("#rebirth").style("display","inline");
+
 	$(".config").fadeIn(300);
 
-	//表示・非表示切り替え機能
+
+	//config初期状態
+	configreset;
+	//回答によるソート
 	$('input.show_change').change( status_change );
 	size_status = 'fast';
 
+	//回答速度によるソート初期化（circleの大きさ）
 	$('input.size_change').change(function size_change(e){
 
 		console.log(size_status);
@@ -366,21 +383,6 @@ function force(data){
 		}
 
 	});
-
-	//ボタンによる再呼び出し
-
-	$('#show_change_show').click(function(){
-		//offのとき再表示
-		if($(this).hasClass("imgChange_off") == true){
-			$('#show_change').css("display","inline");
-		}
-	})
-	$('#size_change_show').click(function(){
-		//offのとき再表示
-		if($(this).hasClass("imgChange_off") == true){
-			$('#size_change').css("display","inline");
-		}
-	})
 
 
 	var force = d3.layout.force()
@@ -554,6 +556,7 @@ function c_size(d){
 
 	var max, min, size;
 
+
 	//早ければ早いほど大きい
 	if(size_status == "fast"){
 		max = -(d3.min(time));
@@ -690,73 +693,6 @@ function same_answer(node){
 }
 
 /* ----------------------------------------- *
- * forceレイアウト表示非表示切り替え　　　　　      *
- * ------------------------------------------*/
-
-function status_change(e){
-
-	//alert( $(this).val() );	//クリックされた要素
-
-	switch($(this).val() ){
-		case '興味ある':
-			if( $(this).is(':checked') ){
-				$('.node').css("display","inline");
-				$('.line').css("display","inline");
-				$('.no').css("display","none");					
-				$('.yes').css("display","inline");
-				$(':checkbox[class="show_change"][value="共通項のみ"]').prop('checked',false);
-			}
-			else{
-				$('.yes').css("display","none");
-			}
-		break;
-		case '興味ない':
-			if( $(this).is(':checked') ){	
-				$('.node').css("display","inline");
-				$('.line').css("display","inline");	
-				$('.yes').css("display","none");			
-				$('.no').css("display","inline");				
-				$(':checkbox[class="show_change"][value="共通項のみ"]').prop('checked',false);
-			}
-			else{
-				$('.no').css("display","none");
-			}	
-		break;
-		case '共通項のみ':
-			if( $(this).is(':checked') ){
-				$(':checkbox[class="show_change"][value="興味ある"]').prop('checked',false);
-				$(':checkbox[class="show_change"][value="興味ない"]').prop('checked',false);
-				$(':checkbox[class="show_change"][value="共通項のみ"]').prop('checked',true);
-				$('.node').css("display","none");
-				$('.line').css("display","none");　//一旦全部消して
-				$('.first_data').css("display","inline");
-				$('.same').css("display","inline");
-				$('.sameword').css("display","inline");
-
-			}
-			else{
-				$(':checkbox[class="show_change"][value="興味ある"]').prop('checked',true);
-				$(':checkbox[class="show_change"][value="興味ない"]').prop('checked',true);
-				$(':checkbox[class="show_change"][value="共通項のみ"]').prop('checked',false);
-				$('.node').css("display","inline");
-				$('.line').css("display","inline");
-				$('.first_data').css("display","inline");
-				$('.yes').css("display","inline");
-				$('.no').css("display","inline");				
-			}		
-		break;
-	}
-
-	fl_status = $('[class="show_change"]:checked').map(function(){
-	  return $(this).val();
-	}).get();
-	console.log(fl_status);
-
-	var flag = false;
-
-}
-
-/* ----------------------------------------- *
  * 文字情報領域の表示　　　　　                   *
  * ------------------------------------------*/
 
@@ -851,18 +787,9 @@ function reset(){
 	node = [];
 	edge = [];
 
-
-	$(':checkbox[class="show_change"][value="興味ある"]').prop('checked',true);
-	$(':checkbox[class="show_change"][value="興味ない"]').prop('checked',true);
-	$(':checkbox[class="show_change"][value="共通項のみ"]').prop('checked',false);
-
-	size_status = "fast";
-
-	$('input.size_change[value="回答時間の速かったものを大きく"]').prop('checked',true);
-	$('input.size_change[value="回答時間の遅かったものを大きく"]').prop('checked',false);
-
-
-	$(".config").fadeOut(300);
+	//configウィンドウのリセット
+	include("config.js");
+	configreset;
 
 	//削除する（画面を切り替える）
   	d3.selectAll("circle")

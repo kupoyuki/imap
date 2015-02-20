@@ -7,7 +7,10 @@
     <script src="js/jqDnR.js"></script>
 	<script src="js/numeric-1.2.6.min.js"></script>
 	<script src="js/mds.js"></script>
+	<script type="text/javascript" src="config.js"> </script>	
+
     <link rel="stylesheet" href="css/visualize.css" type="text/css" />
+	<link rel="stylesheet" href="css/config.css" type="text/css" />
 
     <title>興味のある「私」のための地図: I map</title>
     </style>
@@ -103,27 +106,10 @@
 <div><button id="rebirth" class="button">全体の結果に戻る</button></div>
 
 
-<!--js-->
-<script type="text/javascript" src="change.js"> </script>
+<!--js読み込み-->
+
 <script type="text/javascript" src="cf_visualize.js"> </script>
 
-<script type="text/javascript">
-
-$().ready(function() { 
-	$('#show_change').jqDrag();	
-	$('#size_change').jqDrag();
-
-});
-
-$('.config_close').click(function()
-     {
-     	// alert($(this).parent("div").attr("id"));
-     	var config_id = $(this).parent("div").attr("id"); 
-        $('#'+config_id).css("display","none");
-});
-
-
-</script>
 
 
 </body>

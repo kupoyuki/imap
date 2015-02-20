@@ -132,9 +132,6 @@ img.abst{
   clear : both;
 }
 
-#button{
-}
-
 .button{
   cursor:pointer;
   background-color: #fff;
@@ -165,15 +162,31 @@ div#footer{
 
 div#top {
   width: 1000px;
+  height: 420px;
   margin: 30px auto 0 auto;
 }
 
 div#intro{
-  font-size: 20px;
-  height: 416px;
+  font-size: 1.5em;
+  height: 420px;
   width: 1000px;
   margin: 30px auto 0 auto;  
   display: none;
+}
+
+#intro p{
+  margin-bottom: 40px;
+}
+
+div#end {
+  font-size: 1.5em;
+  width: 1000px;
+  height: 420px;
+  margin: 30px auto 0 auto;
+}
+
+#end p{
+  margin-bottom: 40px;
 }
 
 
