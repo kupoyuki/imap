@@ -305,6 +305,7 @@ span.pointup{
 }
 
 #pagenum{
+  position: relative;
   text-align : center;
   margin-top : 10px; 
 }

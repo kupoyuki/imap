@@ -99,7 +99,7 @@ QuestionManager.prototype.startQuestion = function()
 	// 興味ないをクリックした時の処理
 	$('#no').click(function(e)
 	{
-		SELF.answerQuestion(-1);
+		SELF.answerQuestion(-1);	
 	});
 
 	// パスをクリックした時の処理
@@ -130,7 +130,7 @@ QuestionManager.prototype.keybindEnabled = function(enable)
 	{
 		if(e.keyCode == 39)
 		{
-			//→
+			//→	
 			$('#no').click();
 		}
 
