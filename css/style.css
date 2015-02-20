@@ -301,8 +301,7 @@ span.pointup{
     padding       : 5px;
     border-radius : 30px; 
     margin        : 70px 450px 50px 450px;
-    visibility    : hidden;
-
+    display       : none;
 }
 
 #pagenum{
@@ -312,12 +311,10 @@ span.pointup{
 
 #countdown
 {
-  font-size: 70px;
-  color: #000;
-  position: absolute;
-  top: 630px;
-  left: 1300px;
-  display: none;
+  font-size : 70px;
+  color     : #000;
+  position  : absolute;
+  display   : none;
 }
 
 #result{

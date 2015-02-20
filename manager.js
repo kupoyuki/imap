@@ -70,6 +70,10 @@ function QuestionManager(data, q_data)
 	this._timer = null;												// タイムアウトタイマ
 	this._start_time = 0;
 	this._question_count = 0;										// タイムアウトカウントダウン（秒）
+
+	$('#countdown')
+	.css('top', 0)
+	.css('left', $('#box1').width() - 50);
 }
 
 QuestionManager.prototype.startQuestion = function()
@@ -104,8 +108,25 @@ QuestionManager.prototype.startQuestion = function()
 		SELF.passQuestion();
 	});
 
-	// キーバインド
-	$("body").keydown(function(e)
+	// キーバインド有効
+	this.keybindEnabled(true);
+}
+
+QuestionManager.prototype.isCommonQuestion = function()
+{
+	if (this._common_question_num < this._cur_question_count)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+QuestionManager.prototype.keybindEnabled = function(enable)
+{
+	var SELF = this;
+
+	var keybind = function(e)
 	{
 		if(e.keyCode == 39)
 		{
@@ -128,17 +149,16 @@ QuestionManager.prototype.startQuestion = function()
 				$('#pass').click();
 			}
 		}
-  });
-}
-
-QuestionManager.prototype.isCommonQuestion = function()
-{
-	if (this._common_question_num < this._cur_question_count)
-	{
-		return false;
 	}
 
-	return true;
+	if (enable)
+	{
+		$('body').keydown(keybind);
+	}
+	else
+	{
+		$('body').unbind('keydown');
+	}
 }
 
 QuestionManager.prototype.countDown = function()
@@ -213,6 +233,9 @@ QuestionManager.prototype.nextWord = function()
 
 QuestionManager.prototype.changeQuestion = function(q_word)
 {
+	// キーバインド無効
+	// this.keybindEnabled(false);
+
 	$('.contents').hide();
 	$('#answer').hide();
 	$('#pagenum').hide();
@@ -245,10 +268,15 @@ QuestionManager.prototype.changeQuestion = function(q_word)
 
 	$('#pagenum').html(this._cur_question_count + '/' + this._all_question_num);
 
+	var SELF = this;
+
 	setTimeout(function()
 	{
 		$('.contents').fadeIn(100);
-		$('#answer').fadeIn(100);
+		$('#answer').fadeIn(100, function()
+		{
+			// SELF.keybindEnabled(true);
+		});
 		$('#pagenum').fadeIn(100);
 	}, 500);
 }
